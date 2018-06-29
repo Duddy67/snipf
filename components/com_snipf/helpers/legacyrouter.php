@@ -8,12 +8,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Legacy routing rules class from com_notebook
+ * Legacy routing rules class from com_snipf
  *
  * @since       3.6
  * @deprecated  4.0
  */
-class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
+class SnipfRouterRulesLegacy implements JComponentRouterRulesInterface
 {
   /**
    * Constructor for this legacy router
@@ -30,7 +30,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
 
 
   /**
-   * Preprocess the route for the com_notebook component
+   * Preprocess the route for the com_snipf component
    *
    * @param   array  &$query  An array of URL arguments
    *
@@ -45,7 +45,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
 
 
   /**
-   * Build the route for the com_notebook component
+   * Build the route for the com_snipf component
    *
    * @param   array  &$query     An array of URL arguments
    * @param   array  &$segments  The URL arguments to use to assemble the subsequent URL.
@@ -58,7 +58,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
   public function build(&$query, &$segments)
   {
     // Get a menu item based on Itemid or currently active
-    $params = JComponentHelper::getParams('com_notebook');
+    $params = JComponentHelper::getParams('com_snipf');
     $advanced = $params->get('sef_advanced_link', 0);
 
     // We need a menu item.  Either the one specified in the query, or the current active one if none specified
@@ -72,7 +72,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
     }
 
     // Check again
-    if($menuItemGiven && isset($menuItem) && $menuItem->component != 'com_notebook') {
+    if($menuItemGiven && isset($menuItem) && $menuItem->component != 'com_snipf') {
       $menuItemGiven = false;
       unset($query['Itemid']);
     }
@@ -85,7 +85,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
       return;
     }
 
-    // Are we dealing with a note or a category that is attached to a menu item?
+    // Are we dealing with a person or a category that is attached to a menu item?
     if($menuItem !== null && $menuItem->query['view'] == $query['view'] && isset($menuItem->query['id'], $query['id'])
        && $menuItem->query['id'] == (int)$query['id'])
     {
@@ -104,14 +104,14 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
       return;
     }
 
-    if($view == 'category' || $view == 'note') {
+    if($view == 'category' || $view == 'person') {
       if(!$menuItemGiven) {
 	$segments[] = $view;
       }
 
       unset($query['view']);
 
-      if($view == 'note') {
+      if($view == 'person') {
 	if(isset($query['id']) && isset($query['catid']) && $query['catid']) {
 	  $catid = $query['catid'];
 
@@ -120,7 +120,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
 	    $db = JFactory::getDbo();
 	    $dbQuery = $db->getQuery(true)
 		    ->select('alias')
-		    ->from('#__notebook_note')
+		    ->from('#__snipf_person')
 		    ->where('id='.(int)$query['id']);
 	    $db->setQuery($dbQuery);
 	    $alias = $db->loadResult();
@@ -149,7 +149,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
 	$mCatid = 0;
       }
 
-      $categories = JCategories::getInstance('Notebook');
+      $categories = JCategories::getInstance('Snipf');
       $category = $categories->get($catid);
 
       if(!$category) {
@@ -179,7 +179,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
 
       $segments = array_merge($segments, $array);
 
-      if($view == 'note') {
+      if($view == 'person') {
 	if($advanced) {
 	  list($tmp, $id) = explode(':', $query['id'], 2);
 	}
@@ -241,15 +241,15 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
 
     // Get the active menu item.
     $item = $this->router->menu->getActive();
-    $params = JComponentHelper::getParams('com_notebook');
+    $params = JComponentHelper::getParams('com_snipf');
     $advanced = $params->get('sef_advanced_link', 0);
 
     // Count route segments
     $count = count($segments);
 
   /*
-   * Standard routing for notes. If we don't pick up an Itemid then we get the view from the segments
-   * the first segment is the view and the last segment is the id of the note or category.
+   * Standard routing for persons. If we don't pick up an Itemid then we get the view from the segments
+   * the first segment is the view and the last segment is the id of the person or category.
    */
     if(!isset($item)) {
       $vars['view'] = $segments[0];
@@ -258,14 +258,14 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
     }
 
     /*
-     * If there is only one segment, then it points to either an note or a category.
+     * If there is only one segment, then it points to either an person or a category.
      * We test it first to see if it is a category.  If the id and alias match a category,
-     * then we assume it is a category.  If they don't we assume it is an note
+     * then we assume it is a category.  If they don't we assume it is an person
      */
     if($count == 1) {
-      // We check to see if an alias is given.  If not, we assume it is an note
+      // We check to see if an alias is given.  If not, we assume it is an person
       if(strpos($segments[0], ':') === false) {
-	$vars['view'] = 'note';
+	$vars['view'] = 'person';
 	$vars['id'] = (int) $segments[0];
 
 	return;
@@ -274,7 +274,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
       list($id, $alias) = explode(':', $segments[0], 2);
 
       // First we check if it is a category
-      $category = JCategories::getInstance('Notebook')->get($id);
+      $category = JCategories::getInstance('Snipf')->get($id);
       $db = JFactory::getDbo();
 
       if($category && $category->alias == $alias) {
@@ -286,15 +286,15 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
       else {
 	$query = $db->getQuery(true)
 		->select($db->quoteName(array('alias', 'catid')))
-		->from($db->quoteName('#__notebook_note'))
+		->from($db->quoteName('#__snipf_person'))
 		->where($db->quoteName('id') . ' = ' . (int)$id);
 	$db->setQuery($query);
-	$note = $db->loadObject();
+	$person = $db->loadObject();
 
-	if($note) {
-	  if($note->alias == $alias) {
-	    $vars['view'] = 'note';
-	    $vars['catid'] = (int)$note->catid;
+	if($person) {
+	  if($person->alias == $alias) {
+	    $vars['view'] = 'person';
+	    $vars['catid'] = (int)$person->catid;
 	    $vars['id'] = (int)$id;
 
 	    return;
@@ -306,17 +306,17 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
     /*
      * If there was more than one segment, then we can determine where the URL points to
      * because the first segment will have the target category id prepended to it.  If the
-     * last segment has a number prepended, it is an note, otherwise, it is a category.
+     * last segment has a number prepended, it is an person, otherwise, it is a category.
      */
     if(!$advanced) {
       $cat_id = (int)$segments[0];
 
-      $note_id = (int)$segments[$count - 1];
+      $person_id = (int)$segments[$count - 1];
 
-      if($note_id > 0) {
-	$vars['view'] = 'note';
+      if($person_id > 0) {
+	$vars['view'] = 'person';
 	$vars['catid'] = $cat_id;
-	$vars['id'] = $note_id;
+	$vars['id'] = $person_id;
       }
       else {
 	$vars['view'] = 'category';
@@ -328,10 +328,10 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
 
     // We get the category id from the menu item and search from there
     $id = $item->query['id'];
-    $category = JCategories::getInstance('Notebook')->get($id);
+    $category = JCategories::getInstance('Snipf')->get($id);
 
     if(!$category) {
-      JError::raiseError(404, JText::_('COM_NOTEBOOK_ERROR_PARENT_CATEGORY_NOT_FOUND'));
+      JError::raiseError(404, JText::_('COM_SNIPF_ERROR_PARENT_CATEGORY_NOT_FOUND'));
       return;
     }
 
@@ -359,7 +359,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
 	  $db = JFactory::getDbo();
 	  $query = $db->getQuery(true)
 		  ->select($db->quoteName('id'))
-		  ->from('#__notebook_note')
+		  ->from('#__snipf_person')
 		  ->where($db->quoteName('catid').'='.(int) $vars['catid'])
 		  ->where($db->quoteName('alias').'='.$db->quote($segment));
 	  $db->setQuery($query);
@@ -370,7 +370,7 @@ class NotebookRouterRulesLegacy implements JComponentRouterRulesInterface
 	}
 
 	$vars['id'] = $nid;
-	$vars['view'] = 'note';
+	$vars['view'] = 'person';
       }
 
       $found = 0;
