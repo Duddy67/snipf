@@ -1,0 +1,86 @@
+
+.position-item {
+  float: left;
+  margin-bottom: 10px !important;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #c0c0c0;
+  width: 100%;
+}
+
+.btn-calendar {
+  border-radius: 0 3px 3px 0 !important;
+}
+
+.position-item .btn-wrapper, 
+.office-item .btn-wrapper {
+  float: right;
+  margin-left: 20px;
+}
+
+.item-row {
+  float: left;
+  margin-bottom: 25px;
+  margin-right: 40px;
+}
+
+.item-name {
+  float: left;
+  border: 1px solid #ccc;
+  width: 40%;
+  margin-right: 20px;
+}
+
+.date-item {
+  width: 180px !important;
+}
+
+.comments-item {
+  border: 1px solid #ccc;
+  width: 220px;
+  height: 80px;
+}
+
+.position-label ,
+.office-label ,
+.start-date-label ,
+.end-date-label ,
+.comments-label ,
+.item-name-label {
+  margin: 5px 5px 0 5px;
+  font-weight: bold;
+  color: #404040;
+  display:block;
+}
+
+.office-label ,
+.end-date-label {
+  margin-top: 15px;
+}
+
+#ajax-waiting-screen {
+  z-index: 10000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align:center;
+  background-color: #000000;
+  /*opacity: 0.1;*/
+  background: rgba(0, 0, 0, 0.1);
+  /*visibility: hidden;*/
+}
+
+#ajax-waiting-screen img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.beneficiary-btn,
+.address-btn {
+  margin-top: 40px;
+}
+
+
