@@ -49,6 +49,7 @@ Joomla.submitbutton = function(task)
 	  <div class="form-vertical">
 	    <?php
 		  echo $this->form->getControlGroup('person_id');
+		  echo $this->form->getControlGroup('speciality_id');
 		  echo $this->form->getControlGroup('description');
 	      ?>
 	  </div>

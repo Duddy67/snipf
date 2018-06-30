@@ -30,6 +30,9 @@ class SnipfHelper
     JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_OFFICES'),
 				      'index.php?option=com_snipf&view=offices', $viewName == 'offices');
 
+    JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_SPECIALITIES'),
+				      'index.php?option=com_snipf&view=specialities', $viewName == 'specialities');
+
     JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_COUNTRIES'),
 				      'index.php?option=com_snipf&view=countries', $viewName == 'countries');
 

@@ -57,6 +57,7 @@ CREATE TABLE `#__snipf_certificate` (
   `person_id` INT UNSIGNED NOT NULL ,
   `number` VARCHAR(80) NOT NULL ,
   `description` TEXT NULL ,
+  `speciality_id` INT UNSIGNED NOT NULL ,
   `published` TINYINT NOT NULL DEFAULT 0 , 
   `checked_out` INT UNSIGNED NOT NULL DEFAULT 0 , 
   `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
@@ -161,6 +162,25 @@ CREATE TABLE `#__snipf_person_position_map` (
   `comments` VARCHAR(150) NOT NULL ,
   INDEX `idx_person_id` (`person_id` ASC) )
 ENGINE = MyISAM DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------------
+-- Table `#__snipf_speciality`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__snipf_speciality`;
+CREATE TABLE `#__snipf_speciality` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(180) NOT NULL ,
+  `description` TEXT NULL ,
+  `published` TINYINT NOT NULL DEFAULT 0 ,
+  `checked_out` INT UNSIGNED NOT NULL DEFAULT 0 ,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `created_by` INT UNSIGNED NOT NULL ,
+  `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `modified` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
+  `modified_by` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
