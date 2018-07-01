@@ -106,15 +106,15 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	<th width="10%" class="nowrap hidden-phone">
 	<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_CREATED_BY', 'user', $listDirn, $listOrder); ?>
 	</th>
-	<th width="5%" class="nowrap hidden-phone">
-	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-	</th>
+	<!--<th width="5%" class="nowrap hidden-phone">
+	  <?php //echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+	</th>-->
 	<th width="10%" class="nowrap hidden-phone">
 	<?php echo JHtml::_('searchtools.sort', 'JDATE', 'p.created', $listDirn, $listOrder); ?>
 	</th>
-	<th width="1%" class="nowrap hidden-phone">
-	  <?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'p.hits', $listDirn, $listOrder); ?>
-	</th>
+	<!--<th width="1%" class="nowrap hidden-phone">
+	  <?php //echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'p.hits', $listDirn, $listOrder); ?>
+	</th>-->
 	<th width="1%" class="nowrap hidden-phone">
 	<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'p.id', $listDirn, $listOrder); ?>
 	</th>
@@ -200,26 +200,26 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  <td class="small hidden-phone">
 	    <?php echo $this->escape($item->user); ?>
 	  </td>
-	  <td class="small hidden-phone">
-	    <?php if ($item->language == '*'):?>
-	      <?php echo JText::alt('JALL', 'language'); ?>
-	    <?php else:?>
-	      <?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-	    <?php endif;?>
-	  </td>
+	  <!--<td class="small hidden-phone">
+	    <?php //if ($item->language == '*'):?>
+	      <?php //echo JText::alt('JALL', 'language'); ?>
+	    <?php //else:?>
+	      <?php //echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+	    <?php //endif;?>
+	  </td>-->
 	  <td class="nowrap small hidden-phone">
 	    <?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 	  </td>
-	  <td class="hidden-phone">
-	    <?php echo (int) $item->hits; ?>
-	  </td>
+	  <!--<td class="hidden-phone">
+	    <?php //echo (int) $item->hits; ?>
+	  </td>-->
 	  <td>
 	    <?php echo $item->id; ?>
 	  </td></tr>
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="11"><?php echo $this->pagination->getListFooter(); ?></td>
+	  <td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
       </tr>
       </tbody>
     </table>

@@ -127,15 +127,62 @@ class plgContentSnipf extends JPlugin
   public function onContentAfterDelete($context, $data)
   {
     if($context == 'com_snipf.person') { 
+      //First gets the certificate ids which are linked to this person.
+      $db = JFactory::getDbo();
+      $query = $db->getQuery(true);
+      $query->select('id')
+	    ->from('#__snipf_certificate')
+	    ->where('person_id='.(int)$data->id);
+      $db->setQuery($query);
+      $certificateIds = $db->loadColumn();
+
+      SnipfHelper::deleteItems($certificateIds, 'Certificate');
+
+      //Deletes all the processes linked to the person's certificates.
+      $query->clear();
+      $query->delete('#__snipf_process')
+	    ->where('item_id IN('.implode(',', $certificateIds).')')
+	    ->where('item_type="certificate"');
+      $db->setQuery($query);
+      $db->execute();
+
+      $query->clear();
+      $query->delete('#__snipf_address')
+	    ->where('person_id='.(int)$data->id);
+      $db->setQuery($query);
+      $db->execute();
+
+      $query->clear();
+      $query->delete('#__snipf_beneficiary')
+	    ->where('person_id='.(int)$data->id);
+      $db->setQuery($query);
+      $db->execute();
+
+      $query->clear();
+      $query->delete('#__snipf_person_position_map')
+	    ->where('person_id='.(int)$data->id);
+      $db->setQuery($query);
+      $db->execute();
+
+      //TODO: Removes the possible Joomla user linked to this person.
     }
     elseif($context == 'com_snipf.certificate') { 
-
       //Removes all the processes linked to the deleted certificate.
       $db = JFactory::getDbo();
       $query = $db->getQuery(true);
       $query->delete('#__snipf_process')
 	    ->where('item_id='.(int)$data->id)
 	    ->where('item_type="certificate"');
+      $db->setQuery($query);
+      $db->execute();
+    }
+    elseif($context == 'com_snipf.subscription') { 
+      //Removes all the processes linked to the deleted subscription.
+      $db = JFactory::getDbo();
+      $query = $db->getQuery(true);
+      $query->delete('#__snipf_process')
+	    ->where('item_id='.(int)$data->id)
+	    ->where('item_type="subscription"');
       $db->setQuery($query);
       $db->execute();
     }

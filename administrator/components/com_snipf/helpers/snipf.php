@@ -162,6 +162,31 @@ class SnipfHelper
 
 
   /**
+   * Deletes Joomla's items programmaticaly.
+   *
+   * @param mixed	An array of item ids or a single item id.
+   * @param string	The name of the item.
+   *
+   * @return void
+   */
+  public static function deleteItems($itemIds, $itemName)
+  {
+    if(!is_array($itemIds)) {
+      //Ensures we have an integer.
+      if(ctype_digit($itemIds)) {
+	$itemIds = array($itemIds);
+      }
+      else {
+	return false;
+      }
+    }
+
+    $model = JModelLegacy::getInstance($itemName, 'SnipfModel');
+    $model->delete($itemIds);
+  }
+
+
+  /**
    * Update a mapping table according to the variables passed as arguments.
    *
    * @param string  The name of the table to update (eg: #__table_name).

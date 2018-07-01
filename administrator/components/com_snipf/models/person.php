@@ -212,5 +212,42 @@ class SnipfModelPerson extends JModelAdmin
 
     return $positions;
   }
+
+
+  /**
+   * Method to test whether a record can be deleted.
+   *
+   * @param   object  $record  A record object.
+   *
+   * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
+   *
+   * @since   1.6
+   */
+  protected function canDelete($record)
+  {
+    //First checks that the person to delete is not being edited.
+    if($record->checked_out) {
+      JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_WARNING_ITEM_IS_BEING_EDITED'), 'warning');
+      return false;
+    }
+
+    //Then checks that none of the certificates linked to the person is being edited.
+    $db = $this->getDbo();
+    $query = $db->getQuery(true);
+    $query->select('name, checked_out')
+	  ->from('#__snipf_certificate')
+	  ->where('person_id='.(int)$record->id);
+    $db->setQuery($query);
+    $certificates = $db->loadObjectList();
+
+    foreach($certificates as $certificate) {
+      if($certificate->checked_out) {
+	JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_SNIPF_WARNING_CERTIFICATE_IS_BEING_EDITED', $certificate->name), 'warning');
+	return false;
+      }
+    }
+
+    return parent::canDelete($record);
+  }
 }
 
