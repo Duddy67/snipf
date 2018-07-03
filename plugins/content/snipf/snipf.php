@@ -106,6 +106,21 @@ class plgContentSnipf extends JPlugin
       $columns = array('person_id', 'position_id','office_id','start_date','end_date','comments');
       //Update positions.
       SnipfHelper::updateMappingTable('#__snipf_person_position_map', $columns, $positions, array($data->id));
+
+      //Moves to the work situation data.
+      $columns = array('person_id', 'employer_name','employer_activity','ape_code','position','comments','law_company');
+      $values = array();
+      $workSituation = new JObject;
+
+      //Note: Skips the very first index (ie: person_id).
+      for($i = 1; $i < count($columns); $i++) {
+	$name = $columns[$i];
+	$workSituation->$name = $jform[$name.'_ws'];
+      }
+
+      $values[] = $workSituation;
+
+      SnipfHelper::updateMappingTable('#__snipf_work_situation', $columns, $values, array($data->id));
     }
     elseif($context == 'com_snipf.certificate' && !$isNew) { 
       $filteredData = $this->filterDateFields('certificate_process', 'process');

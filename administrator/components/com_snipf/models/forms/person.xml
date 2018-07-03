@@ -189,6 +189,33 @@
 	<field name="checked_out_time" type="hidden" filter="unset" />
     </fieldset>
 
+    <fieldset name="work_situation">
+	<field name="employer_name_ws" type="text"
+		label="COM_SNIPF_FIELD_EMPLOYER_NAME_LABEL"
+		description="COM_SNIPF_FIELD_EMPLOYER_NAME_DESC"/>
+
+	<field name="employer_activity_ws" type="text"
+		label="COM_SNIPF_FIELD_EMPLOYER_ACTIVITY_LABEL"
+		description="COM_SNIPF_FIELD_EMPLOYER_ACTIVITY_DESC"/>
+
+	<field name="ape_code_ws" type="text"
+		label="COM_SNIPF_FIELD_APE_CODE_LABEL"
+		description="COM_SNIPF_FIELD_APE_CODE_DESC"/>
+
+	<field name="position_ws" type="text"
+		label="COM_SNIPF_FIELD_POSITION_LABEL"
+		description="COM_SNIPF_FIELD_POSITION_DESC"/>
+
+	<field name="comments_ws" type="textarea"
+	       label="COM_SNIPF_FIELD_COMMENTS_LABEL"
+	       description="COM_SNIPF_FIELD_COMMENTS_DESC"
+	       rows="3" cols="30" />
+
+	<field name="law_company_ws" type="text"
+		label="COM_SNIPF_FIELD_LAW_COMPANY_LABEL"
+		description="COM_SNIPF_FIELD_LAW_COMPANY_DESC"/>
+    </fieldset>
+
     <fieldset name="ha">
 	  <field name="street_ha" type="text"
 		  label="COM_SNIPF_FIELD_STREET_LABEL"

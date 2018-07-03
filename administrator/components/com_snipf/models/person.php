@@ -74,6 +74,14 @@ class SnipfModelPerson extends JModelAdmin
       $item->addresses = AddressHelper::getAddresses($item->id);
       //Gets the person's beneficiaries.
       $item->beneficiaries = BeneficiaryHelper::getBeneficiaries($item->id);
+
+      $db = $this->getDbo();
+      $query = $db->getQuery(true);
+      $query->select('employer_name, employer_activity, ape_code, position, comments, law_company')
+	    ->from('#__snipf_work_situation')
+	    ->where('person_id='.(int)$item->id);
+      $db->setQuery($query);
+      $item->work_situation = $db->loadObject();
     }
 
     return $item;

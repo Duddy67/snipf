@@ -248,6 +248,22 @@ ENGINE = MyISAM DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
+-- Table `#__snipf_work_situation`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__snipf_work_situation`;
+CREATE TABLE `#__snipf_work_situation` (
+  `person_id` INT UNSIGNED NOT NULL DEFAULT 0 ,
+  `employer_name` VARCHAR(255) NULL ,
+  `employer_activity` VARCHAR(255) NULL ,
+  `ape_code` VARCHAR(50) NULL ,
+  `position` VARCHAR(80) NULL ,
+  `comments` TEXT NULL ,
+  `law_company` VARCHAR(30) NOT NULL ,
+  INDEX `idx_person_id` (`person_id` ASC) )
+ENGINE = MyISAM DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------------
 -- Table `#__snipf_region` Note: ISO 3166-2
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `#__snipf_region`;
