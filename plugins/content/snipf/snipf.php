@@ -107,7 +107,7 @@ class plgContentSnipf extends JPlugin
       //Update positions.
       SnipfHelper::updateMappingTable('#__snipf_person_position_map', $columns, $positions, array($data->id));
 
-      //Moves to the work situation data.
+      //Moves to the work situation part.
       $columns = array('person_id', 'employer_name','employer_activity','ape_code','position','comments','law_company');
       $values = array();
       $workSituation = new JObject;
@@ -121,6 +121,22 @@ class plgContentSnipf extends JPlugin
       $values[] = $workSituation;
 
       SnipfHelper::updateMappingTable('#__snipf_work_situation', $columns, $values, array($data->id));
+
+      //Moves to the SRIPF part.
+      $columns = array('person_id', 'associated_member','office_id','subscription_date','resignation_date');
+      $values = array();
+      $sripf = new JObject;
+
+      $filteredData = $this->filterDateFields('person', 'sripf', false, true);
+      //Note: Skips the very first index (ie: person_id).
+      for($i = 1; $i < count($columns); $i++) {
+	$name = $columns[$i];
+	$sripf->$name = $filteredData[$name.'_sripf'];
+      }
+
+      $values[] = $sripf;
+
+      SnipfHelper::updateMappingTable('#__snipf_sripf', $columns, $values, array($data->id));
     }
     elseif($context == 'com_snipf.certificate' && !$isNew) { 
       $filteredData = $this->filterDateFields('certificate_process', 'process');
@@ -225,29 +241,35 @@ class plgContentSnipf extends JPlugin
   /**
    * Searches for calendar fields into a given form then (if necessary) turn their value into an 
    * SQL formatted date or datetime string in UTC.
-   * This method is designed for dynamic items. Forms are used to get the relevant
+   * This method is designed for dynamic items or fields treated separately. Forms are used to get the relevant
    * information (such as showTime, translateFormat etc...) about the fields.
    *
    * As the dynamic item forms are externals they don't take advantage of the filterField
    * native Joomla method. So they have to be treated separately.
    *
    * @param   string  $formName		The name of the form to parse.
-   *
    * @param   string  $fieldsetName	The name of the form fieldset.
+   * @param   boolean $multiple		Field names have suffix (ie: a numerical id)
+   * @param   boolean $jform		Gets data from the jform array over the global POST array.
    *
    * @return  mixed   The filtered values.
    *
    * @note    Based on the filterField function: libraries/src/Form/Form.php 
    */
-  private function filterDateFields($formName, $fieldsetName)
+  private function filterDateFields($formName, $fieldsetName, $multiple = true, $jform = false)
   {
     // Creates a new JForm object
     $form = new JForm('Form');
     //Loads the form.
     $form->loadFile('components/com_snipf/models/forms/'.$formName.'.xml');
 
-    //Gets the POST array.
+    //Gets data from the POST array.
     $data = JFactory::getApplication()->input->post->getArray();
+    //Gets data from the jform array.
+    if($jform) {
+      $data = JFactory::getApplication()->input->post->get('jform', array(), 'array');
+    }
+
     //Gets the fieldset in order to parse the given form.
     $fieldset = $form->getFieldset($fieldsetName);
 
@@ -276,9 +298,16 @@ class plgContentSnipf extends JPlugin
 	  $offset = JFactory::getConfig()->get('offset');
 	}
 
-	//Searches for the corresponding values for each process.
+	//Multiple fields have numerical id as suffix.
+	$suffix = '_[0-9]+';
+	if(!$multiple) {
+	  //Searches for the name as it is (ie: without suffix).
+	  $suffix = '';
+	}
+
+	//Searches for the corresponding values for each field.
 	foreach($data as $key => $value) {
-	  if(preg_match('#^'.$name.'_[0-9]+$#', $key) && !empty($value) && !preg_match('#^0000-00-00#', $value)) {
+	  if(preg_match('#^'.$name.$suffix.'$#', $key) && !empty($value) && !preg_match('#^0000-00-00#', $value)) {
 	    $date = date_parse_from_format($format, $value);
             $value = (int)$date['year'].'-'.(int)$date['month'].'-'.(int)$date['day'];
 

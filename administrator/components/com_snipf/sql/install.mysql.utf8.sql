@@ -10,9 +10,11 @@ CREATE TABLE `#__snipf_person` (
   `maiden_name` VARCHAR(85) NOT NULL ,
   `person_title` VARCHAR(4) NOT NULL ,
   `alias` VARCHAR(255) NOT NULL ,
+  `status` VARCHAR(20) NOT NULL ,
   `intro_text` MEDIUMTEXT NULL ,
   `full_text` MEDIUMTEXT NULL ,
   `birthdate` DATE NOT NULL DEFAULT '0000-00-00' ,
+  `deathdate` DATE NOT NULL DEFAULT '0000-00-00' ,
   `country_of_birth` CHAR(3) NOT NULL ,
   `region_of_birth` CHAR(6) NOT NULL ,
   `city_of_birth` VARCHAR(85) NOT NULL ,
@@ -20,6 +22,7 @@ CREATE TABLE `#__snipf_person` (
   `publishing_auth` TINYINT(1) NOT NULL DEFAULT 0 ,
   `email` VARCHAR(255) NULL ,
   `mail_address_type` CHAR(2) NOT NULL ,
+  `demand_origin` VARCHAR(85) NOT NULL ,
   `published` TINYINT NOT NULL DEFAULT 0 ,
   `catid` INT UNSIGNED NOT NULL ,
   `checked_out` INT UNSIGNED NOT NULL DEFAULT 0 ,
@@ -259,6 +262,20 @@ CREATE TABLE `#__snipf_work_situation` (
   `position` VARCHAR(80) NULL ,
   `comments` TEXT NULL ,
   `law_company` VARCHAR(30) NOT NULL ,
+  INDEX `idx_person_id` (`person_id` ASC) )
+ENGINE = MyISAM DEFAULT CHARSET=utf8;
+
+
+-- -----------------------------------------------------
+-- Table `#__snipf_sripf`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__snipf_sripf`;
+CREATE TABLE `#__snipf_sripf` (
+  `person_id` INT UNSIGNED NOT NULL DEFAULT 0 ,
+  `associated_member` TINYINT(1) NOT NULL DEFAULT 0 ,
+  `office_id` INT UNSIGNED NOT NULL ,
+  `subscription_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `resignation_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   INDEX `idx_person_id` (`person_id` ASC) )
 ENGINE = MyISAM DEFAULT CHARSET=utf8;
 

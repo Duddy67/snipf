@@ -27,6 +27,17 @@
 	       <option value="miss">COM_SNIPF_OPTION_MISS</option>
 	</field>
 
+	<field name="status" type="list"
+	       label="COM_SNIPF_FIELD_STATUS_LABEL"
+	       description="COM_SNIPF_FIELD_STATUS_DESC"
+	       required="true">
+	       <option value="">COM_SNIPF_OPTION_SELECT</option>
+	       <option value="active">COM_SNIPF_OPTION_ACTIVE</option>
+	       <option value="retired">COM_SNIPF_OPTION_RETIRED</option>
+	       <option value="partialy_retired">COM_SNIPF_OPTION_PARTIALY_RETIRED</option>
+	       <option value="deceased">COM_SNIPF_OPTION_DECEASED</option>
+	</field>
+
 	<field name="country_of_birth" type="countrylist"
 	       label="COM_SNIPF_FIELD_COUNTRY_OF_BIRTH_LABEL"
 	       description="COM_SNIPF_FIELD_COUNTRY_OF_BIRTH_DESC" />
@@ -75,6 +86,10 @@
 	       <option value="ha">COM_SNIPF_OPTION_HOME</option>
 	       <option value="pa">COM_SNIPF_OPTION_PROFESSIONAL</option>
 	</field>
+
+	<field name="demand_origin" type="text"
+	       label="COM_SNIPF_FIELD_DEMAND_ORIGIN_LABEL"
+	       description="COM_SNIPF_FIELD_DEMAND_ORIGIN_DESC" />
 
 	<!-- layout: title_alias -->
 	<field name="lastname" type="text"
@@ -214,6 +229,34 @@
 	<field name="law_company_ws" type="text"
 		label="COM_SNIPF_FIELD_LAW_COMPANY_LABEL"
 		description="COM_SNIPF_FIELD_LAW_COMPANY_DESC"/>
+    </fieldset>
+
+    <fieldset name="sripf">
+	<field name="associated_member_sripf" type="list"
+	       label="COM_SNIPF_FIELD_ASSOCIATED_MEMBER_LABEL"
+	       description="COM_SNIPF_FIELD_ASSOCIATED_MEMBER_DESC">
+	       <option value="">COM_SNIPF_OPTION_SELECT</option>
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
+	<field name="office_id_sripf" type="officelist"
+	       label="COM_SNIPF_FIELD_OFFICE_LABEL"
+	       description="COM_SNIPF_FIELD_OFFICE_DESC" />
+
+	  <field name="subscription_date_sripf" type="calendar"
+		 label="COM_SNIPF_FIELD_SUBSCRIPTION_DATE_LABEL"
+		 description="COM_SNIPF_FIELD_SUBSCRIPTION_DATE_DESC"
+		 translateformat="true"
+		 showtime="true"
+		 filter="user_utc" />
+
+	  <field name="resignation_date_sripf" type="calendar"
+		 label="COM_SNIPF_FIELD_RESIGNATION_DATE_LABEL"
+		 description="COM_SNIPF_FIELD_RESIGNATION_DATE_DESC"
+		 translateformat="true"
+		 showtime="true"
+		 filter="user_utc" />
     </fieldset>
 
     <fieldset name="ha">
