@@ -240,10 +240,6 @@
 	       <option value="0">JNO</option>
 	</field>
 
-	<field name="office_id_sripf" type="officelist"
-	       label="COM_SNIPF_FIELD_OFFICE_LABEL"
-	       description="COM_SNIPF_FIELD_OFFICE_DESC" />
-
 	  <field name="subscription_date_sripf" type="calendar"
 		 label="COM_SNIPF_FIELD_SUBSCRIPTION_DATE_LABEL"
 		 description="COM_SNIPF_FIELD_SUBSCRIPTION_DATE_DESC"

@@ -50,6 +50,10 @@ Joomla.submitbutton = function(task)
 	    <?php
 		  echo $this->form->getControlGroup('person_id');
 		  echo $this->form->getControlGroup('speciality_id');
+		  echo $this->form->getControlGroup('closure_date');
+		  echo $this->form->getControlGroup('closure_reason');
+		  echo $this->form->getControlGroup('abandon_code');
+		  echo $this->form->getControlGroup('file_destruction_date');
 		  echo $this->form->getControlGroup('description');
 	      ?>
 	  </div>

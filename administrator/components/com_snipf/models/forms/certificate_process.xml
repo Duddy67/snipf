@@ -4,9 +4,14 @@
 
   <fieldset name="process">
 
+	<field name="starting_file_number" type="text"
+		label="COM_SNIPF_FIELD_STARTING_FILE_NUMBER_LABEL"
+		description="COM_SNIPF_FIELD_STARTING_FILE_NUMBER_DESC"
+		required="true" />
+
 	<field name="start_process" type="calendar"
-	       label="COM_SNIPF_FIELD_PUBLISH_UP_LABEL" 
-	       description="COM_SNIPF_FIELD_PUBLISH_UP_DESC"
+	       label="COM_SNIPF_FIELD_STARTING_FILE_SENDING_LABEL" 
+	       description="COM_SNIPF_FIELD_STARTING_FILE_SENDING_DESC"
 	       translateformat="true"
 	       showtime="false"
 	       size="22"
@@ -14,16 +19,24 @@
 	       filter="user_utc" />
 
 	<field name="end_process" type="calendar"
-	       label="COM_SNIPF_FIELD_PUBLISH_UP_LABEL" 
-	       description="COM_SNIPF_FIELD_PUBLISH_UP_DESC"
+	       label="COM_SNIPF_FIELD_CERTIFICATE_END_PROCESS_LABEL" 
+	       description="COM_SNIPF_FIELD_CERTIFICATE_END_PROCESS_DESC"
 	       translateformat="true"
 	       showtime="false"
 	       size="22"
 	       filter="user_utc" />
 
-	<field name="description" type="textarea"
-		label="COM_SNIPF_FIELD_DESCRIPTION_LABEL"
-		description="COM_SNIPF_FIELD_DESCRIPTION_DESC"
+	<field name="suspension_date" type="calendar"
+	       label="COM_SNIPF_FIELD_SUSPENSION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_SUSPENSION_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="comments" type="textarea"
+		label="COM_SNIPF_FIELD_COMMENTS_LABEL"
+		description="COM_SNIPF_FIELD_COMMENTS_DESC"
 		rows="5" cols="10"
 		default=""></field>
 
@@ -49,21 +62,6 @@
 	<field name="modified_by" type="user"
 	       label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 	       class="readonly" readonly="true" filter="unset" />
-
-	<field name="starting_file_number" type="text"
-		label="COM_SNIPF_FIELD_STARTING_FILE_NUMBER_LABEL"
-		description="COM_SNIPF_FIELD_STARTING_FILE_NUMBER_DESC"
-		required="true" />
-
-	<field name="starting_file_sending" type="calendar"
-	       label="COM_SNIPF_FIELD_STARTING_FILE_SENDING_LABEL" 
-	       description="COM_SNIPF_FIELD_STARTING_FILE_SENDING_DESC"
-	       translateformat="true"
-	       showtime="false"
-	       size="22"
-	       required="true" 
-	       filter="user_utc" />
-
   </fieldset>
 </form>
 

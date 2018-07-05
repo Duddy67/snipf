@@ -123,7 +123,7 @@ class plgContentSnipf extends JPlugin
       SnipfHelper::updateMappingTable('#__snipf_work_situation', $columns, $values, array($data->id));
 
       //Moves to the SRIPF part.
-      $columns = array('person_id', 'associated_member','office_id','subscription_date','resignation_date');
+      $columns = array('person_id', 'associated_member','subscription_date','resignation_date');
       $values = array();
       $sripf = new JObject;
 
@@ -177,23 +177,15 @@ class plgContentSnipf extends JPlugin
       $db->setQuery($query);
       $db->execute();
 
-      $query->clear();
-      $query->delete('#__snipf_address')
-	    ->where('person_id='.(int)$data->id);
-      $db->setQuery($query);
-      $db->execute();
+      $tables = array('address', 'beneficiary', 'person_position_map', 'work_situation', 'sripf');
 
-      $query->clear();
-      $query->delete('#__snipf_beneficiary')
-	    ->where('person_id='.(int)$data->id);
-      $db->setQuery($query);
-      $db->execute();
-
-      $query->clear();
-      $query->delete('#__snipf_person_position_map')
-	    ->where('person_id='.(int)$data->id);
-      $db->setQuery($query);
-      $db->execute();
+      foreach($tables as $table) {
+	$query->clear();
+	$query->delete('#__snipf_'.$table)
+	      ->where('person_id='.(int)$data->id);
+	$db->setQuery($query);
+	$db->execute();
+      }
 
       //TODO: Removes the possible Joomla user linked to this person.
     }

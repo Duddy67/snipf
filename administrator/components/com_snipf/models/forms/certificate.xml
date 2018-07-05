@@ -19,6 +19,37 @@
 		label="COM_SNIPF_FIELD_SPECIALITY_LABEL"
 		description="COM_SNIPF_FIELD_SPECIALITY_DESC" />
 
+	<field name="closure_date" type="calendar"
+	       label="COM_SNIPF_FIELD_CLOSURE_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_CLOSURE_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="closure_reason" type="list"
+	       label="COM_SNIPF_FIELD_CLOSURE_REASON_LABEL"
+	       description="COM_SNIPF_FIELD_CLOSURE_REASON_DESC">
+	       <option value="">COM_SNIPF_OPTION_SELECT</option>
+	       <option value="file_not_returned">COM_SNIPF_OPTION_FILE_NOT_RETURNED</option>
+	       <option value="abandon">COM_SNIPF_OPTION_ABANDON</option>
+	       <option value="retired">COM_SNIPF_OPTION_RETIRED</option>
+	       <option value="deceased">COM_SNIPF_OPTION_DECEASED</option>
+	       <option value="other">COM_SNIPF_OPTION_OTHER</option>
+	</field>
+
+	<field name="file_destruction_date" type="calendar"
+	       label="COM_SNIPF_FIELD_FILE_DESTRUCTION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_FILE_DESTRUCTION_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="abandon_code" type="text"
+	       label="COM_SNIPF_FIELD_ABANDON_CODE_LABEL"
+	       description="COM_SNIPF_FIELD_ABANDON_CODE_DESC" />
+
 	<!-- layout: title_alias -->
 	<field name="number" type="text"
 		label="COM_SNIPF_FIELD_NUMBER_LABEL"

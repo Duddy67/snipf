@@ -84,7 +84,7 @@ class SnipfModelPerson extends JModelAdmin
       $item->work_situation = $db->loadObject();
 
       $query->clear();
-      $query->select('associated_member, office_id, subscription_date, resignation_date')
+      $query->select('associated_member, subscription_date, resignation_date')
 	    ->from('#__snipf_sripf')
 	    ->where('person_id='.(int)$item->id);
       $db->setQuery($query);

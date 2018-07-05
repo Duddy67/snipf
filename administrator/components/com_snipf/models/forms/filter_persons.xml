@@ -9,10 +9,10 @@
 
 		<field name="published"
 		       type="status"
-		       label="JOPTION_SELECT_PUBLISHED"
+		       label="COM_SNIPF_SELECT_STATE"
 		       description="JOPTION_SELECT_PUBLISHED_DESC"
 		       onchange="this.form.submit();">
-		       <option value="">JOPTION_SELECT_PUBLISHED</option>
+		       <option value="">COM_SNIPF_SELECT_STATE</option>
 		</field>
 
 		<field name="category_id"
@@ -37,6 +37,18 @@
 	               type="componentuser"
 		       onchange="this.form.submit();" >
 		       <option value="">COM_SNIPF_OPTION_SELECT_USER</option>
+		</field>
+
+		<field name="status"
+		       type="list"
+		       label="JOPTION_SELECT_PUBLISHED"
+		       description="JOPTION_SELECT_PUBLISHED_DESC"
+		       onchange="this.form.submit();">
+		       <option value="">JOPTION_SELECT_PUBLISHED</option>
+		       <option value="membership">COM_SNIPF_OPTION_MEMBERSHIP</option>
+		       <option value="no_membership">COM_SNIPF_OPTION_NO_MEMBERSHIP</option>
+		       <option value="certified">COM_SNIPF_OPTION_CERTIFIED</option>
+		       <option value="no_certified">COM_SNIPF_OPTION_NO_CERTIFIED</option>
 		</field>
 
 		<!--<field name="language"

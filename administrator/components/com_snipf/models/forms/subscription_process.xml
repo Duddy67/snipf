@@ -9,7 +9,7 @@
 		description="COM_SNIPF_FIELD_YEAR_DESC"
 		required="true" />
 
-	<field name="description" type="textarea"
+	<field name="comments" type="textarea"
 		label="COM_SNIPF_FIELD_DESCRIPTION_LABEL"
 		description="COM_SNIPF_FIELD_DESCRIPTION_DESC"
 		rows="5" cols="10"
