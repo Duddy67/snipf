@@ -45,21 +45,29 @@ Joomla.submitbutton = function(task)
     <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_SNIPF_TAB_DETAILS')); ?>
 
       <div class="row-fluid">
-	<div class="span4">
+	<div class="span6">
 	  <div class="form-vertical">
 	    <?php
 		  echo $this->form->getControlGroup('person_id');
-		  echo $this->form->getControlGroup('speciality_id');
 		  echo $this->form->getControlGroup('closure_date');
 		  echo $this->form->getControlGroup('closure_reason');
 		  echo $this->form->getControlGroup('abandon_code');
 		  echo $this->form->getControlGroup('file_destruction_date');
-		  echo $this->form->getControlGroup('description');
 	      ?>
 	  </div>
 	</div>
-	<div class="span3">
-	  <?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+	<div class="span6">
+	  <div class="form-vertical">
+	  <?php echo JLayoutHelper::render('joomla.edit.global', $this); 
+
+		echo $this->form->getControlGroup('bit_number_1988');
+		echo $this->form->getControlGroup('bit_number_2008');
+		echo $this->form->getControlGroup('speciality_id');
+		echo $this->form->getControlGroup('complement_1');
+		echo $this->form->getControlGroup('complement_2');
+		echo $this->form->getControlGroup('comments');
+	  ?>
+	</div>
 	</div>
       </div>
       <?php echo JHtml::_('bootstrap.endTab'); ?>

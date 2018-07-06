@@ -9,9 +9,9 @@
 		description="COM_SNIPF_FIELD_PERSON_DESC" 
 		required="true" />
 
-	<field name="description" type="textarea"
-		label="COM_SNIPF_FIELD_DESCRIPTION_LABEL"
-		description="COM_SNIPF_FIELD_DESCRIPTION_DESC"
+	<field name="comments" type="textarea"
+		label="COM_SNIPF_FIELD_COMMENTS_LABEL"
+		description="COM_SNIPF_FIELD_COMMENTS_DESC"
 		rows="5" cols="10"
 		default=""></field>
 
@@ -49,6 +49,22 @@
 	<field name="abandon_code" type="text"
 	       label="COM_SNIPF_FIELD_ABANDON_CODE_LABEL"
 	       description="COM_SNIPF_FIELD_ABANDON_CODE_DESC" />
+
+	<field name="complement_1" type="text"
+	       label="COM_SNIPF_FIELD_COMPLEMENT_1_LABEL"
+	       description="COM_SNIPF_FIELD_COMPLEMENT_1_DESC" />
+
+	<field name="complement_2" type="text"
+	       label="COM_SNIPF_FIELD_COMPLEMENT_2_LABEL"
+	       description="COM_SNIPF_FIELD_COMPLEMENT_2_DESC" />
+
+	<field name="bit_number_1988" type="text"
+	       label="COM_SNIPF_FIELD_BIT_NUMBER_1988_LABEL"
+	       description="COM_SNIPF_FIELD_BIT_NUMBER_1988_DESC" />
+
+	<field name="bit_number_2008" type="text"
+	       label="COM_SNIPF_FIELD_BIT_NUMBER_2008_LABEL"
+	       description="COM_SNIPF_FIELD_BIT_NUMBER_2008_DESC" />
 
 	<!-- layout: title_alias -->
 	<field name="number" type="text"
