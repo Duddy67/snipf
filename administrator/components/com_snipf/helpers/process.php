@@ -168,7 +168,6 @@ class ProcessHelper
           ->set($set)
 	  ->where('item_id='.(int)$itemId)
 	  ->where('item_type='.$db->Quote($itemType));
-//file_put_contents('debog_file.txt', print_r($query->__toString(), true)); 
     $db->setQuery($query);
 
     try {
@@ -239,8 +238,6 @@ class ProcessHelper
     $db->setQuery($query);
     $oldProcesses = $db->loadObjectList('number');
 
-//file_put_contents('debog_file_old.txt', print_r($oldProcesses, true));
-//file_put_contents('debog_file_new.txt', print_r($newProcesses, true));
     //Gets the current date and time (UTC).
     $now = JFactory::getDate()->toSql();
     $user = JFactory::getUser();
@@ -262,37 +259,6 @@ class ProcessHelper
     }
 
     return $newProcesses;
-  }
-
-
-  public static function canAddProcess($itemId, $itemType) 
-  {
-    $db = JFactory::getDbo();
-    $query = $db->getQuery(true);
-    $query->select('closure_date, closure_reason')
-	  ->from('#__snipf_certificate')
-	  ->where('id='.(int)$itemId);
-    $db->setQuery($query);
-    $certificate = $db->loadObject();
-
-    if(is_null($certificate) || $certificate->closure_date != $db->getNullDate() || !empty($certificate->closure_reason)) {
-      return false;
-    }
-
-    $nbProcesses = self::getNbProcesses($itemId, $itemType);
-
-    if(!$nbProcesses) {
-      return true;
-    }
-
-    $lastProcess = self::getProcesses($itemId, $itemType, $nbProcesses);
-
-    if($lastProcess->file_receiving_date == $db->getNullDate() ||
-       empty($lastProcess->return_file_number) || $lastProcess->outcome != 'accepted') {
-      return false;
-    }
-
-    return true;
   }
 
 

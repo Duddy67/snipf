@@ -110,7 +110,6 @@
 	       class="readonly" readonly="true" filter="unset" />
 
 	<field name="item_type" type="hidden" default="certificate" filter="unset" />
-
   </fieldset>
 </form>
 

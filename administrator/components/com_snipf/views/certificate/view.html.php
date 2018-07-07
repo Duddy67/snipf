@@ -94,11 +94,36 @@ class SnipfViewCertificate extends JViewLegacy
 
     JToolBarHelper::divider();
     //
-    if(ProcessHelper::canAddProcess($this->item->id, 'certificate')) {
+    if($this->canAddProcess()) {
       JToolbarHelper::custom('certificate.process.create', 'cogs', '', 'COM_SNIPF_NEW_PROCESS', false);
     }
 
     JToolBarHelper::cancel('certificate.cancel', 'JTOOLBAR_CANCEL');
+  }
+
+
+  protected function canAddProcess() 
+  {
+    $db = JFactory::getDbo();
+
+    if(!$this->item->id || $this->item->closure_date != $db->getNullDate() || !empty($this->item->closure_reason)) {
+      return false;
+    }
+
+    $nbProcesses = ProcessHelper::getNbProcesses($this->item->id, 'certificate');
+
+    if(!$nbProcesses) {
+      return true;
+    }
+
+    $lastProcess = ProcessHelper::getProcesses($this->item->id, 'certificate', $nbProcesses);
+
+    if($lastProcess->file_receiving_date == $db->getNullDate() ||
+       empty($lastProcess->return_file_number) || $lastProcess->outcome != 'accepted') {
+      return false;
+    }
+
+    return true;
   }
 
 

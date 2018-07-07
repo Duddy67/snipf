@@ -48,6 +48,7 @@
 	       translateformat="true"
 	       showtime="false"
 	       size="22"
+	       required="true" 
 	       filter="user_utc" />
 
 	<field name="outcome" type="list"

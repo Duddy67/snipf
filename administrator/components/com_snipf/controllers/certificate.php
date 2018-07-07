@@ -72,10 +72,23 @@ class SnipfControllerCertificate extends JControllerForm
       //Ensures first that the certificate item exists.
       $recordId = $this->input->get('id', 0, 'int');
       //A new process has been created but has not been saved.
-      if($recordId && $this->input->post->get('process_action', '', 'string') == 'create') {
-	//Deletes the last created but unsaved process from the table.
-	$lastProcessNb = ProcessHelper::getNbProcesses($recordId, $this->context);
-	ProcessHelper::deleteProcess($recordId, $this->context, $lastProcessNb);
+      if($recordId) { 
+	if($this->input->post->get('process_action', '', 'string') == 'create') {
+	  //Deletes the last created but unsaved process from the table.
+	  $lastProcessNb = ProcessHelper::getNbProcesses($recordId, $this->context);
+	  ProcessHelper::deleteProcess($recordId, $this->context, $lastProcessNb);
+	}
+	else {
+	  $nbProcesses = ProcessHelper::getNbProcesses($recordId, $this->context);
+	  if($nbProcesses) {
+	    $post = $this->input->post->getArray();
+
+	    if(!empty($post['file_receiving_date_'.$nbProcesses]) &&
+	       !empty($post['return_file_number_'.$nbProcesses]) &&
+	       empty($post['commission_date_'.$nbProcesses])) {
+	    }
+	  }
+	}
       }
     }
   }

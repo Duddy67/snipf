@@ -73,5 +73,23 @@ class SnipfModelCertificate extends JModelAdmin
 
     return $item;
   }
+
+
+  /**
+   * Loads ContentHelper for filters before validating data.
+   *
+   * @param   object  $form   The form to validate against.
+   * @param   array   $data   The data to validate.
+   * @param   string  $group  The name of the group(defaults to null).
+   *
+   * @return  mixed  Array of filtered data if valid, false otherwise.
+   *
+   * @since   1.1
+   */
+  public function validate($form, $data, $group = null)
+  {
+
+    return parent::validate($form, $data, $group);
+  }
 }
 
