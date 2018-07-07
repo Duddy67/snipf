@@ -49,10 +49,16 @@ Joomla.submitbutton = function(task)
 	  <div class="form-vertical">
 	    <?php
 		  echo $this->form->getControlGroup('person_id');
-		  echo $this->form->getControlGroup('closure_date');
-		  echo $this->form->getControlGroup('closure_reason');
-		  echo $this->form->getControlGroup('abandon_code');
-		  echo $this->form->getControlGroup('file_destruction_date');
+
+		  //Fields relating to certificate closure are not shown if the very first
+		  //process (CI) is pending (or rejected/adjourned).
+		  if($this->item->id && $this->item->last_process_nb && ($this->item->last_process_nb > 1 ||
+		     $this->item->processes[0]->outcome == 'accepted')) {
+		    echo $this->form->getControlGroup('closure_date');
+		    echo $this->form->getControlGroup('closure_reason');
+		    echo $this->form->getControlGroup('abandon_code');
+		    echo $this->form->getControlGroup('file_destruction_date');
+		  }
 	      ?>
 	  </div>
 	</div>

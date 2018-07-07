@@ -11,6 +11,7 @@ defined( '_JEXEC' ) or die; // No direct access
 
 jimport( 'joomla.application.component.view');
 require_once JPATH_COMPONENT.'/helpers/snipf.php';
+require_once JPATH_COMPONENT.'/helpers/process.php';
  
 
 class SnipfViewCertificate extends JViewLegacy
@@ -18,6 +19,7 @@ class SnipfViewCertificate extends JViewLegacy
   protected $item;
   protected $form;
   protected $state;
+  protected $nullDate;
 
   //Display the view.
   public function display($tpl = null)
@@ -25,10 +27,11 @@ class SnipfViewCertificate extends JViewLegacy
     $this->item = $this->get('Item');
     $this->form = $this->get('Form');
     $this->state = $this->get('State');
+    $this->nullDate = JFactory::getDbo()->getNullDate();
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
-      JError::raiseError(500, implode('<br />', $errors));
+      JFactory::getApplication()->enqueueMessage($errors, 'error');
       return false;
     }
 
@@ -91,7 +94,7 @@ class SnipfViewCertificate extends JViewLegacy
 
     JToolBarHelper::divider();
     //
-    if($this->item->id) {
+    if(ProcessHelper::canAddProcess($this->item->id, 'certificate')) {
       JToolbarHelper::custom('certificate.process.create', 'cogs', '', 'COM_SNIPF_NEW_PROCESS', false);
     }
 

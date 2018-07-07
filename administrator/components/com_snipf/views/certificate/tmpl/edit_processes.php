@@ -6,6 +6,15 @@
 	<div class="span4">
 	  <div class="form-vertical"> 
 <?php
+        //Fields relating to the commission are not shown as long as both 
+	//file_receiving_date and return_file_number fields are not properly set.
+	$commission = false;
+        $hiddenFields = array('commission_date', 'outcome', 'commission_derogation', 'end_process', 'suspension_date');
+
+	if($process->file_receiving_date != $this->nullDate && !empty($process->return_file_number)) {
+	  $commission = true;
+	}
+
 	foreach($fieldset as $field) {
 	  $name = $field->getAttribute('name');
 
@@ -13,20 +22,26 @@
 	    echo '</div></div><div class="span4"><div class="form-vertical">'; 
 	  }
 
-	  //Number the name and the id of the field for each process.
-	  $field->__set('name', $name.'_'.$process->number);
-	  $field->__set('id', $name.'_'.$process->number);
-
-	  $value = $process->$name;
-	  //Empties the possible zero SQL date or datetime.
-	  if($field->getAttribute('type') == 'calendar' && preg_match('#^0000-00-00#', $process->$name)) {
-	    $value = '';
+	  if(!$commission && in_array($name, $hiddenFields)) {
+	    //Turns commission fields into hidden fields.
+	    echo '<input type="hidden" name="'.$name.'_'.$process->number.'" id="'.$name.'_'.$process->number.'" value="" />';
 	  }
+	  else {
+	    //Number the name and the id of the field for each process.
+	    $field->__set('name', $name.'_'.$process->number);
+	    $field->__set('id', $name.'_'.$process->number);
 
-	  //Sets the process field value.
-	  $field->setValue($value);
+	    $value = $process->$name;
+	    //Empties the possible zero SQL date or datetime.
+	    if($field->getAttribute('type') == 'calendar' && preg_match('#^0000-00-00#', $process->$name)) {
+	      $value = '';
+	    }
 
-	  echo $field->getControlGroup();
+	    //Sets the process field value.
+	    $field->setValue($value);
+
+	    echo $field->renderField();
+	  }
 	}
 
         if($this->item->last_process_nb == $process->number) : //Only the last process can be deleted. ?>
