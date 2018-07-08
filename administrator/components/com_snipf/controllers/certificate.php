@@ -80,12 +80,20 @@ class SnipfControllerCertificate extends JControllerForm
 	}
 	else {
 	  $nbProcesses = ProcessHelper::getNbProcesses($recordId, $this->context);
+
 	  if($nbProcesses) {
 	    $post = $this->input->post->getArray();
+            $nullDate = JFactory::getDbo()->getNullDate();
 
+	    //If the file_receiving_date and return_file_number fields are filled in the
+	    //commission_date field becomes mandatory.
 	    if(!empty($post['file_receiving_date_'.$nbProcesses]) &&
 	       !empty($post['return_file_number_'.$nbProcesses]) &&
-	       empty($post['commission_date_'.$nbProcesses])) {
+	       (empty($post['commission_date_'.$nbProcesses]) || $post['commission_date_'.$nbProcesses] == $nullDate)) {
+	      //Forces the admin to set the commission_date field properly.
+	      JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_COMMISSION_DATE_FIELD_MUST_BE_SET'), 'warning');
+	      $this->setRedirect('index.php?option='.$this->option.'&view='.$this->context.'&layout=edit&id='.(int)$recordId);
+	      return false;
 	    }
 	  }
 	}

@@ -88,8 +88,114 @@ class SnipfModelCertificate extends JModelAdmin
    */
   public function validate($form, $data, $group = null)
   {
+    $nullDate = $this->getDbo()->getNullDate();
+
+    if($data['id']) {
+      $form = $this->checkProcessFields($data['id'], $form);
+    }
+
+    //Checks that closure_date and closure_reason are properly set. If one of these fields
+    //is filled in the other one must to be set as well.
+    if(!empty($data['closure_date']) && $data['closure_date'] != $nullDate && empty($data['closure_reason'])) {
+      $form->setFieldAttribute('closure_reason', 'required', 'true');
+    }
+
+    //Checks the other way around.
+    if(!empty($data['closure_reason']) && (empty($data['closure_date']) || $data['closure_date'] == $nullDate)) {
+      $form->setFieldAttribute('closure_date', 'required', 'true');
+    }
+
+    //In case of abandon the abandon_code field must be set.
+    if(!empty($data['closure_date']) && $data['closure_date'] != $nullDate &&
+       $data['closure_reason'] == 'abandon' && empty($data['abandon_code'])) {
+      $form->setFieldAttribute('abandon_code', 'required', 'true');
+    }
 
     return parent::validate($form, $data, $group);
+  }
+
+
+  /**
+   * Runs through all the current processes and checks mandatory fields according to the
+   * current state of the process.
+   *
+   * @param   integer $itemId The certificate id.
+   * @param   object  $form   The certificate form to validate against.
+   *
+   * @return  object  The certificate form possibly modified.
+   */
+  private function checkProcessFields($itemId, $form)
+  {
+    //Fetches all the processes linked to this certificate.
+    $processes = ProcessHelper::getProcesses($itemId, 'certificate');
+    $post = JFactory::getApplication()->input->post->getArray();
+    $nullDate = $this->getDbo()->getNullDate();
+
+    //Loops through the processes.
+    foreach($processes as $process) {
+      $idNb = $process->number;
+
+      //Checks that file_receiving_date and return_file_number are properly set. If one of these fields
+      //is filled in the other one must to be set as well.
+      if(!empty($post['file_receiving_date_'.$idNb]) && $post['file_receiving_date_'.$idNb] != $nullDate &&
+	  empty($post['return_file_number_'.$idNb])) {
+	//Inserts this process field as required into the certificate form. In doing so,
+	//a warning message is sent to the admin. 
+	$xmlstr = <<<XML
+		    <field name="return_file_number" type="text"
+			   label="COM_SNIPF_FIELD_RETURN_FILE_NUMBER_LABEL"
+			   description="COM_SNIPF_FIELD_RETURN_FILE_NUMBER_DESC"
+			   required="true" />
+XML;
+	$returnFileNumber = new SimpleXMLElement($xmlstr);
+	$form->setField($returnFileNumber);
+
+	return $form;
+      }
+
+      //Checks the other way around.
+      if((empty($post['file_receiving_date_'.$idNb]) || $post['file_receiving_date_'.$idNb] == $nullDate) &&
+	 !empty($post['return_file_number_'.$idNb])) {
+
+	$xmlstr = <<<XML
+		    <field name="file_receiving_date" type="calendar"
+			   label="COM_SNIPF_FIELD_FILE_RECEIVING_DATE_LABEL" 
+			   description="COM_SNIPF_FIELD_FILE_RECEIVING_DATE_DESC"
+			   translateformat="true"
+			   showtime="false"
+			   size="22"
+			   required="true" 
+			   filter="user_utc" />
+XML;
+	$fileReceivingDate = new SimpleXMLElement($xmlstr);
+	$form->setField($fileReceivingDate);
+
+	return $form;
+      }
+
+      //None of those fields are filled in.
+      if((empty($post['file_receiving_date_'.$idNb]) || $post['file_receiving_date_'.$idNb] == $nullDate) &&
+	 empty($post['return_file_number_'.$idNb])) {
+	//Reset the fields relating to the commission just in case.  
+	$db = $this->getDbo();
+	$query = $db->getQuery(true);
+
+	$set = array('commission_date='.$db->Quote($nullDate), 
+	             'outcome=""',
+		     'commission_derogation=""',
+		     'end_process='.$db->Quote($nullDate));
+
+	$query->update('#__snipf_process')
+	      ->set($set)
+	      ->where('item_id='.(int)$itemId)
+	      ->where('number='.(int)$idNb)
+	      ->where('item_type="certificate"');
+	$db->setQuery($query);
+	$db->execute();
+      }
+    }
+
+    return $form;
   }
 }
 
