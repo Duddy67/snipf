@@ -10,7 +10,6 @@ defined( '_JEXEC' ) or die; // No direct access
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-$currentProcess = $this->item->last_process_nb;
 ?>
 
 <script type="text/javascript">
@@ -18,7 +17,7 @@ $currentProcess = $this->item->last_process_nb;
 Joomla.submitbutton = function(task)
 {
   //Allows the last process's deletion without taking in account the required fields.
-  if(task == 'certificate.cancel' || task == 'certificate.process.delete.<?php echo $this->item->last_process_nb; ?>' 
+  if(task == 'certificate.cancel' || task == 'certificate.process.delete.<?php echo $this->item->nb_processes; ?>' 
      || document.formvalidator.isValid(document.getElementById('certificate-form'))) {
     Joomla.submitform(task, document.getElementById('certificate-form'));
   }
@@ -52,8 +51,8 @@ Joomla.submitbutton = function(task)
 
 		  //Fields relating to certificate closure are not shown if the very first
 		  //process (CI) is pending (or rejected/adjourned).
-		  if($this->item->id && $this->item->last_process_nb && ($this->item->last_process_nb > 1 ||
-		     $this->item->processes[0]->outcome == 'accepted')) {
+		  if($this->item->id && $this->item->nb_processes && ($this->item->nb_processes > 1 ||
+		     $this->item->processes[0]->outcome == 'accepted' || $this->item->processes[0]->outcome == 'rejected')) {
 		    echo $this->form->getControlGroup('closure_date');
 		    echo $this->form->getControlGroup('closure_reason');
 		    echo $this->form->getControlGroup('abandon_code');
@@ -95,7 +94,9 @@ Joomla.submitbutton = function(task)
   </div>
 
   <input type="hidden" name="task" value="" />
-  <input type="hidden" name="current_process" id="current-process" value="<?php echo $currentProcess; ?>" />
+  <input type="hidden" name="nb_processes" id="nb-processes" value="<?php echo $this->item->nb_processes; ?>" />
+  <input type="hidden" name="process_state" id="process-state" value="<?php echo $this->processState; ?>" />
+  <input type="hidden" name="person_status" id="person-status" value="<?php echo $this->item->person_status; ?>" />
 
   <?php //Sets the last action name (if any) regarding processes (ie: create or delete). 
 	if($action = JFactory::getApplication()->input->get('process', '', 'string')) : ?>
@@ -110,4 +111,5 @@ Joomla.submitbutton = function(task)
 $doc = JFactory::getDocument();
 //Load the jQuery script.
 $doc->addScript(JURI::base().'components/com_snipf/js/process.js');
+$doc->addScript(JURI::base().'components/com_snipf/js/certificate.js');
 

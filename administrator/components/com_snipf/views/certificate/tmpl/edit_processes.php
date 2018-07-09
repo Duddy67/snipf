@@ -26,6 +26,10 @@
 	    //Turns commission fields into hidden fields.
 	    echo '<input type="hidden" name="'.$name.'_'.$process->number.'" id="'.$name.'_'.$process->number.'" value="" />';
 	  }
+	  //Hides end_process and suspension_date as long as the outcome is not accepted.
+	  elseif($commission && $process->outcome != 'accepted' && ($name == 'end_process' || $name == 'suspension_date')) {
+	    echo '<input type="hidden" name="'.$name.'_'.$process->number.'" id="'.$name.'_'.$process->number.'" value="" />';
+	  }
 	  else {
 	    //Number the name and the id of the field for each process.
 	    $field->__set('name', $name.'_'.$process->number);
@@ -44,7 +48,7 @@
 	  }
 	}
 
-        if($this->item->last_process_nb == $process->number) : //Only the last process can be deleted. ?>
+        if($this->item->nb_processes == $process->number) : //Only the last process can be deleted. ?>
 	  <div>
 	    <a class="btn btn-warning" id="btn-delete-certificate-<?php echo $process->number; ?>" href="#">
 	    <?php echo JText::_('COM_SNIPF_DELETE_BUTTON'); ?></a>

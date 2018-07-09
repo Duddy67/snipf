@@ -21,7 +21,7 @@
 	  echo $field->getControlGroup();
 	}
 
-        if($this->item->last_process_nb == $process->number) : //Only the last process can be deleted. ?>
+        if($this->item->nb_processes == $process->number) : //Only the last process can be deleted. ?>
 	  <div id="btn-delete">
 	    <a class="btn btn-warning" id="btn-delete-subscription-<?php echo $process->number; ?>" href="#">
 	    <?php echo JText::_('COM_SNIPF_DELETE_BUTTON'); ?></a>

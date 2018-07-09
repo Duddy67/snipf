@@ -19,7 +19,8 @@ class SnipfViewCertificate extends JViewLegacy
   protected $item;
   protected $form;
   protected $state;
-  protected $nullDate;
+  public $nullDate;
+  public $processState;
 
   //Display the view.
   public function display($tpl = null)
@@ -28,6 +29,7 @@ class SnipfViewCertificate extends JViewLegacy
     $this->form = $this->get('Form');
     $this->state = $this->get('State');
     $this->nullDate = JFactory::getDbo()->getNullDate();
+    $this->processState = $this->setProcessState();
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
@@ -110,13 +112,13 @@ class SnipfViewCertificate extends JViewLegacy
       return false;
     }
 
-    $nbProcesses = ProcessHelper::getNbProcesses($this->item->id, 'certificate');
+    $nbProcesses = $this->item->nb_processes;
 
     if(!$nbProcesses) {
       return true;
     }
 
-    $lastProcess = ProcessHelper::getProcesses($this->item->id, 'certificate', $nbProcesses);
+    $lastProcess = $this->item->processes[$nbProcesses - 1];
 
     if($lastProcess->file_receiving_date == $db->getNullDate() ||
        empty($lastProcess->return_file_number) || $lastProcess->outcome != 'accepted') {
@@ -124,6 +126,34 @@ class SnipfViewCertificate extends JViewLegacy
     }
 
     return true;
+  }
+
+
+  protected function setProcessState() 
+  {
+    $nbProcesses = $this->item->nb_processes;
+
+    if(!$nbProcesses) {
+      return 'no_process';
+    }
+    elseif($this->item->closure_date != $this->nullDate) {
+      //The process's cycle is over.
+      return 'done';
+    }
+    elseif($nbProcesses == 1) {
+      return 'initial';
+    }
+    elseif($nbProcesses > 1) {
+      $lastProcess = $this->item->processes[$nbProcesses - 1];
+      if(!empty($lastProcess->file_receiving_date) && $lastProcess->file_receiving_date != $this->nullDate) {
+	//Only the last process is editable.
+	return 'current_active';
+      }
+      else {
+	//The 2 last processes must be editable.
+	return 'overlap';
+      }
+    }
   }
 
 

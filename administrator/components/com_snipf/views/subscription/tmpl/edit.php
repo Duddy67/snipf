@@ -10,7 +10,7 @@ defined( '_JEXEC' ) or die; // No direct access
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-$currentProcess = $this->item->last_process_nb;
+$currentProcess = $this->item->nb_processes;
 ?>
 
 <script type="text/javascript">

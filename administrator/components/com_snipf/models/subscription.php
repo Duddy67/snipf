@@ -65,10 +65,10 @@ class SnipfModelSubscription extends JModelAdmin
 
     //Adds the processes to the subscription object;
     $item->processes = ProcessHelper::getProcesses($item->id, 'subscription');
-    $item->last_process_nb = 0;
+    $item->nb_processes = 0;
 
     if(count($item->processes)) {
-      $item->last_process_nb = count($item->processes);
+      $item->nb_processes = count($item->processes);
     }
 
     return $item;

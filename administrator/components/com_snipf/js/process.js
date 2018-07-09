@@ -5,16 +5,16 @@
   $(window).load(function() {
 
     //var processAction = $('#process-action').val();
-    var currentProcess = $('#current-process').val();
-    $.fn.showCurrentProcessTab(currentProcess);
-    $.fn.setProcessState(currentProcess);
+    var nbProcesses = $('#nb-processes').val();
+    $.fn.showCurrentProcessTab(nbProcesses);
+    $.fn.setProcessState(nbProcesses);
 
     //Binds the deleting process link to a function.
     $('a[id^="btn-delete-"').click( function() { $.fn.warningMessage($(this)); });
   });
 
 
-  $.fn.showCurrentProcessTab = function(currentProcess) {
+  $.fn.showCurrentProcessTab = function(nbProcesses) {
     //By default in case no process exists.
     var hash = '#details';
 
@@ -22,17 +22,17 @@
       window.location.hash = $(this).attr('href');
     });
 
-    if(currentProcess) {
+    if(nbProcesses) {
       //Shows the current process's tab.
-      hash = '#process-'+currentProcess;
+      hash = '#process-'+nbProcesses;
     }
 
     $('[href="'+hash+'"]').trigger('click');
   };
 
 
-  $.fn.setProcessState = function(currentProcess) {
-    $('[href="#process-'+currentProcess+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
+  $.fn.setProcessState = function(nbProcesses) {
+    $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
   };
 
 
