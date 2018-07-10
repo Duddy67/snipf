@@ -138,11 +138,34 @@ class SnipfControllerCertificate extends JControllerForm
     //Creates a new process.
     else {
       ProcessHelper::createProcess($id, $this->context);
+      $this->setProcessName($id);
     }
 
     $this->setRedirect('index.php?option='.$this->option.'&view='.$this->context.'&layout=edit&id='.(int)$id.'&process='.$action);
 
     return true;
+  }
+
+
+  protected function setProcessName($itemId)
+  {
+    $nbProcesses = ProcessHelper::getNbProcesses($itemId, $this->context);
+    $name = JText::_('COM_SNIPF_INITIAL_CERTIFICATE');
+
+    if($nbProcesses > 1) {
+      $renewalNb = $nbProcesses - 1;
+      $name = JText::sprintf('COM_SNIPF_RENEWAL_NB_X', $renewalNb);
+    }
+
+    $db = JFactory::getDbo();
+    $query = $db->getQuery(true);
+    $query->update('#__snipf_process')
+	  ->set('name='.$db->Quote($name))
+	  ->where('item_id='.(int)$itemId)
+	  ->where('item_type='.$db->Quote($this->context))
+	  ->where('number='.(int)$nbProcesses);
+    $db->setQuery($query);
+    $db->execute();
   }
 }
 

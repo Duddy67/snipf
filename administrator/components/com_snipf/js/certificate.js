@@ -50,6 +50,30 @@
 	}
       }
     }
+  },
+
+  $.fn.setTabColors = function() {
+    //Gets needed variables.
+    var processState = $('#process-state').val();
+    var nbProcesses = $('#nb-processes').val();
+
+    if(!nbProcesses) {
+      return;
+    }
+
+  },
+
+  $.fn.checkFields = function() {
+    //Gets needed variables.
+    var processState = $('#process-state').val();
+    var nbProcesses = $('#nb-processes').val();
+
+    if(!nbProcesses) {
+      return;
+    }
+
+    var closureDate = $('#jform_closure_date').val();
+    var closureReason = $('#jform_closure_reason').val();
   };
 })(jQuery);
 
