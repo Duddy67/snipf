@@ -73,6 +73,7 @@
 	       description="COM_SNIPF_FIELD_CERTIFICATE_END_PROCESS_DESC"
 	       translateformat="true"
 	       showtime="false"
+	       readonly="true"
 	       size="22"
 	       filter="user_utc" />
 

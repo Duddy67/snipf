@@ -63,6 +63,7 @@ CREATE TABLE `#__snipf_certificate` (
   `closure_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `closure_reason` VARCHAR(20) NOT NULL ,
   `file_destruction_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `end_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `abandon_code` VARCHAR(10) NOT NULL ,
   `speciality_id` INT UNSIGNED NOT NULL ,
   `complement_1` VARCHAR(80) NOT NULL ,

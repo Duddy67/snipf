@@ -15,7 +15,7 @@
     var processState = $('#process-state').val();
     var nbProcesses = $('#nb-processes').val();
 
-    if(processState == 'no_process' || processState == 'initial') {
+    if(processState != 'done' && nbProcesses < 2) {
       return;
     }
 
@@ -26,14 +26,9 @@
                   'file_receiving_date', 'reminder_date', 'amount', 'commission_date', 'outcome',
 		  'commission_derogation', 'suspension_date', 'comments', 'created_by'];
 
-    if(processState == 'current_active') {
+    if(processState == 'running') {
       //Only the last process is editable.
       nbProcesses = nbProcesses - 1;
-    }
-
-    if(processState == 'overlap') {
-      //The 2 last processes are editable.
-      nbProcesses = nbProcesses - 2;
     }
 
     //Note: In case of "done" state, all process's fields have to be disabled. 

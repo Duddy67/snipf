@@ -11,6 +11,7 @@ defined('_JEXEC') or die('Restricted access');
  
 // import Joomla table library
 jimport('joomla.database.table');
+require_once JPATH_COMPONENT.'/helpers/process.php';
  
 /**
  * Certificate table class

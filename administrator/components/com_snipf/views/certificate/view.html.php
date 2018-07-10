@@ -144,10 +144,11 @@ class SnipfViewCertificate extends JViewLegacy
       return 'initial';
     }
     elseif($nbProcesses > 1) {
+	return 'running';
       $lastProcess = $this->item->processes[$nbProcesses - 1];
       if(!empty($lastProcess->file_receiving_date) && $lastProcess->file_receiving_date != $this->nullDate) {
 	//Only the last process is editable.
-	return 'current_active';
+	return 'running';
       }
       else {
 	//The 2 last processes must be editable.

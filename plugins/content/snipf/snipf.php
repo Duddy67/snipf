@@ -138,9 +138,12 @@ class plgContentSnipf extends JPlugin
 
       SnipfHelper::updateMappingTable('#__snipf_sripf', $columns, $values, array($data->id));
     }
-    elseif($context == 'com_snipf.certificate' && !$isNew) { 
+    elseif($context == 'com_snipf.certificate' && !$isNew) { //CERTIFICATE
       $filteredData = $this->filterDateFields('certificate_process', 'process');
       ProcessHelper::saveProcess($filteredData);
+
+      $model = JModelLegacy::getInstance('Certificate', 'SnipfModel');
+      $model->setEndDate($data->id);
     }
     elseif($context == 'com_snipf.subscription' && !$isNew) { 
       $filteredData = $this->filterDateFields('subscription_process', 'process');

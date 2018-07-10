@@ -104,7 +104,7 @@ class ProcessHelper
     $itemType = $data['jform']['item_type'];
     $nbProcesses = self::getNbProcesses($itemId, $itemType);
 
-    //If no processes are linked to the certificate there is no need to go further.
+    //If no processes are linked to the item there is no need to go further.
     if(!$nbProcesses) {
       return;
     }

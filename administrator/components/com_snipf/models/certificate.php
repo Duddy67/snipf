@@ -124,6 +124,58 @@ class SnipfModelCertificate extends JModelAdmin
   }
 
 
+  public function setEndDate($itemId)
+  {
+    $processes = ProcessHelper::getProcesses($itemId, 'certificate');
+    $db = $this->getDbo();
+
+    if(!$nbProcesses = count($processes)) {
+      return;
+    }
+
+    $lastProcess = $processes[$nbProcesses - 1];
+
+    if($lastProcess->outcome == 'accepted') {
+      //Computes the end process date (ie: fin de validité du certificat). 
+      $date = new DateTime($lastProcess->commission_date);
+      //Adds 3 years from the commission date.
+      $date->add(new DateInterval('P3Y'));
+      //Sets to the last day of the month.
+      $endDate = $endProcess = $date->format('Y-m-t H:i:s');
+    }
+    //The last process is not accepted, so we rely on the penultimate process to get the
+    //end date.
+    elseif($nbProcesses > 1) {
+      $penultimateProcess = $processes[$nbProcesses - 2];
+      $endDate = $penultimateProcess->end_process;
+      //Sets the last process end date to nulldate just in case.
+      $endProcess = $db->getNullDate();
+    }
+    //There's only one process and it's not accepted.
+    else {
+      $endDate = $endProcess = $db->getNullDate();
+    }
+
+    //Update the last process end date.
+    $query = $db->getQuery(true);
+    $query->update('#__snipf_process')
+	  ->set('end_process='.$db->Quote($endProcess))
+	  ->where('item_id='.(int)$itemId)
+	  ->where('item_type="certificate"')
+	  ->where('number='.(int)$nbProcesses);
+    $db->setQuery($query);
+    $db->execute();
+
+    //Update the certificate end date.
+    $query->clear();
+    $query->update('#__snipf_certificate')
+	  ->set('end_date='.$db->Quote($endDate))
+	  ->where('id='.(int)$itemId);
+    $db->setQuery($query);
+    $db->execute();
+  }
+
+
   /**
    * Runs through all the current processes and checks mandatory fields according to the
    * current state of the process.
