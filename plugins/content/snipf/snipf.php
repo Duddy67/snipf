@@ -143,7 +143,7 @@ class plgContentSnipf extends JPlugin
       ProcessHelper::saveProcess($filteredData);
 
       $model = JModelLegacy::getInstance('Certificate', 'SnipfModel');
-      $model->setEndDate($data->id);
+      $model->setEndDates($data);
     }
     elseif($context == 'com_snipf.subscription' && !$isNew) { 
       $filteredData = $this->filterDateFields('subscription_process', 'process');

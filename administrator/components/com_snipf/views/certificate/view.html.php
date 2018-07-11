@@ -12,6 +12,7 @@ defined( '_JEXEC' ) or die; // No direct access
 jimport( 'joomla.application.component.view');
 require_once JPATH_COMPONENT.'/helpers/snipf.php';
 require_once JPATH_COMPONENT.'/helpers/process.php';
+require_once JPATH_COMPONENT.'/helpers/javascript.php';
  
 
 class SnipfViewCertificate extends JViewLegacy
@@ -42,6 +43,7 @@ class SnipfViewCertificate extends JViewLegacy
     $this->processForm->loadFile('components/com_snipf/models/forms/certificate_process.xml');
 
     JText::script('COM_SNIPF_WARNING_DELETE_PROCESS'); 
+    JavascriptHelper::loadJavascriptTexts();
 
     //Display the toolbar.
     $this->addToolBar();
@@ -136,24 +138,54 @@ class SnipfViewCertificate extends JViewLegacy
     if(!$nbProcesses) {
       return 'no_process';
     }
-    elseif($this->item->closure_date != $this->nullDate) {
+
+    if($this->item->closure_date != $this->nullDate) {
       //The process's cycle is over.
       return 'done';
     }
-    elseif($nbProcesses == 1) {
-      return 'initial';
+
+    $lastProcess = $this->item->processes[$nbProcesses - 1];
+    $now = JFactory::getDate()->toSql();
+    //Gets the penultimate process if any.
+    $penultimateProcess = null;
+    if($nbProcesses > 1) {
+      $penultimateProcess = $this->item->processes[$nbProcesses - 2];
     }
-    elseif($nbProcesses > 1) {
-	return 'running';
-      $lastProcess = $this->item->processes[$nbProcesses - 1];
-      if(!empty($lastProcess->file_receiving_date) && $lastProcess->file_receiving_date != $this->nullDate) {
-	//Only the last process is editable.
+
+    if(!empty($lastProcess->file_receiving_date) && $lastProcess->file_receiving_date != $this->nullDate) {
+      //
+      if(empty($lastProcess->commission_date) || $lastProcess->commission_date == $this->nullDate) {
+	//The file_receiving_date and return_file_number have just been filled in and
+	//saved. The admin must now set the commission_date field.
+	//This is a transitory state.
+	return 'commission_pending';
+      }
+      elseif($lastProcess->outcome == 'pending' || $lastProcess->outcome == 'adjourned') {
+	if($penultimateProcess && $now > $penultimateProcess->end_process) {
+	  return 'overlap';
+	}
+
+	return 'commission_pending';
+      }
+      elseif($lastProcess->outcome == 'accepted') {
 	return 'running';
       }
-      else {
-	//The 2 last processes must be editable.
-	return 'overlap';
+      //For whatever reason there's no ask for renewal and the current process came to an end. 
+      elseif($lastProcess->outcome == 'accepted' && $now > $lastProcess->end_process) {
+	return 'current_outdated';
       }
+    }
+    else {
+      //
+      if($nbProcesses == 1) {
+	return 'initial_pending';
+      }
+
+      if($penultimateProcess && $now > $penultimateProcess->end_process) {
+	return 'outdated';
+      }
+
+      return 'file_pending';
     }
   }
 

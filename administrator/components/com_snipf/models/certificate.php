@@ -124,9 +124,9 @@ class SnipfModelCertificate extends JModelAdmin
   }
 
 
-  public function setEndDate($itemId)
+  public function setEndDates($item)
   {
-    $processes = ProcessHelper::getProcesses($itemId, 'certificate');
+    $processes = ProcessHelper::getProcesses($item->id, 'certificate');
     $db = $this->getDbo();
 
     if(!$nbProcesses = count($processes)) {
@@ -160,7 +160,7 @@ class SnipfModelCertificate extends JModelAdmin
     $query = $db->getQuery(true);
     $query->update('#__snipf_process')
 	  ->set('end_process='.$db->Quote($endProcess))
-	  ->where('item_id='.(int)$itemId)
+	  ->where('item_id='.(int)$item->id)
 	  ->where('item_type="certificate"')
 	  ->where('number='.(int)$nbProcesses);
     $db->setQuery($query);
@@ -170,9 +170,21 @@ class SnipfModelCertificate extends JModelAdmin
     $query->clear();
     $query->update('#__snipf_certificate')
 	  ->set('end_date='.$db->Quote($endDate))
-	  ->where('id='.(int)$itemId);
+	  ->where('id='.(int)$item->id);
     $db->setQuery($query);
     $db->execute();
+
+    if($lastProcess->outcome == 'rejected' && $item->closure_date == $db->getNullDate()) {
+      $now = JFactory::getDate()->toSql();
+      $set = array('closure_date='.$db->Quote($now), 'closure_reason="rejected_file"');
+
+      $query->clear();
+      $query->update('#__snipf_certificate')
+	    ->set($set)
+	    ->where('id='.(int)$item->id);
+      $db->setQuery($query);
+      $db->execute();
+    }
   }
 
 

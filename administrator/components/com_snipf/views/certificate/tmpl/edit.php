@@ -14,8 +14,16 @@ JHtml::_('formbehavior.chosen', 'select');
 
 <script type="text/javascript">
 
+//Global variable. It will be set as function in the js file.
+var checkFields;
+
 Joomla.submitbutton = function(task)
 {
+  //Checks the process's fields are properly set.
+  if(task != 'certificate.cancel' && !checkFields()) {
+    return false;
+  }
+
   //Allows the last process's deletion without taking in account the required fields.
   if(task == 'certificate.cancel' || task == 'certificate.process.delete.<?php echo $this->item->nb_processes; ?>' 
      || document.formvalidator.isValid(document.getElementById('certificate-form'))) {
