@@ -58,7 +58,7 @@ Joomla.submitbutton = function(task)
 		  echo $this->form->getControlGroup('person_id');
 
 		  //Fields relating to certificate closure are not shown if the very first
-		  //process (CI) is pending (or rejected/adjourned).
+		  //process (CI) is pending or adjourned.
 		  if($this->item->id && $this->item->nb_processes && ($this->item->nb_processes > 1 ||
 		     $this->item->processes[0]->outcome == 'accepted' || $this->item->processes[0]->outcome == 'rejected')) {
 		    echo $this->form->getControlGroup('closure_date');
@@ -73,12 +73,15 @@ Joomla.submitbutton = function(task)
 	  <div class="form-vertical">
 	  <?php echo JLayoutHelper::render('joomla.edit.global', $this); 
 
+	      //Those fields are only available once the file is accepted.
+	      if($this->item->id && ($this->item->nb_processes > 1 || $this->item->processes[0]->outcome == 'accepted')) {
 		echo $this->form->getControlGroup('bit_number_1988');
 		echo $this->form->getControlGroup('bit_number_2008');
 		echo $this->form->getControlGroup('speciality_id');
 		echo $this->form->getControlGroup('complement_1');
 		echo $this->form->getControlGroup('complement_2');
 		echo $this->form->getControlGroup('comments');
+	      }
 	  ?>
 	</div>
 	</div>

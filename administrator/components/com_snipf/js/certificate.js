@@ -26,19 +26,26 @@
 
     // Disables fields. 
 
-    //Fields that have to be disabled.
+    //process fields that have to be disabled.
     var fields = ['starting_file_number', 'start_process', 'end_process', 'return_file_number', 
                   'file_receiving_date', 'reminder_date', 'amount', 'commission_date', 'outcome',
 		  'commission_derogation', 'suspension_date', 'comments', 'created_by'];
 
     if(processState != 'done') {
+      //These options are only available through the person status. 
+      $('#jform_closure_reason option[value="retired"]').attr('disabled', 'disabled');
+      $('#jform_closure_reason option[value="deceased"]').attr('disabled', 'disabled');
+      $('#jform_closure_reason').trigger('liszt:updated');
+      $('#outcome_'+nbProcesses+' option[value="canceled"]').attr('disabled', 'disabled');
+      $('#outcome_'+nbProcesses).trigger('liszt:updated');
+
       //Only the last process is editable.
       nbProcesses = nbProcesses - 1;
     }
 
     //Note: In case of "done" state, all process's fields have to be disabled. 
 
-    //Disables fields.
+    //Disables process fields.
     for(var i = 0; i < nbProcesses; i++) {
       var idNb = i + 1;
       for(var j = 0; j < fields.length; j++) {
@@ -56,10 +63,26 @@
       }
     }
 
-    //These options are only available through the person status. 
-    $('#jform_closure_reason option[value="retired"]').attr('disabled', 'disabled');
-    $('#jform_closure_reason option[value="deceased"]').attr('disabled', 'disabled');
-    $('#jform_closure_reason').trigger('liszt:updated');
+    if(processState == 'done') {
+      //certificate fields that have to be disabled.
+      fields = ['jform_number', 'jform_closure_date', 'jform_closure_reason', 'jform_abandon_code', 
+		'jform_file_destruction_date', 'jform_bit_number_1988', 'jform_bit_number_2008',
+		'jform_speciality_id', 'jform_complement_1', 'jform_complement_2', 'jform_comments'];
+
+      for(var i = 0; i < fields.length; i++) {
+	if($('#'+fields[i]).prop('tagName') == 'SELECT') {
+	  $('#'+fields[i]).prop('disabled', true);
+	  $('#'+fields[i]).trigger('liszt:updated');
+	}
+	else { //INPUT
+	  $('#'+fields[i]).prop('readonly', true);
+	  $('#'+fields[i]).addClass('readonly');
+	  //Removes the calendar button and reshapes its input border.
+	  $('button[id="'+fields[i]+'_btn"]').css({'visibility':'hidden','display':'none'});
+	  $('#'+fields[i]).css({'border-radius':'2px'});
+	}
+      }
+    }
   },
 
   $.fn.setTabColors = function() {
@@ -92,11 +115,13 @@
     penultimateProcessNb = nbProcesses - 1;
 
     switch(processState) {
-      case 'commission_pending': //orange
+      case 'commission_pending': //green and orange
+	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
 	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ff9933', 'color': 'white'});
 	break;
 
-      case 'file_pending': //brown
+      case 'file_pending': //green and brown
+	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
 	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#cc9900', 'color': 'white'});
 	break;
 
@@ -118,7 +143,7 @@
 	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
 	break;
 
-      default: //grey - initial_pending
+      default: //grey - initial_pending, transitory_pending
 	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
     }
   },
@@ -139,6 +164,7 @@
     var abandonCode = $('#jform_abandon_code').val();
     var fileReceivingDate = $('#file_receiving_date_'+nbProcesses).val();
     var returnFileNumber = $('#return_file_number_'+nbProcesses).val();
+    var outcome = $('#outcome_'+nbProcesses).val();
 
     //Checks that closure_date and closure_reason are properly set. If one of these fields
     //is filled in the other one must to be set as well.
@@ -182,6 +208,16 @@
       $('#'+id).addClass('invalid');
 
       return false
+    }
+
+    //Handles the rejected file case.
+    if(outcome == 'rejected' && (closureDate == '' || closureDate == nullDate)) {
+      if(confirm(Joomla.JText._('COM_SNIPF_WARNING_REJECTED_FILE_CASE'))) {
+	return true;
+      }
+      else {
+	return false
+      }
     }
 
     return true;

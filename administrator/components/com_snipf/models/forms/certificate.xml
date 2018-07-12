@@ -31,7 +31,7 @@
 	       label="COM_SNIPF_FIELD_CLOSURE_REASON_LABEL"
 	       description="COM_SNIPF_FIELD_CLOSURE_REASON_DESC">
 	       <option value="">COM_SNIPF_OPTION_SELECT</option>
-	       <option value="file_not_returned">COM_SNIPF_OPTION_FILE_NOT_RETURNED</option>
+	       <option value="removal">COM_SNIPF_OPTION_REMOVAL</option>
 	       <option value="rejected_file">COM_SNIPF_OPTION_REJECTED_FILE</option>
 	       <option value="abandon">COM_SNIPF_OPTION_ABANDON</option>
 	       <option value="retired">COM_SNIPF_OPTION_RETIRED</option>

@@ -124,15 +124,23 @@ class SnipfModelCertificate extends JModelAdmin
   }
 
 
+  /**
+   * Sets the last process end date as well as the certificate end date according to the
+   * state of the processes.
+   *
+   * @param   object  $item  The certificate object.
+   *
+   * @return  void
+   */
   public function setEndDates($item)
   {
     $processes = ProcessHelper::getProcesses($item->id, 'certificate');
-    $db = $this->getDbo();
 
     if(!$nbProcesses = count($processes)) {
       return;
     }
 
+    $db = $this->getDbo();
     $lastProcess = $processes[$nbProcesses - 1];
 
     if($lastProcess->outcome == 'accepted') {
@@ -174,9 +182,27 @@ class SnipfModelCertificate extends JModelAdmin
     $db->setQuery($query);
     $db->execute();
 
-    if($lastProcess->outcome == 'rejected' && $item->closure_date == $db->getNullDate()) {
-      $now = JFactory::getDate()->toSql();
-      $set = array('closure_date='.$db->Quote($now), 'closure_reason="rejected_file"');
+    //In case of rejected file, ensure the closure_reason and closure_date fields are properly set.
+    if($lastProcess->outcome == 'rejected') {
+
+      //The end date of the last process corresponds to the commission date.
+      $query->clear();
+      $query->update('#__snipf_process')
+	    ->set('end_process='.$db->Quote($lastProcess->commission_date))
+	    ->where('item_id='.(int)$item->id)
+	    ->where('item_type="certificate"')
+	    ->where('number='.(int)$nbProcesses);
+      $db->setQuery($query);
+      $db->execute();
+
+      //The closure date corresponds to the commission date as well.
+      $set = array('closure_date='.$db->Quote($lastProcess->commission_date),
+		   'closure_reason="rejected_file"');
+
+      //In case of initial process (no certificate was ever created).
+      if($nbProcesses == 1) {
+	$set[] = 'number='.$db->Quote(JText::_('COM_SNIPF_OPTION_REJECTED_FILE'));
+      }
 
       $query->clear();
       $query->update('#__snipf_certificate')

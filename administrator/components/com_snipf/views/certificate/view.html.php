@@ -158,7 +158,7 @@ class SnipfViewCertificate extends JViewLegacy
 	//The file_receiving_date and return_file_number have just been filled in and
 	//saved. The admin must now set the commission_date field.
 	//This is a transitory state.
-	return 'commission_pending';
+	return 'transitory_pending';
       }
       elseif($lastProcess->outcome == 'pending' || $lastProcess->outcome == 'adjourned') {
 	if($penultimateProcess && $now > $penultimateProcess->end_process) {
@@ -167,12 +167,12 @@ class SnipfViewCertificate extends JViewLegacy
 
 	return 'commission_pending';
       }
-      elseif($lastProcess->outcome == 'accepted') {
-	return 'running';
-      }
       //For whatever reason there's no ask for renewal and the current process came to an end. 
       elseif($lastProcess->outcome == 'accepted' && $now > $lastProcess->end_process) {
 	return 'current_outdated';
+      }
+      elseif($lastProcess->outcome == 'accepted') {
+	return 'running';
       }
     }
     else {
