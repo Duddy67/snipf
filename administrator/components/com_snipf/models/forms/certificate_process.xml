@@ -78,13 +78,13 @@
 	       size="22"
 	       filter="user_utc" />
 
-	<field name="suspension_date" type="calendar"
+	<!--<field name="suspension_date" type="calendar"
 	       label="COM_SNIPF_FIELD_SUSPENSION_DATE_LABEL" 
 	       description="COM_SNIPF_FIELD_SUSPENSION_DATE_DESC"
 	       translateformat="true"
 	       showtime="false"
 	       size="22"
-	       filter="user_utc" />
+	       filter="user_utc" />-->
 
 	<field name="comments" type="textarea"
 		label="COM_SNIPF_FIELD_COMMENTS_LABEL"

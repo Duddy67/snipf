@@ -56,10 +56,10 @@ Joomla.submitbutton = function(task)
 	  <div class="form-vertical">
 	    <?php
 		  echo $this->form->getControlGroup('person_id');
-		  //Fields relating to certificate closure are not shown if the very first
-		  //process (CI) is pending or adjourned.
-		  if($this->item->id && $this->item->nb_processes && ($this->item->nb_processes > 1 ||
-		     $this->item->processes[0]->outcome == 'accepted' || $this->item->processes[0]->outcome == 'rejected')) {
+		  $states = array('done', 'outdated', 'running', 'current_outdated', 'file_pending');
+		  //Shows or hides the fields relating to the certificate closure according
+		  //to the process state.
+		  if($this->item->id && in_array($this->processState, $states)) {
 		    echo $this->form->getControlGroup('closure_date');
 		    echo $this->form->getControlGroup('closure_reason');
 		    echo $this->form->getControlGroup('abandon_code');
