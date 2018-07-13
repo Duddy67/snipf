@@ -20,7 +20,7 @@
     var nbProcesses = $('#nb-processes').val();
 
     //A single process (ie: CI) can be in readonly mode only if the process state is done.  
-    if(processState != 'done' && nbProcesses < 2) {
+    if(!nbProcesses) {
       return;
     }
 

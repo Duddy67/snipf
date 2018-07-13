@@ -129,6 +129,7 @@ class SnipfControllerCertificate extends JControllerForm
       $methodName = $action.'Process';
       //Calls the method.
       ProcessHelper::$methodName($id, $this->context, $processNb);
+      //TODO: setEndDates() in case of deleting process.
     }
     //A process has already been created but has not been saved yet. A new process cannot
     //be currently created.
