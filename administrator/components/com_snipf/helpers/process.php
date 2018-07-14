@@ -242,11 +242,18 @@ class ProcessHelper
     $now = JFactory::getDate()->toSql();
     $user = JFactory::getUser();
     //These fields are not to be compared.
-    $ignoredFields = array('modified', 'modified_by', 'number');
+    $ignoredFields = array('modified', 'modified_by', 'number', 'end_process');
+    $dateFields = array('reminder_date', 'file_receiving_date');
 
     //Starts comparison between old and new process values.
     foreach($oldProcesses as $key => $oldProcesse) {
       foreach($oldProcesse as $fieldName => $value) {
+	//In case of empty date field, set the value to null date or comparison with the
+	//old value will be distorted.
+	if(in_array($fieldName, $dateFields) && empty($newProcesses[$key][$fieldName])) {
+	  $newProcesses[$key][$fieldName] = $db->getNullDate();
+	}
+
 	//Checks if the field value has changed since the last saving.
 	if(!in_array($fieldName, $ignoredFields) && strcmp($newProcesses[$key][$fieldName], $value) !== 0) {
 	  //Sets the modifying parameters.

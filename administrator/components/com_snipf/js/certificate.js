@@ -50,8 +50,12 @@
       var idNb = i + 1;
       for(var j = 0; j < fields.length; j++) {
 	if($('#'+fields[j]+'_'+idNb).prop('tagName') == 'SELECT') {
+	  //Note: The value of a disabled drop down list is not sent by the form.
 	  $('#'+fields[j]+'_'+idNb).prop('disabled', true);
 	  $('#'+fields[j]+'_'+idNb).trigger('liszt:updated');
+
+	  //The field value is needed later on for comparison. 
+	  $('#'+fields[j]+'_'+idNb).after('<input type="hidden" name="'+fields[j]+'_'+idNb+'" value="'+$('#'+fields[j]+'_'+idNb).val()+'">');
 	}
 	else { //INPUT
 	  $('#'+fields[j]+'_'+idNb).prop('readonly', true);
@@ -71,7 +75,10 @@
 
       for(var i = 0; i < fields.length; i++) {
 	if($('#'+fields[i]).prop('tagName') == 'SELECT') {
+	  //Note: The value of a disabled drop down list is not sent by the form.
 	  $('#'+fields[i]).prop('disabled', true);
+	  //Another approach is to disable all the options but the selected one.
+	  //$('#'+fields[i]+' option:not(:selected)').prop('disabled', true);
 	  $('#'+fields[i]).trigger('liszt:updated');
 	}
 	else { //INPUT
@@ -82,6 +89,10 @@
 	  $('#'+fields[i]).css({'border-radius':'2px'});
 	}
       }
+
+      //Important: A hidden field is needed to send the closure_reason value or a warning
+      //will be sent from the validate model method.  
+      $('#jform_closure_reason').after('<input type="hidden" name="jform[closure_reason]" value="'+$('#jform_closure_reason').val()+'">');  
     }
   },
 
