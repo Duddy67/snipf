@@ -74,8 +74,8 @@ class ProcessHelper
     $db = JFactory::getDbo();
     $query = $db->getQuery(true);
 
-    $columns = array('item_id', 'item_type', 'number', 'name', 'created', 'created_by', 'start_process');
-    $values = $itemId.','.$db->Quote($itemType).','.$processNb.','.$db->Quote($name).','.$db->Quote($now).','.$user->get('id').','.$db->Quote($now);
+    $columns = array('item_id', 'item_type', 'number', 'name', 'created', 'created_by', 'start_process', 'is_last');
+    $values = $itemId.','.$db->Quote($itemType).','.$processNb.','.$db->Quote($name).','.$db->Quote($now).','.$user->get('id').','.$db->Quote($now).',1';
 
     //Creates the new process.
     $query->insert('#__snipf_process')
@@ -90,6 +90,8 @@ class ProcessHelper
       JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_SNIPF_CANNOT_CREATE_PROCESS', $e->getMessage()), 'error');
       return false;
     }
+
+    self::setIsLast($itemId, $itemType, $processNb);
 
     JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_PROCESS_CREATED_SUCCESSFULLY'), 'message');
 
@@ -196,6 +198,8 @@ class ProcessHelper
       return false;
     }
 
+    self::setIsLast($itemId, $itemType, $processNb, 'delete');
+
     JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_PROCESS_DELETED_SUCCESSFULLY'), 'message');
 
     return true;
@@ -269,13 +273,44 @@ class ProcessHelper
   }
 
 
-  public static function setProcessName($itemId, $itemType) 
+  /**
+   * Sets the is_last flag value for a set of processes according to the action performed.
+   *
+   * @param   integer   $itemId		The id of the item to which the processes are linked to.
+   * @param   string	$itemType	The item type.
+   * @param   integer	$processNb	The number of the current last process.
+   * @param   sring	$action		The action performed on the set of processes. 
+   *
+   * @return  void
+   *
+   */
+  public static function setIsLast($itemId, $itemType, $processNb, $action = 'create')
   {
-  }
+    //No need to go further.
+    if($processNb == 1) {
+      return;
+    }
 
+    //Gets the last or penultimate process number (according to the action).
+    $processNb = $processNb - 1;
 
-  public static function checkRequiredFields($itemId, $itemType) 
-  {
+    //The current last process becomes the penultimate process in case of process creation.
+    $isLast = 0;
+
+    if($action == 'delete') {
+      //The penultimate process becomes the last process in case of deletion.
+      $isLast = 1;
+    }
+
+    $db = JFactory::getDbo();
+    $query = $db->getQuery(true);
+    $query->update('#__snipf_process')
+	  ->set('is_last='.(int)$isLast)
+	  ->where('item_id='.(int)$itemId)
+	  ->where('item_type='.$db->Quote($itemType))
+	  ->where('number='.(int)$processNb);
+    $db->setQuery($query);
+    $db->execute();
   }
 }
 

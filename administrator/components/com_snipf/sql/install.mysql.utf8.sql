@@ -123,6 +123,7 @@ CREATE TABLE `#__snipf_process` (
   `outcome` VARCHAR(10) NOT NULL ,
   `commission_derogation` VARCHAR(80) NOT NULL ,
   `year` CHAR(4) NULL ,
+  `is_last` TINYINT(1) NOT NULL DEFAULT 0 ,
   `created_by` INT UNSIGNED NOT NULL ,
   `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `modified` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,

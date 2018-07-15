@@ -128,19 +128,27 @@ class SnipfModelCertificate extends JModelAdmin
    * Sets the last process end date as well as the certificate end date according to the
    * state of the processes.
    *
-   * @param   object  $item  The certificate object.
+   * @param   integer   $itemId  The certificate id.
    *
    * @return  void
    */
-  public function setEndDates($item)
+  public function setEndDates($itemId)
   {
-    $processes = ProcessHelper::getProcesses($item->id, 'certificate');
+    $processes = ProcessHelper::getProcesses($itemId, 'certificate');
+    $db = $this->getDbo();
+    $query = $db->getQuery(true);
 
     if(!$nbProcesses = count($processes)) {
+      //Reset the certificate end date in case the last process has been deleted.
+      $query->update('#__snipf_certificate')
+	    ->set('end_date='.$db->Quote($db->getNullDate()))
+	    ->where('id='.(int)$itemId);
+      $db->setQuery($query);
+      $db->execute();
+
       return;
     }
 
-    $db = $this->getDbo();
     $lastProcess = $processes[$nbProcesses - 1];
 
     if($lastProcess->outcome == 'accepted') {
@@ -165,10 +173,9 @@ class SnipfModelCertificate extends JModelAdmin
     }
 
     //Update the last process end date.
-    $query = $db->getQuery(true);
     $query->update('#__snipf_process')
 	  ->set('end_process='.$db->Quote($endProcess))
-	  ->where('item_id='.(int)$item->id)
+	  ->where('item_id='.(int)$itemId)
 	  ->where('item_type="certificate"')
 	  ->where('number='.(int)$nbProcesses);
     $db->setQuery($query);
@@ -178,7 +185,7 @@ class SnipfModelCertificate extends JModelAdmin
     $query->clear();
     $query->update('#__snipf_certificate')
 	  ->set('end_date='.$db->Quote($endDate))
-	  ->where('id='.(int)$item->id);
+	  ->where('id='.(int)$itemId);
     $db->setQuery($query);
     $db->execute();
 
@@ -189,7 +196,7 @@ class SnipfModelCertificate extends JModelAdmin
       $query->clear();
       $query->update('#__snipf_process')
 	    ->set('end_process='.$db->Quote($lastProcess->commission_date))
-	    ->where('item_id='.(int)$item->id)
+	    ->where('item_id='.(int)$itemId)
 	    ->where('item_type="certificate"')
 	    ->where('number='.(int)$nbProcesses);
       $db->setQuery($query);
@@ -207,7 +214,7 @@ class SnipfModelCertificate extends JModelAdmin
       $query->clear();
       $query->update('#__snipf_certificate')
 	    ->set($set)
-	    ->where('id='.(int)$item->id);
+	    ->where('id='.(int)$itemId);
       $db->setQuery($query);
       $db->execute();
     }
