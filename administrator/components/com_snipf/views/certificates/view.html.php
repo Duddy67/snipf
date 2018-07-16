@@ -17,6 +17,8 @@ class SnipfViewCertificates extends JViewLegacy
   protected $items;
   protected $state;
   protected $pagination;
+  public $nullDate;
+  public $now;
 
   //Display the view.
   public function display($tpl = null)
@@ -26,12 +28,19 @@ class SnipfViewCertificates extends JViewLegacy
     $this->pagination = $this->get('Pagination');
     $this->filterForm = $this->get('FilterForm');
     $this->activeFilters = $this->get('ActiveFilters');
+    $this->nullDate = JFactory::getDbo()->getNullDate();
+    $this->now = JFactory::getDate()->toSql();
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
       JError::raiseError(500, implode('<br />', $errors));
       return false;
     }
+
+    $this->setProcessState();
+//echo '<pre>';
+//var_dump($this->items);
+//echo '</pre>';
 
     //Display the tool bar.
     $this->addToolBar();
@@ -83,6 +92,74 @@ class SnipfViewCertificates extends JViewLegacy
     if($canDo->get('core.admin')) {
       JToolBarHelper::divider();
       JToolBarHelper::preferences('com_snipf', 550);
+    }
+  }
+
+
+  protected function setProcessState() 
+  {
+    foreach($this->items as $key => $item) {
+      if($item->process_nb === null) {
+	$item->process_states = array('no_process');
+      }
+      else {
+	//Starts with the pending state of the initial process (ie: CI).
+	if($item->end_date == $this->nullDate && empty($item->return_file_number) && $item->process_nb == 1) {
+	  $item->process_states = array('initial_pending');
+	}
+	elseif($item->end_date == $this->nullDate && !empty($item->return_file_number) && $item->process_nb == 1) {
+	  $item->process_states = array('commission_pending');
+	}
+	elseif(empty($item->closure_reason)) {
+	  if($item->end_date > $this->now) {
+
+	    if(!empty($item->return_file_number) && $item->outcome == 'accepted') {
+	      $item->process_states = array('running');
+	    }
+	    elseif(!empty($item->return_file_number) && $item->outcome != 'accepted') { //pending, adjourned, canceled
+	      $item->process_states = array('running', 'commission_pending');
+	    }
+	    elseif(empty($item->return_file_number)) {
+	      $item->process_states = array('running', 'file_pending');
+	    }
+	  }
+	  else { //Certificate validity is outdated.
+	    if(!empty($item->return_file_number) && $item->outcome == 'accepted') {
+	      $item->process_states = array('outdated');
+	    }
+	    elseif(!empty($item->return_file_number) && $item->outcome != 'accepted') { //pending, adjourned, canceled
+	      $item->process_states = array('outdated', 'commission_pending');
+	    }
+	    elseif(empty($item->return_file_number)) {
+	      $item->process_states = array('outdated', 'file_pending');
+	    }
+	  }
+	}
+	else { //The certificate process is closed.
+	  $item->process_states = array($item->closure_reason);
+	}
+
+	//
+	if($item->process_nb == 1) {
+	  $item->process_names = array(JText::_('COM_SNIPF_INITIAL_CERTIFICATE'));
+	}
+	elseif($item->process_nb == 2) {
+	  $item->process_names = array(JText::sprintf('COM_SNIPF_RENEWAL_NB_X', 1));
+
+	  if(count($item->process_states) == 2) {
+	    $item->process_names[] = JText::_('COM_SNIPF_INITIAL_CERTIFICATE');
+	  }
+	}
+	else {
+	  $current = $item->process_nb - 1;
+	  $item->process_names = array(JText::sprintf('COM_SNIPF_RENEWAL_NB_X', $current));
+
+	  if(count($item->process_states) == 2) {
+	    $previous = $item->process_nb - 2;
+	    $item->process_names[] = JText::sprintf('COM_SNIPF_RENEWAL_NB_X', $previous);
+	  }
+	}
+      }
     }
   }
 

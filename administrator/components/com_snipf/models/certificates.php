@@ -20,8 +20,10 @@ class SnipfModelCertificates extends JModelList
       $config['filter_fields'] = array(
 	      'id', 'c.id',
 	      'number', 'c.number',
+	      'pr.number', 'process_nb',
 	      'lastname', 'p.lastname',
 	      'firstname', 'p.firstname',
+	      'end_date', 'c.end_date',
 	      'created', 'c.created',
 	      'created_by', 'c.created_by',
 	      'published', 'c.published',
@@ -77,7 +79,7 @@ class SnipfModelCertificates extends JModelList
     $query = $db->getQuery(true);
 
     // Select the required fields from the table.
-    $query->select($this->getState('list.select', 'c.id, c.number, c.created, c.published,'.
+    $query->select($this->getState('list.select', 'c.id, c.number, c.end_date, c.closure_reason, c.created, c.published,'.
 				   'c.created_by, c.checked_out, c.checked_out_time'));
 
     $query->from('#__snipf_certificate AS c');
@@ -90,6 +92,9 @@ class SnipfModelCertificates extends JModelList
     $query->select('u.name AS user');
     $query->join('LEFT', '#__users AS u ON u.id = c.created_by');
 
+    //Gets the last process (if any) linked to the certificate.
+    $query->select('pr.number AS process_nb, pr.name AS process_name, pr.outcome, pr.return_file_number, pr.file_receiving_date');
+    $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id=c.id AND pr.item_type="certificate" AND pr.is_last=1');
 
     //Filter by title search.
     $search = $this->getState('filter.search');

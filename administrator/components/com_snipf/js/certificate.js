@@ -116,7 +116,7 @@
 	  $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ac00e6', 'color': 'white'});
 	  break;
 
-	default: //black - file_not_returned, file_rejected, abandon, other.
+	default: //black - removal, rejected_file, abandon, other.
 	  $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#404040', 'color': 'white'});
       }
 

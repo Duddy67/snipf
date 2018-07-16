@@ -21,6 +21,10 @@ $archived = $this->state->get('filter.published') == 2 ? true : false;
 $trashed = $this->state->get('filter.published') == -2 ? true : false;
 //Check only against component permission as certificate items have no categories.
 $canOrder = $user->authorise('core.edit.state', 'com_snipf');
+
+$colorCodes = array('initial_pending' => '#bfbfbf', 'commission_pending' => '#ff9933', 'file_pending' => '#cc9900', 
+                    'running' => '#6cd26b', 'outdated' => '#e60000', 'retired' => '#4da6ff', 'deceased' => '#ac00e6',
+		    'removal' => '#404040', 'rejected_file' => '#404040', 'abandon' => '#404040', 'other' => '#404040');
 ?>
 
 
@@ -63,6 +67,9 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	</th>
 	<th>
 	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_FIRSTNAME', 'p.firstname', $listDirn, $listOrder); ?>
+	</th>
+	<th>
+	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_STATE', 'process_nb', $listDirn, $listOrder); ?>
 	</th>
 	<th width="10%" class="nowrap hidden-phone">
 	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_CREATED_BY', 'user', $listDirn, $listOrder); ?>
@@ -124,6 +131,17 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  <td class="hidden-phone">
 	    <?php echo $this->escape($item->firstname); ?>
 	  </td>
+	  <td class="hidden-phone">
+	  <?php
+	        if($item->process_states[0] == 'no_process') {
+		}
+                else {
+		  foreach($item->process_names as $key => $name) {
+		    echo '<div class="process" style="background-color:'.$colorCodes[$item->process_states[$key]].';">'.$name.'</div>';
+		  }
+		}
+	  ?>
+	  </td>
 	  <td class="small hidden-phone">
 	    <?php echo $this->escape($item->user); ?>
 	  </td>
@@ -136,7 +154,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+	  <td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
       </tr>
       </tbody>
     </table>
