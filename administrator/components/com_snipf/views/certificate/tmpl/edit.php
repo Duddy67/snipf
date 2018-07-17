@@ -59,7 +59,7 @@ Joomla.submitbutton = function(task)
 		  $states = array('done', 'outdated', 'running', 'current_outdated', 'file_pending');
 		  //Shows or hides the fields relating to the certificate closure according
 		  //to the process state.
-		  if($this->item->id && in_array($this->processState, $states)) {
+		  if($this->item->id && in_array($this->certificateState, $states)) {
 		    echo $this->form->getControlGroup('closure_date');
 		    echo $this->form->getControlGroup('closure_reason');
 		    echo $this->form->getControlGroup('abandon_code');
@@ -105,7 +105,7 @@ Joomla.submitbutton = function(task)
 
   <input type="hidden" name="task" value="" />
   <input type="hidden" name="nb_processes" id="nb-processes" value="<?php echo $this->item->nb_processes; ?>" />
-  <input type="hidden" name="process_state" id="process-state" value="<?php echo $this->processState; ?>" />
+  <input type="hidden" name="certificate_state" id="certificate-state" value="<?php echo $this->certificateState; ?>" />
   <input type="hidden" name="person_status" id="person-status" value="<?php echo $this->item->person_status; ?>" />
 
   <?php //Sets the last action name (if any) regarding processes (ie: create or delete). 

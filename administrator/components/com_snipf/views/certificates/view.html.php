@@ -37,7 +37,7 @@ class SnipfViewCertificates extends JViewLegacy
       return false;
     }
 
-    $this->setProcessState();
+    $this->getCertificateState();
 //echo '<pre>';
 //var_dump($this->items);
 //echo '</pre>';
@@ -96,23 +96,31 @@ class SnipfViewCertificates extends JViewLegacy
   }
 
 
-  protected function setProcessState() 
+  /**
+   * Method which works out the state of each certificate.
+   * It relies on the certificate end date as well as the last process variables to infer
+   * the state of the last or 2 last processes of the certificate.
+   *
+   * @return  void
+   */
+  protected function getCertificateState() 
   {
     foreach($this->items as $key => $item) {
       if($item->process_nb === null) {
 	$item->process_states = array('no_process');
       }
       else {
-	//Starts with the pending state of the initial process (ie: CI).
+	//Starts with the pending states of the initial process (ie: CI).
 	if($item->end_date == $this->nullDate && empty($item->return_file_number) && $item->process_nb == 1) {
 	  $item->process_states = array('initial_pending');
 	}
-	elseif($item->end_date == $this->nullDate && !empty($item->return_file_number) && $item->process_nb == 1) {
+	elseif($item->end_date == $this->nullDate && !empty($item->return_file_number) &&
+	       $item->process_nb == 1 && empty($item->closure_reason)) {
 	  $item->process_states = array('commission_pending');
 	}
-	elseif(empty($item->closure_reason)) {
-	  if($item->end_date > $this->now) {
+	elseif(empty($item->closure_reason)) { //The certificate is opened.
 
+	  if($item->end_date > $this->now) { //Certificate validity is running.
 	    if(!empty($item->return_file_number) && $item->outcome == 'accepted') {
 	      $item->process_states = array('running');
 	    }
@@ -135,11 +143,11 @@ class SnipfViewCertificates extends JViewLegacy
 	    }
 	  }
 	}
-	else { //The certificate process is closed.
+	else { //The certificate is closed.
 	  $item->process_states = array($item->closure_reason);
 	}
 
-	//
+	//Sets the names of the processes of each certificate.
 	if($item->process_nb == 1) {
 	  $item->process_names = array(JText::_('COM_SNIPF_INITIAL_CERTIFICATE'));
 	}
@@ -147,7 +155,7 @@ class SnipfViewCertificates extends JViewLegacy
 	  $item->process_names = array(JText::sprintf('COM_SNIPF_RENEWAL_NB_X', 1));
 
 	  if(count($item->process_states) == 2) {
-	    $item->process_names[] = JText::_('COM_SNIPF_INITIAL_CERTIFICATE');
+	    array_unshift($item->process_names, JText::_('COM_SNIPF_INITIAL_CERTIFICATE'));
 	  }
 	}
 	else {
@@ -156,7 +164,7 @@ class SnipfViewCertificates extends JViewLegacy
 
 	  if(count($item->process_states) == 2) {
 	    $previous = $item->process_nb - 2;
-	    $item->process_names[] = JText::sprintf('COM_SNIPF_RENEWAL_NB_X', $previous);
+	    array_unshift($item->process_names, JText::sprintf('COM_SNIPF_RENEWAL_NB_X', $previous));
 	  }
 	}
       }

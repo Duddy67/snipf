@@ -16,7 +16,7 @@
 
   $.fn.setReadOnly = function() {
     //Gets needed variables.
-    var processState = $('#process-state').val();
+    var certificateState = $('#certificate-state').val();
     var nbProcesses = $('#nb-processes').val();
 
     //A single process (ie: CI) can be in readonly mode only if the process state is done.  
@@ -31,7 +31,7 @@
                   'file_receiving_date', 'reminder_date', 'amount', 'commission_date', 'outcome',
 		  'commission_derogation', 'suspension_date', 'comments', 'created_by'];
 
-    if(processState != 'done') {
+    if(certificateState != 'done') {
       //These options are only available through the person status. 
       $('#jform_closure_reason option[value="retired"]').attr('disabled', 'disabled');
       $('#jform_closure_reason option[value="deceased"]').attr('disabled', 'disabled');
@@ -67,7 +67,7 @@
       }
     }
 
-    if(processState == 'done') {
+    if(certificateState == 'done') {
       //certificate fields that have to be disabled.
       fields = ['jform_number', 'jform_closure_date', 'jform_closure_reason', 'jform_abandon_code', 
 		'jform_file_destruction_date', 'jform_bit_number_1988', 'jform_bit_number_2008',
@@ -98,14 +98,14 @@
 
   $.fn.setTabColors = function() {
     //Gets needed variables.
-    var processState = $('#process-state').val();
+    var certificateState = $('#certificate-state').val();
     var nbProcesses = $('#nb-processes').val();
 
     if(!nbProcesses) {
       return;
     }
 
-    if(processState == 'done') {
+    if(certificateState == 'done') {
       //Sets the color according to the closure reason.
       switch($('#jform_closure_reason').val()) {
 	case 'retired': //blue
@@ -125,7 +125,7 @@
 
     penultimateProcessNb = nbProcesses - 1;
 
-    switch(processState) {
+    switch(certificateState) {
       case 'commission_pending': //green and orange
 	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
 	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ff9933', 'color': 'white'});

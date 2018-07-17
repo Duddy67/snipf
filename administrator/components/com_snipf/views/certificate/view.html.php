@@ -21,7 +21,7 @@ class SnipfViewCertificate extends JViewLegacy
   protected $form;
   protected $state;
   public $nullDate;
-  public $processState;
+  public $certificateState;
 
   //Display the view.
   public function display($tpl = null)
@@ -30,7 +30,7 @@ class SnipfViewCertificate extends JViewLegacy
     $this->form = $this->get('Form');
     $this->state = $this->get('State');
     $this->nullDate = JFactory::getDbo()->getNullDate();
-    $this->processState = $this->setProcessState();
+    $this->certificateState = $this->getCertificateState();
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
@@ -131,7 +131,13 @@ class SnipfViewCertificate extends JViewLegacy
   }
 
 
-  protected function setProcessState() 
+  /**
+   * Method which works out the state of the certificate.
+   * It relies on the certificate end date as well as the last process variables.
+   *
+   * @return  string  The state of the certificate.
+   */
+  protected function getCertificateState() 
   {
     $nbProcesses = $this->item->nb_processes;
 
@@ -146,11 +152,6 @@ class SnipfViewCertificate extends JViewLegacy
 
     $lastProcess = $this->item->processes[$nbProcesses - 1];
     $now = JFactory::getDate()->toSql();
-    //Gets the penultimate process if any.
-    $penultimateProcess = null;
-    if($nbProcesses > 1) {
-      $penultimateProcess = $this->item->processes[$nbProcesses - 2];
-    }
 
     if(!empty($lastProcess->file_receiving_date) && $lastProcess->file_receiving_date != $this->nullDate) {
       //
@@ -161,10 +162,12 @@ class SnipfViewCertificate extends JViewLegacy
 	return 'transitory_pending';
       }
       elseif($lastProcess->outcome == 'pending' || $lastProcess->outcome == 'adjourned') {
-	if($penultimateProcess && $now > $penultimateProcess->end_process) {
+	if($now > $this->item->end_date) {
+	  //outdated && commission_pending
 	  return 'overlap';
 	}
 
+	//running && commission_pending
 	return 'commission_pending';
       }
       //For whatever reason there's no ask for renewal and the current process came to an end. 
@@ -175,13 +178,14 @@ class SnipfViewCertificate extends JViewLegacy
 	return 'running';
       }
     }
-    else {
+    else { //No file has been returned.
       //
       if($nbProcesses == 1) {
 	return 'initial_pending';
       }
 
-      if($penultimateProcess && $now > $penultimateProcess->end_process) {
+      if($now > $this->item->end_date) {
+	//outdated && file_pending
 	return 'outdated';
       }
 

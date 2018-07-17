@@ -1,9 +1,17 @@
 
-.process {
+.process,
+.no-process {
   border: 1px solid #c0c0c0;
   padding: 3px;
   float: left;
   margin-left: 5px;
+  color: #f2f2f2;
+}
+
+.no-process {
+  border: 1px solid #999999;
+  background-color: #e6e6e6;
+  color: #666666;
 }
 
 .position-item {

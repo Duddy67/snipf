@@ -69,7 +69,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_FIRSTNAME', 'p.firstname', $listDirn, $listOrder); ?>
 	</th>
 	<th>
-	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_STATE', 'process_nb', $listDirn, $listOrder); ?>
+	  <?php echo JText::_('COM_SNIPF_HEADING_STATE'); ?>
 	</th>
 	<th width="10%" class="nowrap hidden-phone">
 	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_CREATED_BY', 'user', $listDirn, $listOrder); ?>
@@ -134,6 +134,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  <td class="hidden-phone">
 	  <?php
 	        if($item->process_states[0] == 'no_process') {
+		  echo '<div class="no-process">'.JText::_('COM_SNIPF_NO_PROCESS').'</div>';
 		}
                 else {
 		  foreach($item->process_names as $key => $name) {
