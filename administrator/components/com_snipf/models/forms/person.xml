@@ -231,7 +231,7 @@
 		description="COM_SNIPF_FIELD_LAW_COMPANY_DESC"/>
     </fieldset>
 
-    <fieldset name="sripf">
+    <!--<fieldset name="sripf">
 	<field name="associated_member_sripf" type="list"
 	       label="COM_SNIPF_FIELD_ASSOCIATED_MEMBER_LABEL"
 	       description="COM_SNIPF_FIELD_ASSOCIATED_MEMBER_DESC">
@@ -253,7 +253,7 @@
 		 translateformat="true"
 		 showtime="true"
 		 filter="user_utc" />
-    </fieldset>
+    </fieldset>-->
 
     <fieldset name="ha">
 	  <field name="street_ha" type="text"

@@ -27,8 +27,8 @@ class SnipfHelper
     JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_POSITIONS'),
 				      'index.php?option=com_snipf&view=positions', $viewName == 'positions');
 
-    JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_OFFICES'),
-				      'index.php?option=com_snipf&view=offices', $viewName == 'offices');
+    JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_SRIPFS'),
+				      'index.php?option=com_snipf&view=sripfs', $viewName == 'sripfs');
 
     JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_SPECIALITIES'),
 				      'index.php?option=com_snipf&view=specialities', $viewName == 'specialities');
@@ -225,7 +225,7 @@ class SnipfHelper
     //If no item has been defined no need to go further. 
     if(count($data)) {
       //List of the numerical fields (no quotes must be used).
-      $integers = array('id','item_id','person_id','office_id');
+      $integers = array('id','item_id','person_id','sripf_id');
 
       //Build the VALUES clause of the INSERT MySQL query.
       $values = array();

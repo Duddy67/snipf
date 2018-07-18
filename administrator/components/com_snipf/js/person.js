@@ -57,8 +57,8 @@
 
 
   $.fn.createPositionItem = function(idNb, data) {
-    //Creates both the position and office select tags.
-    var selectTypes = ['position', 'office'];
+    //Creates both the position and sripf select tags.
+    var selectTypes = ['position', 'sripf'];
     //Creates a tag container.
     var properties = {'id':'item-row-1-'+idNb};
     $('#position-item-'+idNb).createHTMLTag('<div>', properties, 'item-row');

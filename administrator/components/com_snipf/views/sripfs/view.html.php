@@ -12,7 +12,7 @@ jimport( 'joomla.application.component.view');
 require_once JPATH_COMPONENT.'/helpers/snipf.php';
  
 
-class SnipfViewOffices extends JViewLegacy
+class SnipfViewSripfs extends JViewLegacy
 {
   protected $items;
   protected $state;
@@ -48,36 +48,36 @@ class SnipfViewOffices extends JViewLegacy
   protected function addToolBar() 
   {
     //Display the view title and the icon.
-    JToolBarHelper::title(JText::_('COM_SNIPF_OFFICES_TITLE'), 'home-2');
+    JToolBarHelper::title(JText::_('COM_SNIPF_SRIPFS_TITLE'), 'home-2');
 
     //Get the allowed actions list
     $canDo = SnipfHelper::getActions();
 
     //Note: We check the user permissions only against the component since 
-    //the office items have no categories.
+    //the sripf items have no categories.
     if($canDo->get('core.create')) {
-      JToolBarHelper::addNew('office.add', 'JTOOLBAR_NEW');
+      JToolBarHelper::addNew('sripf.add', 'JTOOLBAR_NEW');
     }
 
     //Notes: The Edit icon might not be displayed since it's not (yet ?) possible 
     //to edit several items at a time.
     if($canDo->get('core.edit') || $canDo->get('core.edit.own')) {
-      JToolBarHelper::editList('office.edit', 'JTOOLBAR_EDIT');
+      JToolBarHelper::editList('sripf.edit', 'JTOOLBAR_EDIT');
     }
 
     if($canDo->get('core.edit.state')) {
       JToolBarHelper::divider();
-      JToolBarHelper::custom('offices.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-      JToolBarHelper::custom('offices.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+      JToolBarHelper::custom('sripfs.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
+      JToolBarHelper::custom('sripfs.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
       JToolBarHelper::divider();
-      JToolBarHelper::archiveList('offices.archive','JTOOLBAR_ARCHIVE');
-      JToolBarHelper::custom('offices.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
-      JToolBarHelper::trash('offices.trash','JTOOLBAR_TRASH');
+      JToolBarHelper::archiveList('sripfs.archive','JTOOLBAR_ARCHIVE');
+      JToolBarHelper::custom('sripfs.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+      JToolBarHelper::trash('sripfs.trash','JTOOLBAR_TRASH');
     }
 
     if($canDo->get('core.delete')) {
       JToolBarHelper::divider();
-      JToolBarHelper::deleteList('', 'offices.delete', 'JTOOLBAR_DELETE');
+      JToolBarHelper::deleteList('', 'sripfs.delete', 'JTOOLBAR_DELETE');
     }
 
     if($canDo->get('core.admin')) {

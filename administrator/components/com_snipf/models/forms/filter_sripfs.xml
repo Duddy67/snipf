@@ -30,16 +30,16 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();" default="" >
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="o.published ASC">JSTATUS_ASC</option>
-			<option value="o.published DESC">JSTATUS_DESC</option>
-			<option value="o.name ASC">COM_SNIPF_TITLE_ASC</option>
-			<option value="o.name DESC">COM_SNIPF_TITLE_DESC</option>
+			<option value="s.published ASC">JSTATUS_ASC</option>
+			<option value="s.published DESC">JSTATUS_DESC</option>
+			<option value="s.name ASC">COM_SNIPF_TITLE_ASC</option>
+			<option value="s.name DESC">COM_SNIPF_TITLE_DESC</option>
 			<option value="user ASC">JAUTHOR_ASC</option>
 			<option value="user DESC">JAUTHOR_DESC</option>
-			<option value="o.created ASC">JDATE_ASC</option>
-			<option value="o.created DESC">JDATE_DESC</option>
-			<option value="o.id ASC">JGRID_HEADING_ID_ASC</option>
-			<option value="o.id DESC">JGRID_HEADING_ID_DESC</option>
+			<option value="s.created ASC">JDATE_ASC</option>
+			<option value="s.created DESC">JDATE_DESC</option>
+			<option value="s.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="s.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
 		<field
 			name="limit"

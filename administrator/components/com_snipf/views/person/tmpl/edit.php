@@ -15,7 +15,7 @@ JHtml::_('behavior.modal');
 
 //Prevent params layout (layouts/joomla/edit/params.php) to display (or display twice) some fieldsets.
 $this->ignore_fieldsets = array('details', 'permissions', 'jmetadata', 'ha', 'pa', 'work_situation',
-				'sripf', 'snipf_positions', 'bfc', 'dbfc');
+				'snipf_positions', 'bfc', 'dbfc');
 $canDo = SnipfHelper::getActions($this->state->get('filter.category_id'));
 
 //Lang tag is needed in the Ajax file.
@@ -81,7 +81,6 @@ Joomla.submitbutton = function(task)
       <?php echo JHtml::_('bootstrap.endTab'); ?>
 
       <?php echo $this->loadTemplate('work_situation'); ?>
-      <?php echo $this->loadTemplate('sripf'); ?>
       <?php echo $this->loadTemplate('addresses'); ?>
 
       <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'positions', JText::_('COM_SNIPF_TAB_POSITIONS')); ?>

@@ -66,11 +66,11 @@ class JavascriptHelper
       $js .= '},'."\n";
     }
 
-    //Returns the office names and ids used to build option tags.
-    if(in_array('office', $names)) {
-      $offices = self::getOffices();
-      $js .= 'getOffices: function() {'."\n";
-      $js .= ' return '.$offices.';'."\n";
+    //Returns the sripf names and ids used to build option tags.
+    if(in_array('sripf', $names)) {
+      $sripfs = self::getSripfs();
+      $js .= 'getSripfs: function() {'."\n";
+      $js .= ' return '.$sripfs.';'."\n";
       $js .= '},'."\n";
     }
 
@@ -95,7 +95,7 @@ class JavascriptHelper
   public static function loadJavascriptTexts()
   {
     $jsText = array('BUTTON_ADD_LABEL', 'BUTTON_REMOVE_LABEL', 'BUTTON_SELECT_LABEL',
-		    'POSITION_TITLE', 'POSITION_LABEL', 'OFFICE_TITLE', 'OFFICE_LABEL',
+		    'POSITION_TITLE', 'POSITION_LABEL', 'SRIPF_TITLE', 'SRIPF_LABEL',
 		    'COMMENTS_TITLE', 'COMMENTS_LABEL', 'OPTION_SELECT', 'START_DATE_TITLE',
 		    'START_DATE_LABEL', 'END_DATE_TITLE', 'END_DATE_LABEL',
 		    'WARNING_DELETE_ADDRESS', 'WARNING_DELETE_BENEFICIARY',
@@ -168,30 +168,30 @@ class JavascriptHelper
 
 
   /**
-   * Returns office ids and names as a JSON array.
+   * Returns sripf ids and names as a JSON array.
    *
    * @return JSON array
    */
-  public static function getOffices()
+  public static function getSripfs()
   {
     $db = JFactory::getDbo();
     $query = $db->getQuery(true);
 
-    //Gets all the published offices from the table.
+    //Gets all the published sripfs from the table.
     $query->select('id,name')
-	  ->from('#__snipf_office')
+	  ->from('#__snipf_sripf')
 	  ->where('published=1');
     $db->setQuery($query);
     $results = $db->loadObjectList();
 
-    $offices = array();
+    $sripfs = array();
     foreach($results as $result) {
-      $office = array('id' => $result->id, 'text' => $result->name);
+      $sripf = array('id' => $result->id, 'text' => $result->name);
 
-      $offices[] = $office;
+      $sripfs[] = $sripf;
     }
 
-    return json_encode($offices);
+    return json_encode($sripfs);
   }
 }
 

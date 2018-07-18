@@ -19,12 +19,12 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $archived = $this->state->get('filter.published') == 2 ? true : false;
 $trashed = $this->state->get('filter.published') == -2 ? true : false;
-//Check only against component permission as office items have no categories.
+//Check only against component permission as sripf items have no categories.
 $canOrder = $user->authorise('core.edit.state', 'com_snipf');
 ?>
 
 
-<form action="<?php echo JRoute::_('index.php?option=com_snipf&view=offices');?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_snipf&view=sripfs');?>" method="post" name="adminForm" id="adminForm">
 
 <?php if (!empty( $this->sidebar)) : ?>
   <div id="j-sidebar-container" class="span2">
@@ -46,26 +46,26 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 		<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 	</div>
   <?php else : ?>
-    <table class="table table-striped" id="officeList">
+    <table class="table table-striped" id="sripfList">
       <thead>
       <tr>
 	<th width="1%" class="hidden-phone">
 	  <?php echo JHtml::_('grid.checkall'); ?>
 	</th>
 	<th width="1%" style="min-width:55px" class="nowrap center">
-	  <?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'o.published', $listDirn, $listOrder); ?>
+	  <?php echo JHtml::_('searchtools.sort', 'JSTATUS', 's.published', $listDirn, $listOrder); ?>
 	</th>
 	<th>
-	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_NAME', 'o.name', $listDirn, $listOrder); ?>
+	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_NAME', 's.name', $listDirn, $listOrder); ?>
 	</th>
 	<th width="10%" class="nowrap hidden-phone">
 	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_CREATED_BY', 'user', $listDirn, $listOrder); ?>
 	</th>
 	<th width="5%" class="nowrap hidden-phone">
-	  <?php echo JHtml::_('searchtools.sort', 'JDATE', 'o.created', $listDirn, $listOrder); ?>
+	  <?php echo JHtml::_('searchtools.sort', 'JDATE', 's.created', $listDirn, $listOrder); ?>
 	</th>
 	<th width="1%" class="nowrap hidden-phone">
-	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'o.id', $listDirn, $listOrder); ?>
+	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 's.id', $listDirn, $listOrder); ?>
 	</th>
       </tr>
       </thead>
@@ -73,10 +73,10 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
       <tbody>
       <?php foreach ($this->items as $i => $item) :
 
-      $canEdit = $user->authorise('core.edit','com_snipf.office.'.$item->id);
-      $canEditOwn = $user->authorise('core.edit.own', 'com_snipf.office.'.$item->id) && $item->created_by == $userId;
+      $canEdit = $user->authorise('core.edit','com_snipf.sripf.'.$item->id);
+      $canEditOwn = $user->authorise('core.edit.own', 'com_snipf.sripf.'.$item->id) && $item->created_by == $userId;
       $canCheckin = $user->authorise('core.manage','com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-      $canChange = ($user->authorise('core.edit.state','com_snipf.office.'.$item->id) && $canCheckin) || $canEditOwn; 
+      $canChange = ($user->authorise('core.edit.state','com_snipf.sripf.'.$item->id) && $canCheckin) || $canEditOwn; 
       ?>
 
       <tr class="row<?php echo $i % 2; ?>">
@@ -85,14 +85,14 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  </td>
 	  <td class="center">
 	    <div class="btn-group">
-	      <?php echo JHtml::_('jgrid.published', $item->published, $i, 'offices.', $canChange, 'cb'); ?>
+	      <?php echo JHtml::_('jgrid.published', $item->published, $i, 'sripfs.', $canChange, 'cb'); ?>
 	      <?php
 	      // Create dropdown items
 	      $action = $archived ? 'unarchive' : 'archive';
-	      JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'offices');
+	      JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'sripfs');
 
 	      $action = $trashed ? 'untrash' : 'trash';
-	      JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'offices');
+	      JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'sripfs');
 
 	      // Render dropdown list
 	      echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
@@ -102,10 +102,10 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  <td class="has-context">
 	    <div class="pull-left">
 	      <?php if ($item->checked_out) : ?>
-		  <?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'offices.', $canCheckin); ?>
+		  <?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'sripfs.', $canCheckin); ?>
 	      <?php endif; ?>
 	      <?php if($canEdit || $canEditOwn) : ?>
-		<a href="<?php echo JRoute::_('index.php?option=com_snipf&task=office.edit&id='.$item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+		<a href="<?php echo JRoute::_('index.php?option=com_snipf&task=sripf.edit&id='.$item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 			<?php echo $this->escape($item->name); ?></a>
 	      <?php else : ?>
 		<?php echo $this->escape($item->name); ?>

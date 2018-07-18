@@ -11,13 +11,13 @@ defined('_JEXEC') or die; //No direct access to this file.
 jimport('joomla.application.component.controlleradmin');
  
 
-class SnipfControllerOffices extends JControllerAdmin
+class SnipfControllerSripfs extends JControllerAdmin
 {
   /**
    * Proxy for getModel.
    * @since 1.6
   */
-  public function getModel($name = 'Office', $prefix = 'SnipfModel', $config = array('ignore_request' => true))
+  public function getModel($name = 'Sripf', $prefix = 'SnipfModel', $config = array('ignore_request' => true))
   {
     $model = parent::getModel($name, $prefix, $config);
     return $model;

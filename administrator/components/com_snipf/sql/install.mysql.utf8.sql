@@ -151,10 +151,10 @@ ENGINE = MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
--- Table `#__snipf_office`
+-- Table `#__snipf_sripf`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__snipf_office`;
-CREATE TABLE `#__snipf_office` (
+DROP TABLE IF EXISTS `#__snipf_sripf`;
+CREATE TABLE `#__snipf_sripf` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(180) NOT NULL ,
   `description` TEXT NULL ,
@@ -176,7 +176,7 @@ DROP TABLE IF EXISTS `#__snipf_person_position_map`;
 CREATE TABLE `#__snipf_person_position_map` (
   `person_id` INT UNSIGNED NOT NULL ,
   `position_id` INT UNSIGNED NOT NULL ,
-  `office_id` INT UNSIGNED NOT NULL ,
+  `sripf_id` INT UNSIGNED NOT NULL ,
   `start_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `end_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `comments` VARCHAR(150) NOT NULL ,
@@ -279,19 +279,6 @@ CREATE TABLE `#__snipf_work_situation` (
   `position` VARCHAR(80) NULL ,
   `comments` TEXT NULL ,
   `law_company` VARCHAR(30) NOT NULL ,
-  INDEX `idx_person_id` (`person_id` ASC) )
-ENGINE = MyISAM DEFAULT CHARSET=utf8;
-
-
--- -----------------------------------------------------
--- Table `#__snipf_sripf`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__snipf_sripf`;
-CREATE TABLE `#__snipf_sripf` (
-  `person_id` INT UNSIGNED NOT NULL DEFAULT 0 ,
-  `associated_member` TINYINT(1) NOT NULL DEFAULT 0 ,
-  `subscription_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
-  `resignation_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   INDEX `idx_person_id` (`person_id` ASC) )
 ENGINE = MyISAM DEFAULT CHARSET=utf8;
 

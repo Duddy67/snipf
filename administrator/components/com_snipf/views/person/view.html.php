@@ -33,7 +33,7 @@ class SnipfViewPerson extends JViewLegacy
       return false;
     }
 
-    $jsFunctionNames = array('region', 'dateformat', 'position', 'office');
+    $jsFunctionNames = array('region', 'dateformat', 'position', 'sripf');
     JavascriptHelper::loadJavascriptFunctions($jsFunctionNames);
     JavascriptHelper::loadJavascriptTexts();
 

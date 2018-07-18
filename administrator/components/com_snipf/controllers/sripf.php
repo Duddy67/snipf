@@ -12,7 +12,7 @@ jimport('joomla.application.component.controllerform');
  
 
 
-class SnipfControllerOffice extends JControllerForm
+class SnipfControllerSripf extends JControllerForm
 {
 
   public function save($key = null, $urlVar = null)
@@ -38,7 +38,7 @@ class SnipfControllerOffice extends JControllerForm
     $db = JFactory::getDbo();
     $query = $db->getQuery(true);
     $query->select('created_by')
-	  ->from('#__snipf_office')
+	  ->from('#__snipf_sripf')
 	  ->where('id='.(int)$itemId);
     $db->setQuery($query);
     $createdBy = $db->loadResult();

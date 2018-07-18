@@ -11,14 +11,14 @@ defined('_JEXEC') or die; //No direct access to this file.
 jimport('joomla.application.component.modeladmin');
 
 
-class SnipfModelOffice extends JModelAdmin
+class SnipfModelSripf extends JModelAdmin
 {
   //Prefix used with the controller messages.
   protected $text_prefix = 'COM_SNIPF';
 
   //Returns a Table object, always creating it.
   //Table can be defined/overrided in the file: tables/mycomponent.php
-  public function getTable($type = 'Office', $prefix = 'SnipfTable', $config = array()) 
+  public function getTable($type = 'Sripf', $prefix = 'SnipfTable', $config = array()) 
   {
     return JTable::getInstance($type, $prefix, $config);
   }
@@ -26,7 +26,7 @@ class SnipfModelOffice extends JModelAdmin
 
   public function getForm($data = array(), $loadData = true) 
   {
-    $form = $this->loadForm('com_snipf.office', 'office', array('control' => 'jform', 'load_data' => $loadData));
+    $form = $this->loadForm('com_snipf.sripf', 'sripf', array('control' => 'jform', 'load_data' => $loadData));
 
     if(empty($form)) {
       return false;
@@ -39,7 +39,7 @@ class SnipfModelOffice extends JModelAdmin
   protected function loadFormData() 
   {
     // Check the session for previously entered form data.
-    $data = JFactory::getApplication()->getUserState('com_snipf.edit.office.data', array());
+    $data = JFactory::getApplication()->getUserState('com_snipf.edit.sripf.data', array());
 
     if(empty($data)) {
       $data = $this->getItem();

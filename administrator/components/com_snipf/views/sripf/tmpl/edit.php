@@ -15,14 +15,14 @@ JHtml::_('formbehavior.chosen', 'select');
 <script type="text/javascript">
 Joomla.submitbutton = function(task)
 {
-  if(task == 'office.cancel' || document.formvalidator.isValid(document.getElementById('office-form'))) {
-    Joomla.submitform(task, document.getElementById('office-form'));
+  if(task == 'sripf.cancel' || document.formvalidator.isValid(document.getElementById('sripf-form'))) {
+    Joomla.submitform(task, document.getElementById('sripf-form'));
   }
 }
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_snipf&view=office&layout=edit&id='.(int) $this->item->id); ?>" 
- method="post" name="adminForm" id="office-form" enctype="multipart/form-data" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_snipf&view=sripf&layout=edit&id='.(int) $this->item->id); ?>" 
+ method="post" name="adminForm" id="sripf-form" enctype="multipart/form-data" class="form-validate">
 
   <?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

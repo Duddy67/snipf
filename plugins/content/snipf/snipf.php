@@ -92,7 +92,7 @@ class plgContentSnipf extends JPlugin
 	  if(!empty($filteredData['position_id_'.$positionNb])) { //Check for empty field.
 	    $position = new JObject;
 	    $position->position_id = $filteredData['position_id_'.$positionNb];
-	    $position->office_id = $filteredData['office_id_'.$positionNb];
+	    $position->sripf_id = $filteredData['sripf_id_'.$positionNb];
 	    $position->start_date = $filteredData['start_date_'.$positionNb];
 	    $position->end_date = $filteredData['end_date_'.$positionNb];
 	    $position->comments = $filteredData['position_comments_'.$positionNb];
@@ -103,7 +103,7 @@ class plgContentSnipf extends JPlugin
       }
 
       //Set fields.
-      $columns = array('person_id', 'position_id','office_id','start_date','end_date','comments');
+      $columns = array('person_id', 'position_id','sripf_id','start_date','end_date','comments');
       //Update positions.
       SnipfHelper::updateMappingTable('#__snipf_person_position_map', $columns, $positions, array($data->id));
 
@@ -121,22 +121,6 @@ class plgContentSnipf extends JPlugin
       $values[] = $workSituation;
 
       SnipfHelper::updateMappingTable('#__snipf_work_situation', $columns, $values, array($data->id));
-
-      //Moves to the SRIPF part.
-      $columns = array('person_id', 'associated_member','subscription_date','resignation_date');
-      $values = array();
-      $sripf = new JObject;
-
-      $filteredData = $this->filterDateFields('person', 'sripf', false, true);
-      //Note: Skips the very first index (ie: person_id).
-      for($i = 1; $i < count($columns); $i++) {
-	$name = $columns[$i];
-	$sripf->$name = $filteredData[$name.'_sripf'];
-      }
-
-      $values[] = $sripf;
-
-      SnipfHelper::updateMappingTable('#__snipf_sripf', $columns, $values, array($data->id));
     }
     elseif($context == 'com_snipf.certificate' && !$isNew) { //CERTIFICATE
       $filteredData = $this->filterDateFields('certificate_process', 'process');

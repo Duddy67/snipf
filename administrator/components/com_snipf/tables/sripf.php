@@ -13,9 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.database.table');
  
 /**
- * Office table class
+ * Sripf table class
  */
-class SnipfTableOffice extends JTable
+class SnipfTableSripf extends JTable
 {
   /**
    * Constructor
@@ -24,7 +24,7 @@ class SnipfTableOffice extends JTable
    */
   function __construct(&$db) 
   {
-    parent::__construct('#__snipf_office', 'id', $db);
+    parent::__construct('#__snipf_sripf', 'id', $db);
   }
 
 

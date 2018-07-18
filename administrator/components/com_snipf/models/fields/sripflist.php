@@ -15,11 +15,11 @@ jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 
-//Script which build the select html tag containing the office names and ids.
+//Script which build the select html tag containing the sripf names and ids.
 
-class JFormFieldOfficeList extends JFormFieldList
+class JFormFieldSripfList extends JFormFieldList
 {
-  protected $type = 'officelist';
+  protected $type = 'sripflist';
 
   protected function getOptions()
   {
@@ -29,18 +29,18 @@ class JFormFieldOfficeList extends JFormFieldList
     $db = JFactory::getDbo();
     $query = $db->getQuery(true);
     $query->select('id,name')
-	  ->from('#__snipf_office')
+	  ->from('#__snipf_sripf')
 	  ->where('published=1')
 	  ->order('name');
     $db->setQuery($query);
-    $offices = $db->loadObjectList();
+    $sripfs = $db->loadObjectList();
 
     //Build the first option.
     $options[] = JHtml::_('select.option', '', JText::_('COM_SNIPF_OPTION_SELECT'));
 
     //Build the select options.
-    foreach($offices as $office) {
-      $options[] = JHtml::_('select.option', $office->id, $office->name);
+    foreach($sripfs as $sripf) {
+      $options[] = JHtml::_('select.option', $sripf->id, $sripf->name);
     }
 
     // Merge any additional options in the XML definition.

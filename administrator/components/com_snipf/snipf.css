@@ -28,7 +28,7 @@
 }
 
 .position-item .btn-wrapper, 
-.office-item .btn-wrapper {
+.sripf-item .btn-wrapper {
   float: right;
   margin-left: 20px;
 }
@@ -57,7 +57,7 @@
 }
 
 .position-label ,
-.office-label ,
+.sripf-label ,
 .start-date-label ,
 .end-date-label ,
 .comments-label ,
@@ -68,7 +68,7 @@
   display:block;
 }
 
-.office-label ,
+.sripf-label ,
 .end-date-label {
   margin-top: 15px;
 }

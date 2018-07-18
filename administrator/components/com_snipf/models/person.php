@@ -82,13 +82,6 @@ class SnipfModelPerson extends JModelAdmin
 	    ->where('person_id='.(int)$item->id);
       $db->setQuery($query);
       $item->work_situation = $db->loadObject();
-
-      $query->clear();
-      $query->select('associated_member, subscription_date, resignation_date')
-	    ->from('#__snipf_sripf')
-	    ->where('person_id='.(int)$item->id);
-      $db->setQuery($query);
-      $item->sripf = $db->loadObject();
     }
 
     return $item;
@@ -207,7 +200,7 @@ class SnipfModelPerson extends JModelAdmin
     $db = $this->getDbo();
     $query = $db->getQuery(true);
     //Get the positions linked to the person if any.
-    $query->select('position_id, office_id, start_date, end_date, comments AS position_comments')
+    $query->select('position_id, sripf_id, start_date, end_date, comments AS position_comments')
 	  ->from('#__snipf_person_position_map')
 	  ->where('person_id='.(int)$pk);
     $db->setQuery($query);

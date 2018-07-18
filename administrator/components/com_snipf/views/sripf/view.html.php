@@ -13,7 +13,7 @@ jimport( 'joomla.application.component.view');
 require_once JPATH_COMPONENT.'/helpers/snipf.php';
  
 
-class SnipfViewOffice extends JViewLegacy
+class SnipfViewSripf extends JViewLegacy
 {
   protected $item;
   protected $form;
@@ -56,14 +56,14 @@ class SnipfViewOffice extends JViewLegacy
     $checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
     //Display the view title (according to the user action) and the icon.
-    JToolBarHelper::title($isNew ? JText::_('COM_SNIPF_NEW_OFFICE') : JText::_('COM_SNIPF_EDIT_OFFICE'), 'pencil-2');
+    JToolBarHelper::title($isNew ? JText::_('COM_SNIPF_NEW_SRIPF') : JText::_('COM_SNIPF_EDIT_SRIPF'), 'pencil-2');
 
     if($isNew) {
       //Check the "create" permission for the new records.
       if($canDo->get('core.create')) {
-	JToolBarHelper::apply('office.apply', 'JTOOLBAR_APPLY');
-	JToolBarHelper::save('office.save', 'JTOOLBAR_SAVE');
-	JToolBarHelper::custom('office.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+	JToolBarHelper::apply('sripf.apply', 'JTOOLBAR_APPLY');
+	JToolBarHelper::save('sripf.save', 'JTOOLBAR_SAVE');
+	JToolBarHelper::custom('sripf.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
       }
     }
     else {
@@ -72,23 +72,23 @@ class SnipfViewOffice extends JViewLegacy
 	// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 	if($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId)) {
 	  // We can save the new record
-	  JToolBarHelper::apply('office.apply', 'JTOOLBAR_APPLY');
-	  JToolBarHelper::save('office.save', 'JTOOLBAR_SAVE');
+	  JToolBarHelper::apply('sripf.apply', 'JTOOLBAR_APPLY');
+	  JToolBarHelper::save('sripf.save', 'JTOOLBAR_SAVE');
 
 	  // We can save this record, but check the create permission to see if we can return to make a new one.
 	  if($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_snipf', 'core.create'))) > 0) {
-	    JToolBarHelper::custom('office.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+	    JToolBarHelper::custom('sripf.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 	  }
 	}
       }
 
       // If checked out, we can still save
       if($canDo->get('core.create')) {
-	JToolBarHelper::save2copy('office.save2copy');
+	JToolBarHelper::save2copy('sripf.save2copy');
       }
     }
 
-    JToolBarHelper::cancel('office.cancel', 'JTOOLBAR_CANCEL');
+    JToolBarHelper::cancel('sripf.cancel', 'JTOOLBAR_CANCEL');
   }
 
 

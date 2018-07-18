@@ -240,7 +240,7 @@
   $.fn.getDataSet = function(itemType) {
     var data = '';
     if(itemType == 'position') {
-      data = {'start_date':'', 'end_date':'', 'position_id':'', 'office_id':''};
+      data = {'start_date':'', 'end_date':'', 'position_id':'', 'sripf_id':''};
     } else { //
       //data = {};
     }
