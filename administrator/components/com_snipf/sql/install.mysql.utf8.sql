@@ -191,6 +191,7 @@ DROP TABLE IF EXISTS `#__snipf_speciality`;
 CREATE TABLE `#__snipf_speciality` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(180) NOT NULL ,
+  `bit_code` VARCHAR(15) NOT NULL ,
   `description` TEXT NULL ,
   `published` TINYINT NOT NULL DEFAULT 0 ,
   `checked_out` INT UNSIGNED NOT NULL DEFAULT 0 ,

@@ -10,6 +10,10 @@
 		rows="5" cols="10"
 		default=""></field>
 
+	<field name="bit_code" type="text"
+	       label="COM_SNIPF_FIELD_BIT_CODE_LABEL"
+	       description="COM_SNIPF_FIELD_BIT_CODE_DESC" />
+
 	<!-- layout: title_alias -->
 	<field name="name" type="text"
 		label="COM_SNIPF_FIELD_NAME_LABEL"

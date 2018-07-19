@@ -36,6 +36,7 @@ Joomla.submitbutton = function(task)
 	<div class="span4">
 	  <div class="form-vertical">
 	    <?php
+		  echo $this->form->getControlGroup('bit_code');
 		  echo $this->form->getControlGroup('description');
 	      ?>
 	  </div>
