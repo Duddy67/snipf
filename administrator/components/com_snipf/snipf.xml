@@ -59,15 +59,6 @@
     <administration>
 	    <!-- Administration Menu Section -->
 	    <menu>COM_SNIPF_MENU</menu>
-	    <submenu>
-
-	      <menu link="option=com_snipf" view="persons"
-	      alt="Snipf/Persons">COM_SNIPF_SUBMENU_PERSONS</menu>
-
-	      <menu link="option=com_categories&amp;extension=com_snipf" view="categories"
-		    alt="Snipf/Categories">COM_SNIPF_SUBMENU_CATEGORIES</menu>
-
-	    </submenu>
 	    <!-- Person the folder attribute: This attribute describes the folder
 		    to copy FROM in the package to install therefore files copied
 		    in this section are copied from /admin/ in the package -->
