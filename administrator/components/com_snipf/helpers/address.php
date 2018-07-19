@@ -29,8 +29,8 @@ class AddressHelper
     $query = $db->getQuery(true);
     $query->select('street AS street_ha, additional_address AS additional_address_ha, city AS city_ha,'.
 		   'postcode AS postcode_ha, phone AS phone_ha, mobile AS mobile_ha, fax AS fax_ha,'.
-		   'country_code AS country_code_ha, created AS created_ha, created_by AS created_by_ha,'.
-		   'modified AS modified_ha, modified_by AS modified_by_ha')
+		   'country_code AS country_code_ha, sripf_id AS sripf_id_ha, created AS created_ha,'.
+		   'created_by AS created_by_ha, modified AS modified_ha, modified_by AS modified_by_ha')
 	  ->from('#__snipf_address')
 	  ->where('person_id='.(int)$personId)
 	  ->where('type="ha"')
@@ -77,9 +77,12 @@ class AddressHelper
 		   'created_by AS created_by_'.$addressType.', modified AS modified_'.$addressType.','.
 		   'modified_by AS modified_by_'.$addressType);
 
+    //Gets some extra columns according to the address type.
     if($addressType == 'pa') {
-      //Gets some extra columns.
       $query->select('employer_name AS employer_name_pa');
+    }
+    else { //ha
+      $query->select('sripf_id AS sripf_id_ha');
     }
 
     $query->from('#__snipf_address')

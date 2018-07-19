@@ -172,7 +172,7 @@
 
 
   $.fn.setMandatoryFields = function() {
-    var fields = ['street', 'city', 'postcode', 'country_code', 'employer_name'];
+    var fields = ['street', 'city', 'postcode', 'country_code', 'sripf_id', 'employer_name'];
     //Gets the selected address type for sending mail to.
     var mailAddressType = $('#jform_mail_address_type').val();
 

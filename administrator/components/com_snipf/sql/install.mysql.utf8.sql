@@ -241,6 +241,7 @@ CREATE TABLE `#__snipf_address` (
   `mobile` VARCHAR(20) NULL ,
   `fax` VARCHAR(20) NULL ,
   `country_code` CHAR(3) NOT NULL , 
+  `sripf_id` INT UNSIGNED NOT NULL ,
   `employer_name` VARCHAR(255) NULL ,
   `history` TINYINT(1) NOT NULL DEFAULT 0 ,
   `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
