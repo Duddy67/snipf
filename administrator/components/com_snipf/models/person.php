@@ -242,7 +242,7 @@ class SnipfModelPerson extends JModelAdmin
     //Then checks that none of the certificates linked to the person is being edited.
     $db = $this->getDbo();
     $query = $db->getQuery(true);
-    $query->select('name, checked_out')
+    $query->select('number, checked_out')
 	  ->from('#__snipf_certificate')
 	  ->where('person_id='.(int)$record->id);
     $db->setQuery($query);

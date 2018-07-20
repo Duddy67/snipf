@@ -154,17 +154,19 @@ class plgContentSnipf extends JPlugin
       $db->setQuery($query);
       $certificateIds = $db->loadColumn();
 
-      SnipfHelper::deleteItems($certificateIds, 'Certificate');
+      if(!empty($certificateIds)) {
+	SnipfHelper::deleteItems($certificateIds, 'Certificate');
 
-      //Deletes all the processes linked to the person's certificates.
-      $query->clear();
-      $query->delete('#__snipf_process')
-	    ->where('item_id IN('.implode(',', $certificateIds).')')
-	    ->where('item_type="certificate"');
-      $db->setQuery($query);
-      $db->execute();
+	//Deletes all the processes linked to the person's certificates.
+	$query->clear();
+	$query->delete('#__snipf_process')
+	      ->where('item_id IN('.implode(',', $certificateIds).')')
+	      ->where('item_type="certificate"');
+	$db->setQuery($query);
+	$db->execute();
+      }
 
-      $tables = array('address', 'beneficiary', 'person_position_map', 'work_situation', 'sripf');
+      $tables = array('address', 'beneficiary', 'person_position_map', 'work_situation');
 
       foreach($tables as $table) {
 	$query->clear();
