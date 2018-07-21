@@ -56,6 +56,9 @@ class SnipfModelCertificates extends JModelList
     $published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '');
     $this->setState('filter.published', $published);
 
+    $certificateState = $this->getUserStateFromRequest($this->context.'.filter.certificate_state', 'filter_certificate_state', '');
+    $this->setState('filter.certificate_state', $published);
+
     // List state information.
     parent::populateState('c.number', 'asc');
   }
@@ -67,6 +70,7 @@ class SnipfModelCertificates extends JModelList
     $id .= ':'.$this->getState('filter.search');
     $id .= ':'.$this->getState('filter.published');
     $id .= ':'.$this->getState('filter.user_id');
+    $id .= ':'.$this->getState('filter.certificate_state');
 
     return parent::getStoreId($id);
   }
@@ -126,6 +130,12 @@ class SnipfModelCertificates extends JModelList
     if(is_numeric($userId)) {
       $type = $this->getState('filter.user_id.include', true) ? '= ' : '<>';
       $query->where('c.created_by'.$type.(int) $userId);
+    }
+
+    //Filter by publication state.
+    $certificateState = $this->getState('filter.certificate_state');
+    if(!empty($certificateState)) {
+      //
     }
 
     //Add the list to the sort.

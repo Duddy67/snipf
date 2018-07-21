@@ -18,9 +18,26 @@
     //Gets needed variables.
     var certificateState = $('#certificate-state').val();
     var nbProcesses = $('#nb-processes').val();
+    var certificateId = $('#jform_id').val();
 
-    //A single process (ie: CI) can be in readonly mode only if the process state is done.  
-    if(!nbProcesses) {
+    if(certificateId != 0) {
+      //Once a person is picked and the item is saved, it's no longer possible to change
+      //the person through the picker. 
+      var selectBtn = $('#jform_person_id_name').next();
+      selectBtn.css({'visibility':'hidden','display':'none'});
+      $('#jform_person_id_clear').css({'visibility':'hidden','display':'none'});
+      $('#jform_person_id_name').css({'border-radius':'2px'});
+    }
+
+    if(nbProcesses == 0 || (nbProcesses == 1 && $('#end_process_1').val() == '')) {
+      //As long as a certificate is not still valid (ie: has a number) the number field
+      //cannot be edited. 
+      $('#jform_number').prop('readonly', true);
+      $('#jform_number').addClass('readonly');
+    }
+
+    //A single process (ie: CI) can be in readonly mode only if the certificate state is done.  
+    if(nbProcesses == 0) {
       return;
     }
 
@@ -101,7 +118,7 @@
     var certificateState = $('#certificate-state').val();
     var nbProcesses = $('#nb-processes').val();
 
-    if(!nbProcesses) {
+    if(nbProcesses == 0) {
       return;
     }
 
@@ -162,7 +179,7 @@
   $.fn.checkFields = function() {
     var nbProcesses = $('#nb-processes').val();
 
-    if(!nbProcesses) {
+    if(nbProcesses == 0) {
       return true;
     }
 
