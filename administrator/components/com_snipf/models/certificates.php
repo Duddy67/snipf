@@ -60,7 +60,7 @@ class SnipfModelCertificates extends JModelList
     $this->setState('filter.certificate_state', $published);
 
     // List state information.
-    parent::populateState('c.number', 'asc');
+    parent::populateState('p.lastname', 'asc');
   }
 
 

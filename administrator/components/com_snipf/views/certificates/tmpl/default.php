@@ -59,13 +59,13 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	<th width="1%" style="min-width:55px" class="nowrap center">
 	  <?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'c.published', $listDirn, $listOrder); ?>
 	</th>
-	<th width="20%">
+	<th width="10%">
 	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_NUMBER', 'c.number', $listDirn, $listOrder); ?>
 	</th>
-	<th width="20%">
+	<th width="15%">
 	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_LASTNAME', 'p.lastname', $listDirn, $listOrder); ?>
 	</th>
-	<th>
+	<th width="15%">
 	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_FIRSTNAME', 'p.firstname', $listDirn, $listOrder); ?>
 	</th>
 	<th>
