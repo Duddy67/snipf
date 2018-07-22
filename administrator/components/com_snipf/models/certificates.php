@@ -27,7 +27,7 @@ class SnipfModelCertificates extends JModelList
 	      'created', 'c.created',
 	      'created_by', 'c.created_by',
 	      'published', 'c.published',
-	      'user', 'user_id', 'person_id',
+	      'user', 'user_id', 'person_id', 'certificate_state'
       );
     }
 
@@ -56,8 +56,8 @@ class SnipfModelCertificates extends JModelList
     $published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '');
     $this->setState('filter.published', $published);
 
-    $certificateState = $this->getUserStateFromRequest($this->context.'.filter.certificate_state', 'filter_certificate_state', '');
-    $this->setState('filter.certificate_state', $published);
+    $certificateState = $this->getUserStateFromRequest($this->context.'.filter.certificate_state', 'filter_certificate_state');
+    $this->setState('filter.certificate_state', $certificateState);
 
     // List state information.
     parent::populateState('p.lastname', 'asc');
@@ -84,7 +84,7 @@ class SnipfModelCertificates extends JModelList
 
     // Select the required fields from the table.
     $query->select($this->getState('list.select', 'c.id, c.number, c.end_date, c.closure_reason, c.created, c.published,'.
-				   'c.created_by, c.checked_out, c.checked_out_time'));
+				   'c.closure_date, c.created_by, c.checked_out, c.checked_out_time'));
 
     $query->from('#__snipf_certificate AS c');
 
@@ -97,7 +97,8 @@ class SnipfModelCertificates extends JModelList
     $query->join('LEFT', '#__users AS u ON u.id = c.created_by');
 
     //Gets the last process (if any) linked to the certificate.
-    $query->select('pr.number AS process_nb, pr.name AS process_name, pr.outcome, pr.return_file_number, pr.file_receiving_date');
+    $query->select('pr.number AS process_nb, pr.name AS process_name, pr.outcome, pr.return_file_number,'.
+	           'pr.end_process, pr.commission_date, pr.file_receiving_date');
     $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id=c.id AND pr.item_type="certificate" AND pr.is_last=1');
 
     //Filter by title search.
@@ -132,10 +133,10 @@ class SnipfModelCertificates extends JModelList
       $query->where('c.created_by'.$type.(int) $userId);
     }
 
-    //Filter by publication state.
+    //Filter by certificate state.
     $certificateState = $this->getState('filter.certificate_state');
     if(!empty($certificateState)) {
-      //
+      $this->filterByCertificateState($query, $certificateState);
     }
 
     //Add the list to the sort.
@@ -145,6 +146,112 @@ class SnipfModelCertificates extends JModelList
     $query->order($db->escape($orderCol.' '.$orderDirn));
 
     return $query;
+  }
+
+
+  /**
+   * Filters the main query according to the given certificate state.
+   *
+   * @param   object   $query  A valid query object.
+   * @param   string   $state  The certificate state to filter.
+   *
+   * @return  void
+   *
+   */
+  protected function filterByCertificateState(&$query, $state)
+  {
+    $db = $this->getDbo();
+    $nullDate = $db->getNullDate();
+    $now = JFactory::getDate()->toSql();
+
+    switch($state) {
+      case 'all_running':
+	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate));
+	break;
+
+      case 'running_commission_pending':
+	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
+	        ->where('pr.commission_date > '.$db->Quote($nullDate).' AND pr.outcome="pending"');
+	break;
+
+      case 'running_file_pending':
+	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
+	        ->where('pr.file_receiving_date='.$db->Quote($nullDate));
+	break;
+
+      case 'running':
+	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
+	        ->where('pr.outcome="accepted"');
+	break;
+
+      case 'initial_running':
+	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
+	        ->where('pr.number = 1 AND pr.outcome="accepted"');
+	break;
+
+      case 'all_outdated':
+	  $query->where('c.end_date < '.$db->Quote($now).' AND c.end_date > '.$db->Quote($nullDate))
+	        ->where('c.closure_date='.$db->Quote($nullDate));
+	break;
+
+      case 'outdated_commission_pending':
+	  $query->where('c.end_date < '.$db->Quote($now).' AND c.end_date > '.$db->Quote($nullDate))
+	        ->where('c.closure_date='.$db->Quote($nullDate).' AND pr.commission_date > '.$db->Quote($nullDate))
+		->where('(pr.outcome="pending" OR pr.outcome="adjourned")');
+	break;
+
+      case 'outdated_file_pending':
+	  $query->where('c.end_date < '.$db->Quote($now).' AND c.end_date > '.$db->Quote($nullDate))
+	        ->where('c.closure_date='.$db->Quote($nullDate).' AND pr.file_receiving_date='.$db->Quote($nullDate));
+	break;
+
+      case 'outdated':
+	  $query->where('c.end_date < '.$db->Quote($now).' AND c.end_date > '.$db->Quote($nullDate))
+	        ->where('c.closure_date='.$db->Quote($nullDate).' AND pr.outcome="accepted"');
+	break;
+
+      case 'all_pending':
+	  $query->where('pr.end_process='.$db->Quote($nullDate).' AND c.closure_date='.$db->Quote($nullDate));
+	break;
+
+      case 'initial_pending':
+	  $query->where('pr.number=1 AND pr.file_receiving_date='.$db->Quote($nullDate));
+	break;
+
+      case 'initial_commission_pending':
+	  $query->where('pr.number=1 AND pr.commission_date > '.$db->Quote($nullDate))
+		->where('(pr.outcome="pending" OR pr.outcome="adjourned")');
+	break;
+
+      case 'all_invalidated':
+	  $query->where('(c.closure_reason="removal" OR c.closure_reason="rejected_file" OR '.
+		        ' c.closure_reason="abandon" OR c.closure_reason="other")');
+	break;
+
+      case 'rejected':
+	  $query->where('c.closure_reason="rejected_file"');
+	break;
+
+      case 'removal':
+	  $query->where('c.closure_reason="removal"');
+	break;
+
+      case 'abandon':
+	  $query->where('c.closure_reason="abandon"');
+	break;
+
+      case 'other':
+	  $query->where('c.closure_reason="other"');
+	break;
+
+      case 'retired':
+	  $query->where('c.closure_reason="retired"');
+	break;
+
+      case 'deceased':
+	  $query->where('c.closure_reason="deceased"');
+	break;
+    }
   }
 }
 
