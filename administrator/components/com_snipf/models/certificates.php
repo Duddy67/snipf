@@ -27,7 +27,8 @@ class SnipfModelCertificates extends JModelList
 	      'created', 'c.created',
 	      'created_by', 'c.created_by',
 	      'published', 'c.published',
-	      'user', 'user_id', 'person_id', 'certificate_state'
+	      'user', 'user_id', 'person_id',
+	      'certificate_state', 'from_date', 'to_date'
       );
     }
 
@@ -59,6 +60,12 @@ class SnipfModelCertificates extends JModelList
     $certificateState = $this->getUserStateFromRequest($this->context.'.filter.certificate_state', 'filter_certificate_state');
     $this->setState('filter.certificate_state', $certificateState);
 
+    $fromDate = $this->getUserStateFromRequest($this->context.'.filter.from_date', 'filter_from_date');
+    $this->setState('filter.from_date', $fromDate);
+
+    $toDate = $this->getUserStateFromRequest($this->context.'.filter.to_date', 'filter_to_date');
+    $this->setState('filter.to_date', $toDate);
+
     // List state information.
     parent::populateState('p.lastname', 'asc');
   }
@@ -71,6 +78,8 @@ class SnipfModelCertificates extends JModelList
     $id .= ':'.$this->getState('filter.published');
     $id .= ':'.$this->getState('filter.user_id');
     $id .= ':'.$this->getState('filter.certificate_state');
+    $id .= ':'.$this->getState('filter.from_date');
+    $id .= ':'.$this->getState('filter.to_date');
 
     return parent::getStoreId($id);
   }
@@ -100,6 +109,10 @@ class SnipfModelCertificates extends JModelList
     $query->select('pr.number AS process_nb, pr.name AS process_name, pr.outcome, pr.return_file_number,'.
 	           'pr.end_process, pr.commission_date, pr.file_receiving_date');
     $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id=c.id AND pr.item_type="certificate" AND pr.is_last=1');
+
+    //Gets the first process (if any) linked to the certificate (used for date filters).
+    $query->select('IFNULL(fpr.commission_date, "'.$db->getNullDate().'") AS first_commission_date');
+    $query->join('LEFT', '#__snipf_process AS fpr ON fpr.item_id=c.id AND fpr.item_type="certificate" AND fpr.number=1');
 
     //Filter by title search.
     $search = $this->getState('filter.search');
@@ -138,6 +151,10 @@ class SnipfModelCertificates extends JModelList
     if(!empty($certificateState)) {
       $this->filterByCertificateState($query, $certificateState);
     }
+
+    //Filter by dates.
+    $this->filterByDates($query);
+
 
     //Add the list to the sort.
     $orderCol = $this->state->get('list.ordering', 'c.number');
@@ -252,6 +269,52 @@ class SnipfModelCertificates extends JModelList
 	  $query->where('c.closure_reason="deceased"');
 	break;
     }
+  }
+
+
+  /**
+   * Filters the main query according to the given date filters.
+   *
+   * @param   object   $query  A valid query object.
+   *
+   * @return  void
+   *
+   */
+  protected function filterByDates(&$query)
+  {
+    $fromDate = $this->getState('filter.from_date');
+    $toDate = $this->getState('filter.to_date');
+
+    //Don't do anything if one of the date is empty.
+    if(empty($fromDate) || empty($toDate)) {
+      return;
+    }
+
+    $filterDates = array('from_date' => $fromDate, 'to_date' => $toDate);
+
+    //Date filters don't show time.
+    $format = JText::_('DATE_FORMAT_FILTER_DATE');
+    // Get the server timezone setting (server_utc).
+    $offset = JFactory::getConfig()->get('offset');
+
+    //Converts date as an SQL formatted datetime string in UTC.
+    foreach($filterDates as $key => $filterDate) {
+      $date = date_parse_from_format($format, $filterDate);
+      $filterDate = (int)$date['year'].'-'.(int)$date['month'].'-'.(int)$date['day'];
+      $filterDates[$key] = JFactory::getDate($filterDate, $offset)->toSql();
+    }
+
+    if($filterDates['from_date'] > $filterDates['to_date']) {
+      JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_MISMATCH_FILTER_DATES'), 'warning');
+      return;
+    }
+
+    $db = $this->getDbo();
+    $nullDate = $db->getNullDate();
+
+    //Adds the WHERE clauses to make the query fit to the date filters.
+    $query->where('fpr.commission_date > '.$db->Quote($nullDate).' AND c.end_date > '.$db->Quote($nullDate))
+	  ->where('(fpr.commission_date >= '.$db->Quote($filterDates['from_date']).' AND c.end_date <= '.$db->Quote($filterDates['to_date']).')');
   }
 }
 

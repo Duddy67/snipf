@@ -27,6 +27,10 @@ $colorCodes = array('initial_pending' => '#bfbfbf', 'commission_pending' => '#ff
 		    'removal' => '#404040', 'rejected_file' => '#404040', 'abandon' => '#404040', 'other' => '#404040');
 ?>
 
+<script type="text/javascript">
+//Global variable. It will be set as function in the js file.
+var checkFilterDates;
+</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_snipf&view=certificates');?>" method="post" name="adminForm" id="adminForm">
 
@@ -41,7 +45,8 @@ $colorCodes = array('initial_pending' => '#bfbfbf', 'commission_pending' => '#ff
 
 <?php
 // Search tools bar 
-echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+//echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+echo JLayoutHelper::render('searchtools.default', array('view' => $this));
 ?>
 
   <div class="clr"> </div>
@@ -166,4 +171,9 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 <input type="hidden" name="task" value="" />
 <?php echo JHtml::_('form.token'); ?>
 </form>
+
+<?php
+$doc = JFactory::getDocument();
+//Load the jQuery script.
+$doc->addScript(JURI::base().'components/com_snipf/js/certificates.js');
 

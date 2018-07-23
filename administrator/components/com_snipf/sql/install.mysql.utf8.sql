@@ -118,7 +118,6 @@ CREATE TABLE `#__snipf_process` (
   `file_receiving_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `reminder_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `commission_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
-  `suspension_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `amount` DECIMAL(14,2) UNSIGNED NOT NULL ,
   `outcome` VARCHAR(10) NOT NULL ,
   `commission_derogation` VARCHAR(80) NOT NULL ,
