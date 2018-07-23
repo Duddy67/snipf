@@ -73,6 +73,15 @@
   margin-top: 15px;
 }
 
+.date-filters {
+  /*border: 1px solid #999999;*/
+}
+
+.date-filters h3 {
+  font-size: 13px;
+  margin: 0;
+}
+
 #ajax-waiting-screen {
   z-index: 10000;
   position: fixed;

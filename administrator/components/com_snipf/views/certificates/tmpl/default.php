@@ -27,11 +27,6 @@ $colorCodes = array('initial_pending' => '#bfbfbf', 'commission_pending' => '#ff
 		    'removal' => '#404040', 'rejected_file' => '#404040', 'abandon' => '#404040', 'other' => '#404040');
 ?>
 
-<script type="text/javascript">
-//Global variable. It will be set as function in the js file.
-var checkFilterDates;
-</script>
-
 <form action="<?php echo JRoute::_('index.php?option=com_snipf&view=certificates');?>" method="post" name="adminForm" id="adminForm">
 
 <?php if (!empty( $this->sidebar)) : ?>
@@ -44,8 +39,7 @@ var checkFilterDates;
 <?php endif;?>
 
 <?php
-// Search tools bar 
-//echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+// Search tools bar (uses the component layout). 
 echo JLayoutHelper::render('searchtools.default', array('view' => $this));
 ?>
 
@@ -75,6 +69,9 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this));
 	</th>
 	<th>
 	  <?php echo JText::_('COM_SNIPF_HEADING_STATE'); ?>
+	</th>
+	<th>
+	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_SPECIALITY', 'speciality', $listDirn, $listOrder); ?>
 	</th>
 	<th width="10%" class="nowrap hidden-phone">
 	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_CREATED_BY', 'user', $listDirn, $listOrder); ?>
@@ -149,6 +146,16 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this));
 	  ?>
 	  </td>
 	  <td class="small hidden-phone">
+	    <?php
+	          if(!empty($item->speciality)) {
+		    echo $this->escape($item->speciality);
+		  }
+                  else {
+		    echo JText::_('COM_SNIPF_NOT_FILLED');
+		  }
+	      ?>
+	  </td>
+	  <td class="small hidden-phone">
 	    <?php echo $this->escape($item->user); ?>
 	  </td>
 	  <td class="nowrap small hidden-phone">
@@ -160,7 +167,7 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this));
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+	  <td colspan="10"><?php echo $this->pagination->getListFooter(); ?></td>
       </tr>
       </tbody>
     </table>

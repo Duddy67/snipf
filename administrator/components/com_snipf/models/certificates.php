@@ -28,7 +28,8 @@ class SnipfModelCertificates extends JModelList
 	      'created_by', 'c.created_by',
 	      'published', 'c.published',
 	      'user', 'user_id', 'person_id',
-	      'certificate_state', 'from_date', 'to_date'
+	      'certificate_state', 'from_date',
+	      'to_date', 'speciality'
       );
     }
 
@@ -104,6 +105,9 @@ class SnipfModelCertificates extends JModelList
     //Get the user name.
     $query->select('u.name AS user');
     $query->join('LEFT', '#__users AS u ON u.id = c.created_by');
+
+    $query->select('s.name AS speciality');
+    $query->join('LEFT', '#__snipf_speciality AS s ON s.id = c.speciality_id');
 
     //Gets the last process (if any) linked to the certificate.
     $query->select('pr.number AS process_nb, pr.name AS process_name, pr.outcome, pr.return_file_number,'.
@@ -267,6 +271,10 @@ class SnipfModelCertificates extends JModelList
 
       case 'deceased':
 	  $query->where('c.closure_reason="deceased"');
+	break;
+
+      case 'no_process':
+	  $query->where('pr.number IS NULL');
 	break;
     }
   }

@@ -47,44 +47,25 @@
 			<option value="other">COM_SNIPF_FILTER_OTHER</option>
 			<option value="retired">COM_SNIPF_FILTER_RETIRED</option>
 			<option value="deceased">COM_SNIPF_FILTER_DECEASED</option>
+			<option value="no_process">COM_SNIPF_FILTER_NO_PROCESS</option>
 		</field>
 
 		<field name="from_date" type="calendar"
-		       onchange="checkFilterDates();"
-		       label="COM_SNIPF_FIELD_REMINDER_DATE_LABEL" 
-		       description="COM_SNIPF_FIELD_REMINDER_DATE_DESC"
+		       label="COM_SNIPF_FIELD_FROM_DATE_LABEL" 
+		       description="COM_SNIPF_FIELD_FROM_DATE_DESC"
 		       translateformat="true"
 		       showtime="false"
 		       size="22"
 		       filter="user_utc" />
 
 		<field name="to_date" type="calendar"
-		       onchange="checkFilterDates();"
-		       label="COM_SNIPF_FIELD_REMINDER_DATE_LABEL" 
-		       description="COM_SNIPF_FIELD_REMINDER_DATE_DESC"
+		       label="COM_SNIPF_FIELD_TO_DATE_LABEL" 
+		       description="COM_SNIPF_FIELD_TO_DATE_DESC"
 		       translateformat="true"
 		       showtime="false"
 		       size="22"
 		       filter="user_utc" />
 	</fields>
-
-	<!--<fields name="date_filter">
-	  <field name="from_date" type="calendar"
-		 label="COM_SNIPF_FIELD_REMINDER_DATE_LABEL" 
-		 description="COM_SNIPF_FIELD_REMINDER_DATE_DESC"
-		 translateformat="true"
-		 showtime="false"
-		 size="22"
-		 filter="user_utc" />
-
-	  <field name="to_date" type="calendar"
-		 label="COM_SNIPF_FIELD_REMINDER_DATE_LABEL" 
-		 description="COM_SNIPF_FIELD_REMINDER_DATE_DESC"
-		 translateformat="true"
-		 showtime="false"
-		 size="22"
-		 filter="user_utc" />
-	</fields>-->
 
 	<fields name="list">
 		<field name="fullordering" type="list"

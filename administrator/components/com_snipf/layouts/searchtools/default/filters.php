@@ -1,10 +1,9 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package SNIPF
  * @subpackage  Layout
- *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright Copyright (c) 2018 - 2018 Lucas Sanner
+ * @license GNU General Public License version 3, or later
  */
 
 defined('JPATH_BASE') or die;
@@ -24,13 +23,15 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<?php $dataShowOn = " data-showon='" . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . "'"; ?>
 			<?php endif; ?>
 
-			<?php if ($fieldName === 'filter_from_date') : ?>
-			  <div class="date-filters">
+			<?php if($fieldName === 'filter_from_date') : //Wraps the date filters into a div. ?>
+			    <div class="date-filters">
+			    <h3><?php echo JText::_('COM_SNIPF_DATE_FILTERS'); ?></h3>
 			<?php endif; ?>
+
 			<div class="js-stools-field-filter"<?php echo $dataShowOn; ?>>
 				<?php echo $field->input; ?>
 			</div>
-			<?php if ($fieldName === 'filter_to_date') : ?>
+			<?php if($fieldName === 'filter_to_date') : //Adds the needed buttons to manage the date filters. ?>
 			   <button type="button" id="filter_dates" class="btn hasTooltip" title=""
 				   data-original-title=""><?php echo JText::_('COM_SNIPF_FILTER_BUTTON'); ?></button>
 			   <button type="button" id="clear_dates" class="btn hasTooltip" title=""

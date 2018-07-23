@@ -1,10 +1,9 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package SNIPF
  * @subpackage  Layout
- *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright Copyright (c) 2018 - 2018 Lucas Sanner
+ * @license GNU General Public License version 3, or later
  */
 
 defined('JPATH_BASE') or die;
@@ -87,22 +86,24 @@ JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options'])
 		</div>
 		<?php endif; ?>
 		<div class="js-stools-container-bar">
-			<?php //echo $this->sublayout('bar', $data); ?>
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
+			<?php //Uses the native Joomla layout.
+			      echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
 		</div>
 		<div class="js-stools-container-list hidden-phone hidden-tablet">
-			<?php //echo $this->sublayout('list', $data); ?>
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
+			<?php //Uses the native Joomla layout.
+			      echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
 	<?php if ($data['options']['filterButton']) : ?>
 	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersActiveClass; ?>">
-		<?php echo $this->sublayout('filters', $data); ?>
+		<?php //Uses the component layout.
+		      echo $this->sublayout('filters', $data); ?>
 	</div>
 	<?php endif; ?>
 </div>
 <?php if ($data['options']['showNoResults']) : ?>
-	<?php //echo $this->sublayout('noitems', $data); ?>
-	<?php echo JLayoutHelper::render('joomla.searchtools.default.noitems', $data); ?>
+	<?php //Uses the native Joomla layout.
+	      echo JLayoutHelper::render('joomla.searchtools.default.noitems', $data); ?>
 <?php endif; ?>
+
