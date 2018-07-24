@@ -162,6 +162,72 @@ class SnipfHelper
 
 
   /**
+   * Creates a Joomla user and linked it to a person.
+   *
+   * @param integer  The id of the person.
+   *
+   * @return void
+   */
+  public static function createUser($personId)
+  {
+    $db = JFactory::getDbo();
+    $query = $db->getQuery(true);
+    //Gets some person data.
+    $query->select('user_id, lastname, firstname, alias, email')
+	  ->from('#__snipf_person')
+	  ->where('id='.(int)$personId);
+    $db->setQuery($query);
+    $person = $db->loadObject(); 
+
+    if((int)$person->user_id) {
+      //This person is already linked to a Joomla user.
+      return;
+    }
+
+    $data = array();
+    $data['name'] = $person->firstname.' '.$person->lastname;
+    $data['username'] = $person->alias;
+    $data['email'] = $person->email;
+    $data['password'] = '';
+    $data['password2'] = '';
+    $data['block'] = 0;
+    $data['groups'] = array(2); //Registered
+
+file_put_contents('debog_create_user.txt', print_r($person, true));
+return;
+    // Generate a new JUser Object
+    // Note: It's important to set the "0" otherwise your admin user information will be loaded
+    $user = JFactory::getUser(0); 
+    // Now adds the new user to the database.
+    if(!$user->bind($data)) { // Bind the data and if it fails raise an error
+      JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_SNIPF_CANNOT_CREATE_USER', $user->getError()), 'error');
+      return false;
+    }   
+          
+    if(!$user->save()) { // Now check if the new user is saved
+      JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_SNIPF_CANNOT_CREATE_USER', $user->getError()), 'error');
+      return false;
+    }   
+
+    // Get the id of the user newly created.
+    $query->clear();
+    $query->select('id')
+          ->from('#__users')
+          ->where('username='.$db->quote($userData['username']));
+    $db->setQuery($query);
+    $userId = $db->loadResult();
+
+    //Links the new Joomla user to the person.
+    $query->clear();
+    $query->update('#__snipf_person')
+          ->set('user_id='.(int)$userId)
+	  ->where('id='.(int)$personId);
+    $db->setQuery($query);
+    $db->execute();
+  }
+
+
+  /**
    * Deletes Joomla's items programmaticaly.
    *
    * @param mixed	An array of item ids or a single item id.

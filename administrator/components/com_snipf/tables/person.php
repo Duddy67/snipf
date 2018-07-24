@@ -130,11 +130,24 @@ class SnipfTablePerson extends JTable
       $this->alias = JFilterOutput::stringURLSafe($this->lastname.'-'.$this->firstname);
     }
 
-    // Verify that the alias is unique
+    //Stores the original alias.
+    $alias = $this->alias;
+    //In case of no unique alias the alias numering starts from 2.
+    $aliasNb = 2;
+
+    // Verify that the alias is unique. If it's not, the alias is numbered.
     $table = JTable::getInstance('Person', 'SnipfTable', array('dbo', $this->getDbo()));
 
-    if($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
-      $this->setError(JText::_('COM_SNIPF_DATABASE_ERROR_PERSON_UNIQUE_ALIAS'));
+    while($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+      //Numbers the alias.
+      $this->alias = $alias.'-'.$aliasNb; 
+      //Increments the alias number.
+      $aliasNb++;
+    }
+
+    // Verify that the email is unique.
+    if($table->load(array('email' => $this->email)) && ($table->id != $this->id || $this->id == 0)) {
+      $this->setError(JText::_('COM_SNIPF_DATABASE_ERROR_PERSON_UNIQUE_EMAIL'));
       return false;
     }
 

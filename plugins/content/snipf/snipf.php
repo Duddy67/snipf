@@ -40,6 +40,12 @@ class plgContentSnipf extends JPlugin
 
   public function onContentBeforeSave($context, $data, $isNew)
   {
+    if($context == 'com_users.user') { 
+      /*$table = JTable::getInstance('Person', 'SnipfTable', array('dbo', $this->getDbo()));
+      if($table->load(array('email' => $data->email)) && ($table->user_id != $data->id || $data->id == 0)) {
+      }*/
+    }
+
     return true;
   }
 
@@ -128,8 +134,22 @@ class plgContentSnipf extends JPlugin
 
       $model = JModelLegacy::getInstance('Certificate', 'SnipfModel');
       $model->setEndDates($data->id);
+
+      //Checks for a initial and accepted process.
+      $outcomes = array();
+      foreach($filteredData as $key => $value) {
+	if(preg_match('#^outcome_[0-9]+$#', $key)) {
+	  $outcomes[] = $value;
+	}
+      }
+
+      //There is one process and the outcome is accepted. 
+      if(count($outcomes) == 1 && $outcomes[0] == 'accepted') {
+	//A Joomla user linked to this person may have to be created.
+	SnipfHelper::createUser($data->person_id);
+      }
     }
-    elseif($context == 'com_snipf.subscription' && !$isNew) { 
+    elseif($context == 'com_snipf.subscription' && !$isNew) { //SUBSCRIPTION
       $filteredData = $this->filterDateFields('subscription_process', 'process');
       ProcessHelper::saveProcess($filteredData);
     }
