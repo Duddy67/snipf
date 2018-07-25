@@ -40,7 +40,25 @@ class plgContentSnipf extends JPlugin
 
   public function onContentBeforeSave($context, $data, $isNew)
   {
-    if($context == 'com_users.user') { 
+    if($context == 'com_snipf.person') { 
+      if($data->status == 'retired' || $data->status == 'deceased') {
+	$db = JFactory::getDbo();
+	$query = $db->getQuery(true);
+	//Gets the linked certificates then checks whether some are currently edited.
+	$query->select('c.number, c.checked_out, c.checked_out_time, u.name')
+	      ->from('#__snipf_certificate AS c')
+	      ->join('LEFT', '#__users AS u ON u.id=c.checked_out')
+	      ->where('c.person_id='.(int)$data->id);
+	$db->setQuery($query);
+	$certificates = $db->loadObjectList();
+
+	if(!empty($certificates)) {
+	  $data->setError(JText::sprintf('COM_SNIPF_CERTIFICATE_CURRENTLY_EDITED', $certificates[0]->number,$certificates[0]->name));
+	  return false;
+	}
+      }
+    }
+    elseif($context == 'com_users.user') { 
       /*$table = JTable::getInstance('Person', 'SnipfTable', array('dbo', $this->getDbo()));
       if($table->load(array('email' => $data->email)) && ($table->user_id != $data->id || $data->id == 0)) {
       }*/

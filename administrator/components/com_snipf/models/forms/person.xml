@@ -68,9 +68,25 @@
 	       type="calendar"
 	       label="COM_SNIPF_FIELD_BIRTHDATE_LABEL"
 	       description="COM_SNIPF_FIELD_BIRTHDATE_DESC"
-	       info="COM_SNIPF_SPACER_BIRTHDATE"
 	       translateformat="true"
-	       format="%Y-%m-%d" />
+	       filter="raw"
+	       showtime="false" />
+
+	<field name="retirement_date"
+	       type="calendar"
+	       label="COM_SNIPF_FIELD_RETIREMENT_DATE_LABEL"
+	       description="COM_SNIPF_FIELD_RETIREMENT_DATE_DESC"
+	       translateformat="true"
+	       filter="raw"
+	       showtime="false" />
+
+	<field name="deceased_date"
+	       type="calendar"
+	       label="COM_SNIPF_FIELD_DECEASED_DATE_LABEL"
+	       description="COM_SNIPF_FIELD_DECEASED_DATE_DESC"
+	       translateformat="true"
+	       filter="raw"
+	       showtime="false" />
 
 	<field name="email" type="email"
 	       label="COM_SNIPF_FIELD_EMAIL_LABEL"

@@ -99,36 +99,6 @@ class SnipfHelper
   }
 
 
-  public static function getUTCDate($format, $dateValue, $showTime = true, $filter = 'user_utc')
-  {
-    $date = date_parse_from_format($format, $dateValue);
-    $value = (int)$date['year'].'-'.(int)$date['month'].'-'.(int)$date['day'];
-
-    if($showTime) {
-      $value .= ' '.(int)$date['hour'].':'.(int)$date['minute'].':'.(int)$date['second'];
-    }
-
-    $offset = self::getOffset($filter);
-
-    // Returns date as an SQL formatted datetime string in UTC.
-    return JFactory::getDate($dateValue, $offset)->toSql();
-  }
-
-
-  public static function getOffset($filter = 'user_utc')
-  {
-    // Get the user timezone setting defaulting to the server timezone setting.
-    $offset = JFactory::getUser()->getTimezone();
-
-    if($filter == 'server_utc') {
-      // Get the server timezone setting.
-      $offset = JFactory::getConfig()->get('offset');
-    }
-
-    return $offset;
-  }
-
-
   public static function generateCSV($data)
   {
     $headers = array('firstname', 'lastname', 'created', 'user', 'category_title');
@@ -164,7 +134,7 @@ class SnipfHelper
   /**
    * Creates a Joomla user and linked it to a person.
    *
-   * @param integer  The id of the person.
+   * @param integer $personId	The id of the person.
    *
    * @return void
    */
@@ -230,8 +200,8 @@ return;
   /**
    * Deletes Joomla's items programmaticaly.
    *
-   * @param mixed	An array of item ids or a single item id.
-   * @param string	The name of the item.
+   * @param mixed  $itemIds	An array of item ids or a single item id.
+   * @param string $itemName	The name of the item.
    *
    * @return void
    */
@@ -255,11 +225,11 @@ return;
   /**
    * Update a mapping table according to the variables passed as arguments.
    *
-   * @param string  The name of the table to update (eg: #__table_name).
-   * @param array  Array of table's column, (primary key name must be set as the first array's element).
-   * @param array  Array of JObject containing the column values, (values order must match the column order).
-   * @param array  Array containing the ids of the items to update.
-   * @param string Extra WHERE clause.
+   * @param string $table	The name of the table to update (eg: #__table_name).
+   * @param array  $columns	Array of table's column, (primary key name must be set as the first array's element).
+   * @param array  $data	Array of JObject containing the column values, (values order must match the column order).
+   * @param array  $ids		Array containing the ids of the items to update.
+   * @param string $where	Extra WHERE clause.
    *
    * @return void
    */
@@ -331,6 +301,53 @@ return;
     }
 
     return;
+  }
+
+
+  /**
+   * Returns a date (from a calendar field) in the UTC format. The filter attribute must
+   * be set to raw or the date won't be treated. It is used when the date offset is not
+   * needed.
+   *
+   * @param string  $formName		The name of the form which contains the date field.
+   * @param string  $fieldsetName	The name of the fieldset which contains the date field.
+   * @param string  $fieldName		The name of the date field.
+   * @param string  $value		The value of the date
+   *
+   * @return string			The raw date in the UTC format.
+   */
+  public static function getUTCDate($formName, $fieldsetName, $fieldName, $value)
+  {
+    //Gets the date field.
+    $form = new JForm('Form');
+    $form->loadFile('components/com_snipf/models/forms/'.$formName.'.xml');
+    $field = $form->getFieldset($fieldsetName)[$fieldName];
+
+    //Rules out the cases where the field value has not to be treated.
+    if($value == JFactory::getDbo()->getNullDate() || empty($value) || $field->getAttribute('type') != 'calendar' ||
+       $field->getAttribute('filter') != 'raw' || $field->getAttribute('translateformat') === null ||
+       $field->getAttribute('translateformat') == 'false') {
+      return $value;
+    }
+
+    //Sets the date format according to the showtime value; 
+    $showTime = (string)$field->getAttribute('showtime');
+    $showTime = ($showTime && $showTime != 'false');
+    $format = JText::_('DATE_FORMAT_FILTER_DATE');
+
+    if($showTime) {
+      $format = JText::_('DATE_FORMAT_FILTER_DATETIME');
+    }
+
+    $date = date_parse_from_format($format, $value);
+    $value = (int)$date['year'].'-'.(int)$date['month'].'-'.(int)$date['day'];
+
+    if($showTime) {
+      $value .= ' '.(int)$date['hour'].':'.(int)$date['minute'].':'.(int)$date['second'];
+    }
+
+    // Returns the UTC raw date. 
+    return JFactory::getDate($value, 'UTC')->toSql();
   }
 }
 

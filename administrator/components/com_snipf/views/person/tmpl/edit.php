@@ -61,6 +61,8 @@ Joomla.submitbutton = function(task)
 		    echo $this->form->getControlGroup('maiden_name');
 		    echo $this->form->getControlGroup('person_title');
 		    echo $this->form->getControlGroup('birthdate');
+		    echo $this->form->getControlGroup('retirement_date');
+		    echo $this->form->getControlGroup('deceased_date');
 		    echo $this->form->getControlGroup('country_of_birth');
 		    echo $this->form->getControlGroup('region_of_birth');
 		    echo $this->form->getControlGroup('city_of_birth');

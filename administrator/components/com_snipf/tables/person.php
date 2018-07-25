@@ -10,6 +10,7 @@ defined('_JEXEC') or die('Restricted access');
  
 // import Joomla table library
 jimport('joomla.database.table');
+require_once JPATH_COMPONENT.'/helpers/snipf.php';
  
 use Joomla\Registry\Registry;
 
@@ -114,11 +115,11 @@ class SnipfTablePerson extends JTable
       }
     }
 
-    //Note: Birthdates are stored as absolute dates (such as historical dates). No
-    //conversions are applied on them. 
-    if(preg_match('#^([0-9]{2})-([0-9]{2})-([0-9]{4})$#', $this->birthdate, $matches)) {
-      //Converts into SQL format (yyyy-mm-dd).
-      $this->birthdate = $matches[3].'-'.$matches[2].'-'.$matches[1];
+    //Some dates such as birthdate or historical dates are stored and shown in UTC. No
+    //offset is appiled on them. 
+    $utcDates = array('retirement_date', 'birthdate', 'deceased_date');
+    foreach($utcDates as $utcDate) {
+      $this->$utcDate = SnipfHelper::getUTCDate('person', 'details', $utcDate, $this->$utcDate);
     }
 
     //Set the alias of the person.
