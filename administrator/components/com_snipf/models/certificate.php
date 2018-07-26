@@ -228,19 +228,50 @@ class SnipfModelCertificate extends JModelAdmin
     $now = JFactory::getDate()->toSql();
 
     //Fetches all certificates bounded to the given person.
-    $query->select('closure_date, closure_reason')
+    $query->select('id, closure_date, closure_reason')
 	  ->from('#__snipf_certificate')
 	  ->where('person_id='.(int)$person->id);
     $db->setQuery($query);
     $certificates = $db->loadObjectList();
 
+    $certIds = array();
+    //Builds the CASE/WHEN clauses.
+    $cases = array('closure_date' => array(), 'closure_reason' => array());
     foreach($certificates as $certificate) {
+      //Collects the certificate ids.
+      $certIds[] = $certificate->id;
+
       if($person->status == 'retired' || $person->status == 'deceased') {
 	if($certificate->closure_date == $db->getNullDate()) {
 	  //Certificate has to be closed.
+	  $cases['closure_date'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($now);
 	}
+
+	$cases['closure_reason'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($person->status);
       }
     }
+
+    $set = '';
+    foreach($cases as $key => $values) {
+      if(!empty($values)) {
+	$set .= $key.' = CASE ';
+	foreach($values as $value) {
+	  $set .= $value;
+	}
+
+	$set .= ' ELSE '.$key.' END, ';
+      }
+    }
+
+    //Remove the comma and the space from the end of the string.
+    $set = substr($set, 0,-2);
+
+    $query->update('#__snipf_certificate')
+          ->set($set)
+	  ->where('id IN('.implode(',', $certIds).')');
+//file_put_contents('debog_file.txt', print_r($query->__toString(), true));
+    $db->setQuery($query);
+    $db->execute();
   }
 
 

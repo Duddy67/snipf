@@ -148,6 +148,9 @@ class plgContentSnipf extends JPlugin
       $values[] = $workSituation;
 
       SnipfHelper::updateMappingTable('#__snipf_work_situation', $columns, $values, array($data->id));
+
+      $model = JModelLegacy::getInstance('Certificate', 'SnipfModel');
+      $model->checkCertificateClosure($data);
     }
     elseif($context == 'com_snipf.certificate' && !$isNew) { //CERTIFICATE
       $filteredData = $this->filterDateFields('certificate_process', 'process');
