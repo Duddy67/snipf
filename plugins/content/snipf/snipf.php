@@ -45,16 +45,19 @@ class plgContentSnipf extends JPlugin
 	$db = JFactory::getDbo();
 	$query = $db->getQuery(true);
 	//Gets the linked certificates then checks whether some are currently edited.
-	$query->select('c.number, c.checked_out, c.checked_out_time, u.name')
+	$query->select('c.number, c.closure_date, c.checked_out, c.checked_out_time, u.name AS user_name')
 	      ->from('#__snipf_certificate AS c')
 	      ->join('LEFT', '#__users AS u ON u.id=c.checked_out')
 	      ->where('c.person_id='.(int)$data->id);
 	$db->setQuery($query);
 	$certificates = $db->loadObjectList();
 
-	if(!empty($certificates)) {
-	  $data->setError(JText::sprintf('COM_SNIPF_CERTIFICATE_CURRENTLY_EDITED', $certificates[0]->number,$certificates[0]->name));
-	  return false;
+	foreach($certificates as $certificate) {
+	  //A certificate is still opened and currently edited.
+	  if((int)$certificate->checked_out && $certificate->closure_date == $db->getNullDate()) {
+	    $data->setError(JText::sprintf('COM_SNIPF_CERTIFICATE_CURRENTLY_EDITED', $certificate->number,$certificate->user_name));
+	    return false;
+	  }
 	}
       }
     }

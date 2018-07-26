@@ -221,6 +221,29 @@ class SnipfModelCertificate extends JModelAdmin
   }
 
 
+  public function checkCertificateClosure($person)
+  {
+    $db = $this->getDbo();
+    $query = $db->getQuery(true);
+    $now = JFactory::getDate()->toSql();
+
+    //Fetches all certificates bounded to the given person.
+    $query->select('closure_date, closure_reason')
+	  ->from('#__snipf_certificate')
+	  ->where('person_id='.(int)$person->id);
+    $db->setQuery($query);
+    $certificates = $db->loadObjectList();
+
+    foreach($certificates as $certificate) {
+      if($person->status == 'retired' || $person->status == 'deceased') {
+	if($certificate->closure_date == $db->getNullDate()) {
+	  //Certificate has to be closed.
+	}
+      }
+    }
+  }
+
+
   /**
    * Runs through all the current processes and checks mandatory fields according to the
    * current state of the process.
