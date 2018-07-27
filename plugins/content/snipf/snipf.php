@@ -44,7 +44,20 @@ class plgContentSnipf extends JPlugin
       if($data->status == 'retired' || $data->status == 'deceased') {
 	$db = JFactory::getDbo();
 	$query = $db->getQuery(true);
+
+	//Checks whether the person's status has been changed since the last session.
+	$query->select('status')
+	      ->from('#__snipf_person')
+	      ->where('id='.(int)$data->id);
+	$db->setQuery($query);
+
+	//Does nothing if the status hasn't changed.
+	if($db->loadResult() == $data->status) {
+	  return true;
+	}
+
 	//Gets the linked certificates then checks whether some are currently edited.
+	$query->clear();
 	$query->select('c.number, c.closure_date, c.checked_out, c.checked_out_time, u.name AS user_name')
 	      ->from('#__snipf_certificate AS c')
 	      ->join('LEFT', '#__users AS u ON u.id=c.checked_out')

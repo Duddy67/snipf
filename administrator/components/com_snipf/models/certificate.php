@@ -221,6 +221,13 @@ class SnipfModelCertificate extends JModelAdmin
   }
 
 
+  /**
+   * Sets the last process end date as well as the certificate end date according to the
+   *
+   * @param   object $person   The person object.
+   *
+   * @return  void
+   */
   public function checkCertificateClosure($person)
   {
     $db = $this->getDbo();
@@ -234,9 +241,11 @@ class SnipfModelCertificate extends JModelAdmin
     $db->setQuery($query);
     $certificates = $db->loadObjectList();
 
+    $user = JFactory::getUser();
     $certIds = array();
+
     //Builds the CASE/WHEN clauses.
-    $cases = array('closure_date' => array(), 'closure_reason' => array());
+    $cases = array('closure_date' => array(), 'closure_reason' => array(), 'modified' => array(), 'modified_by' => array());
     foreach($certificates as $certificate) {
       //Collects the certificate ids.
       $certIds[] = $certificate->id;
@@ -247,10 +256,14 @@ class SnipfModelCertificate extends JModelAdmin
 	  $cases['closure_date'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($now);
 	}
 
+	//Updates the closure reason as well as the last modification variables.
 	$cases['closure_reason'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($person->status);
+	$cases['modified'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($now);
+	$cases['modified_by'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$user->get('id');
       }
     }
 
+    //Builds the SET clause together.
     $set = '';
     foreach($cases as $key => $values) {
       if(!empty($values)) {
@@ -264,12 +277,12 @@ class SnipfModelCertificate extends JModelAdmin
     }
 
     //Remove the comma and the space from the end of the string.
-    $set = substr($set, 0,-2);
+    $set = substr($set, 0, -2);
 
+    //Updates the certificate closures.
     $query->update('#__snipf_certificate')
           ->set($set)
 	  ->where('id IN('.implode(',', $certIds).')');
-//file_put_contents('debog_file.txt', print_r($query->__toString(), true));
     $db->setQuery($query);
     $db->execute();
   }
