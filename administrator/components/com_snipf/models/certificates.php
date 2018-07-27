@@ -324,6 +324,39 @@ class SnipfModelCertificates extends JModelList
     $query->where('fpr.commission_date > '.$db->Quote($nullDate).' AND c.end_date > '.$db->Quote($nullDate))
 	  ->where('(fpr.commission_date >= '.$db->Quote($filterDates['from_date']).' AND c.end_date <= '.$db->Quote($filterDates['to_date']).')');
   }
+
+
+  /**
+   * Returns the data fetched by the current query.
+   *
+   *
+   * @return array   The data as an array of items.
+   */
+  public function getDataFromCurrentQuery()
+  {
+    //Gets the POST array.
+    $post = JFactory::getApplication()->input->post->getArray();
+
+    //Sets filters and ordering states according to the current setting
+
+    foreach($post['filter'] as $key => $value) {
+      if(!empty($value)) {
+	$this->setState('filter.'.$key, $value);
+      }
+    }
+
+    if(!empty($post['list']['fullordering'])) {
+      $this->setState('list.ordering', $post['list']['fullordering']);
+    }
+
+    //Gets the current query.
+    $query = $this->getListQuery();
+
+    $db = $this->getDbo();
+    $db->setQuery($query);
+
+    return $db->loadObjectList();
+  }
 }
 
 

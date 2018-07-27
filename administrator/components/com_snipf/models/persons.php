@@ -206,6 +206,12 @@ class SnipfModelPersons extends JModelList
   }
 
 
+  /**
+   * Returns the data fetched by the current query.
+   *
+   *
+   * @return array   The data as an array of items.
+   */
   public function getDataFromCurrentQuery()
   {
     //Gets the POST array.

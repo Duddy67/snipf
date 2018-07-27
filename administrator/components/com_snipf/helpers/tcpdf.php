@@ -7,7 +7,9 @@
 
 defined('_JEXEC') or die; //No direct access to this file.
 //JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
-require_once(JPATH_LIBRARIES.'/tcpdf/tcpdf.php');
+//Uses include_once instead of require_once to prevent a fatal error in case the tcpdf
+//librarie is not installed.
+include_once(JPATH_LIBRARIES.'/tcpdf/tcpdf.php');
 
 
 

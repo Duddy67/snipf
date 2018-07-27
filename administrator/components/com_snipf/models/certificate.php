@@ -222,7 +222,7 @@ class SnipfModelCertificate extends JModelAdmin
 
 
   /**
-   * Sets the last process end date as well as the certificate end date according to the
+   * In case of retirement or decease as a person's status, the bounded certificates are closed.
    *
    * @param   object $person   The person object.
    *
@@ -230,6 +230,11 @@ class SnipfModelCertificate extends JModelAdmin
    */
   public function checkCertificateClosure($person)
   {
+    if($person->status != 'retired' && $person->status != 'deceased') {
+      //The other cases don't involve a certificate closure.
+      return;
+    }
+
     $db = $this->getDbo();
     $query = $db->getQuery(true);
     $now = JFactory::getDate()->toSql();
@@ -250,20 +255,18 @@ class SnipfModelCertificate extends JModelAdmin
       //Collects the certificate ids.
       $certIds[] = $certificate->id;
 
-      if($person->status == 'retired' || $person->status == 'deceased') {
-	if($certificate->closure_date == $db->getNullDate()) {
-	  //Certificate has to be closed.
-	  $cases['closure_date'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($now);
-	}
-
-	//Updates the closure reason as well as the last modification variables.
-	$cases['closure_reason'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($person->status);
-	$cases['modified'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($now);
-	$cases['modified_by'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$user->get('id');
+      if($certificate->closure_date == $db->getNullDate()) {
+	//Certificate has to be closed.
+	$cases['closure_date'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($now);
       }
+
+      //Updates the closure reason as well as the last modification variables.
+      $cases['closure_reason'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($person->status);
+      $cases['modified'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($now);
+      $cases['modified_by'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$user->get('id');
     }
 
-    //Builds the SET clause together.
+    //Puts the SET clause together.
     $set = '';
     foreach($cases as $key => $values) {
       if(!empty($values)) {
@@ -280,6 +283,7 @@ class SnipfModelCertificate extends JModelAdmin
     $set = substr($set, 0, -2);
 
     //Updates the certificate closures.
+    $query->clear();
     $query->update('#__snipf_certificate')
           ->set($set)
 	  ->where('id IN('.implode(',', $certIds).')');
