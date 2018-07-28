@@ -89,8 +89,22 @@ class TcpdfHelper
 	$replacements[] = $item->$attrName;
       }
 
-      //
-      $htmls[] = preg_replace($patterns, $replacements, $htmlTemplate);
+      //Gets the html code with the variable values properly set.
+      $html = preg_replace($patterns, $replacements, $htmlTemplate);
+
+      //In case of multi pages the html block has to be hashed in several parts.
+      while(preg_match('#^(.+)(<br \s*class="pagebreak" \s*/>)#sU', $html, $matches)) {
+	//Stores the fetched html part (without the <br> tag).
+	$htmls[] = $matches[1];
+	//Removes that part from the main html block.
+	$html = preg_replace('#^(.+)(<br \s*class="pagebreak" \s*/>)#sU', '', $html);
+      }
+
+      if(!empty($html)) {
+	//Stores the remaining html part or the whole html block if no multi pages tags
+	//have been found.
+	$htmls[] = $html;
+      }
     }
 //file_put_contents('debog_file.txt', print_r($htmls, true));
     return $htmls;

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die; //No direct access to this file.
  
 jimport('joomla.application.component.controlleradmin');
-require_once JPATH_ROOT.'/administrator/components/com_snipf/helpers/tcpdf.php';
+include_once JPATH_ROOT.'/administrator/components/com_snipf/helpers/tcpdf.php';
 require_once JPATH_ROOT.'/administrator/components/com_snipf/helpers/snipf.php';
  
 
@@ -50,7 +50,9 @@ class SnipfControllerPersons extends JControllerAdmin
       return true;
     }
     else {
-      TcpdfHelper::generatePDF($data, 'person_pdf');
+      $this->setRedirect(TcpdfHelper::generatePDF($data, 'person_pdf'));
+
+      return true;
     }
   }
 }

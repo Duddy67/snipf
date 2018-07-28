@@ -9,6 +9,7 @@
 defined('_JEXEC') or die; //No direct access to this file.
  
 jimport('joomla.application.component.controlleradmin');
+include_once JPATH_ROOT.'/administrator/components/com_snipf/helpers/tcpdf.php';
  
 
 class SnipfControllerCertificates extends JControllerAdmin
@@ -29,13 +30,13 @@ class SnipfControllerCertificates extends JControllerAdmin
     // Check for request forgeries
     JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-    $model = $this->getModel('Persons');
+    $model = $this->getModel('Certificates');
     $data = $model->getDataFromCurrentQuery();
 
     //Gets the task string.
     $task = $this->input->post->get('task', '', 'str');
     //Gets the document type from the task string.
-    preg_match('#^persons\.generateDocument\.([a-z]+)$#', $task, $matches);
+    preg_match('#^certificates\.generateDocument\.([a-z_]+)$#', $task, $matches);
     $documentType = $matches[1];
 
     if($documentType == 'csv') {
@@ -59,14 +60,16 @@ class SnipfControllerCertificates extends JControllerAdmin
 	$db = JFactory::getDbo();
 	$query = $db->getQuery(true);
 	//Gets some person data.
-	$query->select('lastname, firstname, alias, email')
+	$query->select('*')
 	      ->from('#__snipf_person')
 	      ->where('id IN('.implode(',', $personIds).')');
 	$db->setQuery($query);
 	$persons = $db->loadObjectList(); 
-      }
 
-      TcpdfHelper::generatePDF($data, 'person_pdf');
+	TcpdfHelper::generatePDF($persons, 'person_pdf');
+
+	return true;
+      }
     }
   }
 }

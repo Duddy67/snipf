@@ -89,7 +89,7 @@ class SnipfViewCertificates extends JViewLegacy
       JToolBarHelper::deleteList('', 'certificates.delete', 'JTOOLBAR_DELETE');
     }
 
-    JToolBarHelper::custom('certificates.generateDocument.pdf', 'file-2.png', 'file-2_f2.png','COM_SNIPF_GENERATE_PDF', false);
+    JToolBarHelper::custom('certificates.generateDocument.pdf_new_ci', 'file-2.png', 'file-2_f2.png','COM_SNIPF_GENERATE_PDF', false);
 
     if($canDo->get('core.admin')) {
       JToolBarHelper::divider();

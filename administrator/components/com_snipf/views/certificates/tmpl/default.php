@@ -27,6 +27,23 @@ $colorCodes = array('initial_pending' => '#bfbfbf', 'commission_pending' => '#ff
 		    'removal' => '#404040', 'rejected_file' => '#404040', 'abandon' => '#404040', 'other' => '#404040');
 ?>
 
+<script type="text/javascript">
+
+Joomla.submitbutton = function(task)
+{
+  var form = document.getElementById("adminForm");
+  //Removes the possible target attribute previously set.
+  form.removeAttribute('target');
+
+  if(task == 'certificates.generateDocument.pdf_new_ci') {
+    //Displays the pdf output in a new tab.
+    form.setAttribute('target', '_blank');
+  }
+
+  Joomla.submitform(task);
+}
+</script>
+
 <form action="<?php echo JRoute::_('index.php?option=com_snipf&view=certificates');?>" method="post" name="adminForm" id="adminForm">
 
 <?php if (!empty( $this->sidebar)) : ?>
