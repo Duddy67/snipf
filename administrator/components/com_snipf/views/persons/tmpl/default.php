@@ -44,18 +44,29 @@ Joomla.orderTable = function()
   Joomla.tableOrdering(order, dirn, '');
 }
 
+/**
+ * Default function. Can be overriden by the component to add custom logic
+ *
+ * @param  {bool}  task  The given task
+ *
+ * @returns {void}
+ */
 Joomla.submitbutton = function(task)
 {
   var form = document.getElementById("adminForm");
-  //Removes the possible target attribute previously set.
-  form.removeAttribute('target');
 
   if(task == 'persons.generateDocument.pdf') {
     //Displays the pdf output in a new tab.
     form.setAttribute('target', '_blank');
+    Joomla.submitform(task);
+    //Cleans out the values previously set to prevent the other tasks
+    //to be also opened in a new tab.
+    document.getElementById('task').value = '';
+    form.removeAttribute('target');
   }
-
-  Joomla.submitform(task);
+  else {
+    Joomla.submitform(task);
+  }
 }
 </script>
 

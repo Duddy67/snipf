@@ -27,20 +27,30 @@ $colorCodes = array('initial_pending' => '#bfbfbf', 'commission_pending' => '#ff
 		    'removal' => '#404040', 'rejected_file' => '#404040', 'abandon' => '#404040', 'other' => '#404040');
 ?>
 
-<script type="text/javascript">
-
+<script>
+/**
+ * Default function. Can be overriden by the component to add custom logic
+ *
+ * @param  {bool}  task  The given task
+ *
+ * @returns {void}
+ */
 Joomla.submitbutton = function(task)
 {
   var form = document.getElementById("adminForm");
-  //Removes the possible target attribute previously set.
-  form.removeAttribute('target');
 
   if(task == 'certificates.generateDocument.pdf_new_ci') {
     //Displays the pdf output in a new tab.
     form.setAttribute('target', '_blank');
+    Joomla.submitform(task);
+    //Cleans out the values previously set to prevent the other tasks
+    //to be also opened in a new tab.
+    document.getElementById('task').value = '';
+    form.removeAttribute('target');
   }
-
-  Joomla.submitform(task);
+  else {
+    Joomla.submitform(task);
+  }
 }
 </script>
 
@@ -192,7 +202,7 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this));
 
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="option" value="com_snipf" />
-<input type="hidden" name="task" value="" />
+<input type="hidden" name="task" id="task" value="" />
 <?php echo JHtml::_('form.token'); ?>
 </form>
 

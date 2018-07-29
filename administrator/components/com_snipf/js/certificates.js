@@ -3,6 +3,7 @@
   //Run a function when the page is fully loaded including graphics.
   $(window).load(function() {
 
+    $('#clear_dates').click( function() { $.fn.clearDates(); });
     $('#filter_dates').click( function() { $.fn.filterDates(); });
     $('#clear_dates').click( function() { $.fn.clearDates(); });
 
@@ -15,7 +16,6 @@
       $.fn.clearDates();
     }
   });
-
 
   $.fn.filterDates = function() {
     var fromDate = $('#filter_from_date').val();

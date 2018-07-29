@@ -75,8 +75,8 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="c.published ASC">JSTATUS_ASC</option>
 			<option value="c.published DESC">JSTATUS_DESC</option>
-			<option value="c.name ASC">COM_SNIPF_TITLE_ASC</option>
-			<option value="c.name DESC">COM_SNIPF_TITLE_DESC</option>
+			<option value="lastname ASC">COM_SNIPF_NAME_ASC</option>
+			<option value="lastname DESC">COM_SNIPF_NAME_DESC</option>
 			<option value="user ASC">JAUTHOR_ASC</option>
 			<option value="user DESC">JAUTHOR_DESC</option>
 			<option value="c.created ASC">JDATE_ASC</option>
