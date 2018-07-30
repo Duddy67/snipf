@@ -39,6 +39,7 @@
 	       filter="user_utc" />
 
 	<field name="amount" type="text"
+	       validate="numeric"
 		label="COM_SNIPF_FIELD_AMOUNT_LABEL"
 		description="COM_SNIPF_FIELD_AMOUNT_DESC" />
 

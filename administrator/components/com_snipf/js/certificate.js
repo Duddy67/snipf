@@ -80,6 +80,12 @@
 	  //Removes the calendar button and reshapes its input border.
 	  $('button[id="'+fields[j]+'_'+idNb+'_btn"]').css({'visibility':'hidden','display':'none'});
 	  $('#'+fields[j]+'_'+idNb).css({'border-radius':'2px'});
+
+	  //Specific case.
+	  if(fields[j] == 'created_by') {
+	    //Hides the <a> button link just after the input element.   
+	    $('#'+fields[j]+'_'+idNb).next().css({'visibility':'hidden','display':'none'});
+	  }
 	}
       }
     }
