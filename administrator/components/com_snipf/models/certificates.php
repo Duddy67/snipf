@@ -320,9 +320,16 @@ class SnipfModelCertificates extends JModelList
     $db = $this->getDbo();
     $nullDate = $db->getNullDate();
 
-    //Adds the WHERE clauses to make the query fit to the date filters.
-    $query->where('fpr.commission_date > '.$db->Quote($nullDate).' AND c.end_date > '.$db->Quote($nullDate))
-	  ->where('(fpr.commission_date >= '.$db->Quote($filterDates['from_date']).' AND c.end_date <= '.$db->Quote($filterDates['to_date']).')');
+    if($filterDates['from_date'] == $filterDates['to_date']) {
+      //Strict mode. Fetches only certificates where the commission date of the initial
+      //process matches the given filter date.
+      $query->where('fpr.commission_date = '.$db->Quote($filterDates['from_date']));
+    }
+    else {
+      //Fetches the certificates which matche the date filters gap.
+      $query->where('c.end_date > '.$db->Quote($nullDate))
+	    ->where('(fpr.commission_date >= '.$db->Quote($filterDates['from_date']).' AND '.$db->Quote($filterDates['to_date']).' <= c.end_date)');
+    }
   }
 
 
