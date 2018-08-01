@@ -125,6 +125,8 @@ Joomla.submitbutton = function(task)
   <?php //Required for the dynamical Javascript region setting. ?>
   <input type="hidden" name="hidden_region_code" id="hidden-region-code" value="<?php echo $this->form->getValue('region_of_birth'); ?>" />
   <input type="hidden" name="lang_tag" id="lang-tag" value="<?php echo $langTag; ?>" />
+  <?php //Required for the checkCertificateClosure function. ?>
+  <input type="hidden" name="old_status" value="<?php echo $this->item->status; ?>" />
   <?php echo JHtml::_('form.token', array('id' => 'token')); ?>
 </form>
 

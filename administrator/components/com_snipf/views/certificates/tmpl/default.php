@@ -156,6 +156,9 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this));
 	  </td>
 	  <td class="hidden-phone">
 	    <?php echo $this->escape($item->lastname); ?>
+		<span class="small">
+		  <?php echo '<br />(id: '.$item->person_id.')'; ?>
+		</span>
 	  </td>
 	  <td class="hidden-phone">
 	    <?php echo $this->escape($item->firstname); ?>
