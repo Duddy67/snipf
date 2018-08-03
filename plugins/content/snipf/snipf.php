@@ -102,7 +102,7 @@ class plgContentSnipf extends JPlugin
 	}
       }
 
-      AddressHelper::saveAddresses($data->id, $addresses, $data->mail_address_type);
+      AddressHelper::saveAddresses($data->id, $addresses);
 
       //Moves to the beneficiaries.
 

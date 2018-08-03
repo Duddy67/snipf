@@ -105,31 +105,28 @@ class SnipfModelPerson extends JModelAdmin
     //item type.
     $mandatory = parse_ini_file(JPATH_BASE.'/components/com_snipf/models/forms/mandatory.ini');
 
-    //Checks addresses.
-    if(!empty($data['mail_address_type'])) {
-      $fields = $mandatory[$data['mail_address_type']];
+    //Checks the professional addresses.
+    if($data['mail_address_type'] == 'pa') {
+      //Gets the mandatory fields of the professional address.
+      $fields = $mandatory['pa'];
 
       //Makes the addresse's fields mandatory.
       foreach($fields as $fieldName) {
-	$form->setFieldAttribute($fieldName.'_'.$data['mail_address_type'], 'required', 'true');
+	$form->setFieldAttribute($fieldName.'_pa', 'required', 'true');
       }
+    }
 
-      //Sets the optional address type (ie: the opposite of the current address type).
-      $optionalAddressType = 'pa';
-      if($data['mail_address_type'] == 'pa') {
-	$optionalAddressType = 'ha';
-      }
+    //Checks whether some fields of the professional address have been filled in.
+    $professionalAddressFields = AddressHelper::checkProfessionalAddress($data);
 
-      //Checks whether some fields of the optional address have been filled in.
-      $optionalAddressFields = AddressHelper::checkOptionalAddress($optionalAddressType, $data);
-
-      if(!empty($optionalAddressFields)) {
-	//The optional address fields have been partially filled in.
-        JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_WARNING_INCORRECT_OPTIONAL_ADDRESS'), 'warning');
-	//Makes the optional addresse's fields mandatory.
-	foreach($optionalAddressFields as $fieldName) {
-	  $form->setFieldAttribute($fieldName.'_'.$optionalAddressType, 'required', 'true');
-	}
+    //The professional address can be either optional or mandatory depending on the
+    //mail_address_type value.
+    if(!empty($professionalAddressFields) || (empty($professionalAddressFields) && $data['mail_address_type'] == 'pa')) {
+      //The professional address fields have been partially filled in.
+      JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_WARNING_INCORRECT_PROFESSIONAL_ADDRESS'), 'warning');
+      //Makes the addresse's fields mandatory.
+      foreach($professionalAddressFields as $fieldName) {
+	$form->setFieldAttribute($fieldName.'_'.$professionalAddressType, 'required', 'true');
       }
     }
 

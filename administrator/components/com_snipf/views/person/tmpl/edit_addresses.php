@@ -33,7 +33,8 @@
 	    <a class="btn btn-warning" href="#"><?php echo JText::_('COM_SNIPF_NEW_ADDRESS_BUTTON'); ?></a>
 	  </div>
 
-	  <?php if($this->item->mail_address_type != $addressType) { //Adds a delete button for the no mandatory address. ?>
+	  <?php //Adds a delete button if the professional address is optional.
+		if($addressType == 'pa' && $this->item->mail_address_type != 'pa') {  ?>
 	    <div class="address-btn" id="btn-delete-address-<?php echo $addressType; ?>">
 	      <a class="btn btn-danger" href="#"><?php echo JText::_('COM_SNIPF_BUTTON_REMOVE_LABEL'); ?></a>
 	    </div>

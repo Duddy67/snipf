@@ -103,39 +103,32 @@ class AddressHelper
    *
    * @param   integer   $personId  		The id of the person to which the addresses have to be linked to.
    * @param   mixed	$addresses 		The address data.
-   * @param   string	$mailAddressType	The mandatory address type.
    *
    * @return  void
    */
-  public static function saveAddresses($personId, $addresses, $mailAddressType)
+  public static function saveAddresses($personId, $addresses)
   {
     //If the operation variable value is empty, it means that the person item is new so
-    //the address must be created as the mail address type is mandatory. 
-    //The "insert" value means that a new mail address type has been created.
-    if(empty($addresses[$mailAddressType]['operation']) || $addresses[$mailAddressType]['operation'] == 'insert') {
-      self::insertAddress($personId, $addresses[$mailAddressType], $mailAddressType);
+    //the home address must be created as it is mandatory. 
+    //The "insert" value means that a new home address has been created.
+    if(empty($addresses['ha']['operation']) || $addresses['ha']['operation'] == 'insert') {
+      self::insertAddress($personId, $addresses['ha'], 'ha');
     }
-    else { //Otherwise updates the address data.
-      self::updateAddress($personId, $addresses[$mailAddressType], $mailAddressType);
-    }
-
-    //Moves to the optional address.
-
-    //Gets the optional address type.
-    $optionalAddressType = 'pa';
-    if($mailAddressType == 'pa') {
-      $optionalAddressType = 'ha';
+    else { //Otherwise updates the home address data.
+      self::updateAddress($personId, $addresses['ha'], 'ha');
     }
 
-    //If the street mandatory field is not empty it means that the optional address has
+    //Moves to the professional address.
+
+    //If the street mandatory field is not empty it means that the professional address has
     //been correctly set so it can be created.
-    //The "insert" value means that a new optional address type has been created.
-    if((empty($addresses[$optionalAddressType]['operation']) && !empty($addresses[$optionalAddressType]['street'])) ||
-	$addresses[$optionalAddressType]['operation'] == 'insert') {
-      self::insertAddress($personId, $addresses[$optionalAddressType], $optionalAddressType);
+    //The "insert" value means that a new professional address has been created.
+    if((empty($addresses['pa']['operation']) && !empty($addresses['pa']['street'])) ||
+	$addresses['pa']['operation'] == 'insert') {
+      self::insertAddress($personId, $addresses['pa'], 'pa');
     }
-    elseif($addresses[$optionalAddressType]['operation'] == 'update') {
-      self::updateAddress($personId, $addresses[$optionalAddressType], $optionalAddressType);
+    elseif($addresses['pa']['operation'] == 'update') {
+      self::updateAddress($personId, $addresses['pa'], 'pa');
     }
   }
 
@@ -233,27 +226,27 @@ class AddressHelper
 
 
   /**
-   * If the user has filled in the optional address fields, this function unsures that at
+   * If the user has filled in the professional address fields, this function unsures that at
    * least the (usually) mandatory fields are properly set.
-   * In case these fields are empty, the form can be sent since the address is optional.
+   * In case these fields are empty, the form can be sent in case the professional address is optional.
    *
-   * @param   string	$addressType	The address type to check.
    * @param   mixed	$data		The edit form data.
    *
    * @return  mixed  Array of the possible unfilled fields
    *
    */
-  public static function checkOptionalAddress($addressType, $data)
+  public static function checkProfessionalAddress($data)
   {
     //Gets the mandatory fields according to the address type.
     $mandatory = parse_ini_file(JPATH_BASE.'/components/com_snipf/models/forms/mandatory.ini');
-    $fields = $mandatory[$addressType];
+    //Gets the mandatory fields of the professional address.
+    $fields = $mandatory['pa'];
     $emptyFields = array();
 
     //Checks the value of the required fields.
     foreach($fields as $fieldName) {
       //Removes possible space.
-      $value = trim($data[$fieldName.'_'.$addressType]);
+      $value = trim($data[$fieldName.'_pa']);
 
       //Stores the names of the unfilled fields.
       if(empty($value)) {
@@ -315,7 +308,7 @@ class AddressHelper
     $now = JFactory::getDate()->toSql();
     $user = JFactory::getUser();
     //These fields are not to be compared.
-    $ignoredFields = array('modified', 'modified_by', 'created');
+    $ignoredFields = array('modified', 'modified_by', 'created', 'created_by');
 
     //Starts comparison between old and new address values.
     foreach($oldAddress as $fieldName => $value) {
