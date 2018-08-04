@@ -133,7 +133,7 @@ class SnipfControllerCertificate extends JControllerForm
       if($action == 'delete') {
 	//Updates the end dates.
 	$model = JModelLegacy::getInstance('Certificate', 'SnipfModel');
-	$model->setEndDates($id);
+	$model->updateEndDates($id);
       }
     }
     //A process has already been created but has not been saved yet. A new process cannot

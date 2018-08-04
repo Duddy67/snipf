@@ -22,6 +22,8 @@ class SnipfModelSubscriptions extends JModelList
 	      'name', 's.name',
 	      'lastname', 'p.lastname',
 	      'firstname', 'p.firstname',
+	      'status', 'p.status',
+	      'certificate_status', 'p.certificate_status',
 	      'created', 's.created',
 	      'created_by', 's.created_by',
 	      'published', 's.published',
@@ -83,7 +85,7 @@ class SnipfModelSubscriptions extends JModelList
     $query->from('#__snipf_subscription AS s');
 
     //Subscription must be linked to a person.
-    $query->select('p.lastname, p.firstname, p.id AS person_id');
+    $query->select('p.lastname, p.firstname, p.id AS person_id, p.status, p.certificate_status');
     $query->join('INNER', '#__snipf_person AS p ON p.id = s.person_id');
 
     //Get the user name.

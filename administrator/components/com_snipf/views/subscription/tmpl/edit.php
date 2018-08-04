@@ -38,6 +38,9 @@ Joomla.submitbutton = function(task)
 	  <div class="form-vertical">
 	    <?php
 		  echo $this->form->getControlGroup('person_id');
+		  $this->form->setValue('person_status', null, $this->item->person_status);
+		  echo $this->form->getControlGroup('person_status');
+		  echo $this->form->getControlGroup('cqp1');
 		  echo $this->form->getControlGroup('description');
 	      ?>
 	  </div>
@@ -79,4 +82,5 @@ Joomla.submitbutton = function(task)
 $doc = JFactory::getDocument();
 //Load the jQuery script.
 $doc->addScript(JURI::base().'components/com_snipf/js/process.js');
+$doc->addScript(JURI::base().'components/com_snipf/js/subscription.js');
 

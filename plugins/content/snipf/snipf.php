@@ -164,13 +164,16 @@ class plgContentSnipf extends JPlugin
 
       $model = JModelLegacy::getInstance('Certificate', 'SnipfModel');
       $model->checkCertificateClosure($data);
+
+      $model = JModelLegacy::getInstance('Person', 'SnipfModel');
+      $model->updateCertificateStatus($data->id);
     }
     elseif($context == 'com_snipf.certificate' && !$isNew) { //CERTIFICATE
       $filteredData = $this->filterDateFields('certificate_process', 'process');
       ProcessHelper::saveProcess($filteredData);
 
       $model = JModelLegacy::getInstance('Certificate', 'SnipfModel');
-      $model->setEndDates($data->id);
+      $model->updateEndDates($data->id);
 
       //Checks for a initial and accepted process.
       $outcomes = array();
@@ -185,6 +188,9 @@ class plgContentSnipf extends JPlugin
 	//A Joomla user linked to this person may have to be created.
 	SnipfHelper::createUser($data->person_id);
       }
+
+      $model = JModelLegacy::getInstance('Person', 'SnipfModel');
+      $model->updateCertificateStatus($data->person_id);
     }
     elseif($context == 'com_snipf.subscription' && !$isNew) { //SUBSCRIPTION
       $filteredData = $this->filterDateFields('subscription_process', 'process');

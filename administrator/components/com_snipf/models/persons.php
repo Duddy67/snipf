@@ -29,6 +29,8 @@ class SnipfModelPersons extends JModelList
 				       'ordering', 'p.ordering', 'tm.ordering', 'tm_ordering',
 				       'language', 'p.language',
 				       'hits', 'p.hits',
+				       'status', 'p.status',
+				       'certificate_status', 'p.certificate_status',
 				       'catid', 'p.catid', 'category_id',
 				       'tag'
 				      );
@@ -107,7 +109,8 @@ class SnipfModelPersons extends JModelList
 
     // Select the required fields from the table.
     $query->select($this->getState('list.select', 'p.id,p.lastname,p.firstname,p.alias,p.created,p.published,p.catid,p.hits,'.
-				   'p.access,p.ordering,p.created_by,p.checked_out,p.checked_out_time,p.language'))
+				   'p.status,p.certificate_status,p.access,p.ordering,p.created_by,p.checked_out,'.
+				   'p.checked_out_time,p.language'))
 	  ->from('#__snipf_person AS p');
 
     //Get the user name.

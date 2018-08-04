@@ -125,14 +125,14 @@ class SnipfModelCertificate extends JModelAdmin
 
 
   /**
-   * Sets the last process end date as well as the certificate end date according to the
+   * Updates the last process end date as well as the certificate end date according to the
    * state of the processes.
    *
    * @param   integer   $itemId  The certificate id.
    *
    * @return  void
    */
-  public function setEndDates($itemId)
+  public function updateEndDates($itemId)
   {
     $processes = ProcessHelper::getProcesses($itemId, 'certificate');
     $db = $this->getDbo();

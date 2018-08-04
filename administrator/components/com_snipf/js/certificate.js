@@ -26,7 +26,7 @@
       var selectBtn = $('#jform_person_id_name').next();
       selectBtn.css({'visibility':'hidden','display':'none'});
       $('#jform_person_id_clear').css({'visibility':'hidden','display':'none'});
-      $('#jform_person_id_name').css({'border-radius':'2px'});
+      $('#jform_person_id_name').css({'border-radius':'2px', 'width':'206px'});
     }
 
     if(nbProcesses == 0 || (nbProcesses == 1 && $('#end_process_1').val() == '')) {

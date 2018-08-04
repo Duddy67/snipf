@@ -71,6 +71,21 @@ class SnipfModelSubscription extends JModelAdmin
       $item->nb_processes = count($item->processes);
     }
 
+    $db = $this->getDbo();
+    $query = $db->getQuery(true);
+    $query->select('status, certificate_status')
+	  ->from('#__snipf_person')
+	  ->where('id='.(int)$item->person_id);
+    $db->setQuery($query);
+    $person = $db->loadObject();
+
+    if($person->status == 'retired' || $person->status == 'deceased') {
+      $item->person_status = JText::_('COM_SNIPF_OPTION_'.strtoupper($person->status));
+    }
+    else { 
+      $item->person_status = JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.strtoupper($person->certificate_status));
+    }
+
     return $item;
   }
 }

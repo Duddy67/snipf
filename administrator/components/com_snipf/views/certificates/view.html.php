@@ -38,9 +38,6 @@ class SnipfViewCertificates extends JViewLegacy
     }
 
     $this->getCertificateState();
-//echo '<pre>';
-//var_dump($this->items);
-//echo '</pre>';
 
     //Display the tool bar.
     $this->addToolBar();

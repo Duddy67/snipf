@@ -190,6 +190,63 @@ class SnipfModelPerson extends JModelAdmin
   }
 
 
+  /**
+   * Updates the certificate_status variable value for a given person. 
+   * The certificate status is computed according to the state of the 
+   * certificates owned by the given person.
+   *
+   * @param   integer  $personId  The id of the person.
+   *
+   * @return  void
+   */
+  public function updateCertificateStatus($personId)
+  {
+    $db = $this->getDbo();
+    $query = $db->getQuery(true);
+    //Gets all of the certificates accepted by the commission owned by the given person.
+    //The closure_reason value will determine whether they are still valide.
+    $query->select('c.closure_reason')
+	  ->from('#__snipf_certificate AS c')
+	  ->join('INNER', '#__snipf_process AS p ON p.item_id=c.id AND p.item_type="certificate"')
+	  ->where('c.person_id='.(int)$personId)
+	  ->where('c.published=1 AND p.number=1 AND p.outcome="accepted"');
+    $db->setQuery($query);
+    $certificates = $db->loadColumn();
+
+    if(empty($certificates)) {
+      $status = 'no_certificate';
+    }
+    else {
+      if(in_array('', $certificates)) {
+	//No closure reason means that the certificate is still running.
+	$status = 'certified';
+      }
+      elseif(in_array('retired', $certificates) || in_array('deceased', $certificates)) {
+	$status = 'formerly_certified';
+      }
+      else {
+	//All certificates owned by this person are no longer valide.
+	$status = 'no_longer_certified';
+      }
+    }
+
+    $query->clear();
+    $query->update('#__snipf_person')
+	  ->set('certificate_status='.$db->Quote($status))
+	  ->where('id='.(int)$personId);
+    $db->setQuery($query);
+    $db->execute();
+  }
+
+
+  /**
+   * Method to get a single record.
+   *
+   * @param   integer  $pk		The id of the primary key.
+   * @param   boolean  $showTime	Indicates whether date values show time or not.
+   *
+   * @return  array    An array of position items.
+   */
   public function getPositions($pk = null, $showTime = false)
   {
     $pk = (!empty($pk)) ? $pk : (int)$this->getState($this->getName().'.id');
