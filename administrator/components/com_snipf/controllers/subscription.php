@@ -18,11 +18,28 @@ class SnipfControllerSubscription extends JControllerForm
 
   public function save($key = null, $urlVar = null)
   {
-    //Get the jform data.
-    //$data = $this->input->post->get('jform', array(), 'array');
+    $post = $this->input->post->getArray();
+    $id = $this->input->get('id', 0, 'int');
+    //Gets the last process number (if any).
+    $nbProcesses = $post['nb_processes'];
 
-    //Saves the modified jform data array 
-    //$this->input->post->set('jform', $data);
+    $previousYear = 0;
+    //Gets the previous year value (if any).
+    if($nbProcesses > 1) {
+      $penultimateProcessNb = $nbProcesses - 1;
+      $previousYear = $post['year_'.$penultimateProcessNb];
+    }
+
+    //Checks that the current year value is correct and that is not lower or equal to the
+    //previous year value (if any).
+    if((int)$nbProcesses && (!preg_match('#^[1-9][0-9]{3}$#', $post['year_'.$nbProcesses]) ||
+       $post['year_'.$nbProcesses] <= $previousYear)) {
+      JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_WARNING_INVALID_YEAR'), 'warning');
+      //Sets the process variable to 'create' so that the current process will be deleted
+      //in case of cancelation
+      $this->setRedirect('index.php?option='.$this->option.'&view='.$this->context.'&layout=edit&id='.(int)$id.'&process=create');
+      return false;
+    }
 
     $this->setProcessDates();
 

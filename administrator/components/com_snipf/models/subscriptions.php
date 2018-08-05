@@ -88,10 +88,13 @@ class SnipfModelSubscriptions extends JModelList
     $query->select('p.lastname, p.firstname, p.id AS person_id, p.status, p.certificate_status');
     $query->join('INNER', '#__snipf_person AS p ON p.id = s.person_id');
 
+    //Get the last process.
+    $query->select('pr.headquarters_payment, communication_payment, cads_payment');
+    $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id = s.id AND item_type="subscription" AND is_last=1');
+
     //Get the user name.
     $query->select('u.name AS user');
     $query->join('LEFT', '#__users AS u ON u.id = s.created_by');
-
 
     //Filter by title search.
     $search = $this->getState('filter.search');

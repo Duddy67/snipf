@@ -37,6 +37,7 @@ class SnipfViewSubscription extends JViewLegacy
     $this->processForm->loadFile('components/com_snipf/models/forms/subscription_process.xml');
 
     JText::script('COM_SNIPF_WARNING_DELETE_PROCESS'); 
+    JText::script('COM_SNIPF_WARNING_INVALID_YEAR'); 
 
     //Display the toolbar.
     $this->addToolBar();

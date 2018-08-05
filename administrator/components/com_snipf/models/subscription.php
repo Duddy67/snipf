@@ -71,22 +71,41 @@ class SnipfModelSubscription extends JModelAdmin
       $item->nb_processes = count($item->processes);
     }
 
-    $db = $this->getDbo();
-    $query = $db->getQuery(true);
-    $query->select('status, certificate_status')
-	  ->from('#__snipf_person')
-	  ->where('id='.(int)$item->person_id);
-    $db->setQuery($query);
-    $person = $db->loadObject();
+    if($item->id) { //Existing item.
+      $db = $this->getDbo();
+      $query = $db->getQuery(true);
+      $query->select('status, certificate_status')
+	    ->from('#__snipf_person')
+	    ->where('id='.(int)$item->person_id);
+      $db->setQuery($query);
+      $person = $db->loadObject();
 
-    if($person->status == 'retired' || $person->status == 'deceased') {
-      $item->person_status = JText::_('COM_SNIPF_OPTION_'.strtoupper($person->status));
-    }
-    else { 
-      $item->person_status = JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.strtoupper($person->certificate_status));
+      if($person->status == 'retired' || $person->status == 'deceased') {
+	$item->person_status = JText::_('COM_SNIPF_OPTION_'.strtoupper($person->status));
+      }
+      else { 
+	$item->person_status = JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.strtoupper($person->certificate_status));
+      }
     }
 
     return $item;
+  }
+
+
+  /**
+   * Loads ContentHelper for filters before validating data.
+   *
+   * @param   object  $form   The form to validate against.
+   * @param   array   $data   The data to validate.
+   * @param   string  $group  The name of the group(defaults to null).
+   *
+   * @return  mixed  Array of filtered data if valid, false otherwise.
+   *
+   * @since   1.1
+   */
+  public function validate($form, $data, $group = null)
+  {
+    return parent::validate($form, $data, $group);
   }
 }
 

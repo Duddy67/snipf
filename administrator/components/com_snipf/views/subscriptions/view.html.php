@@ -33,6 +33,20 @@ class SnipfViewSubscriptions extends JViewLegacy
       return false;
     }
 
+    foreach($this->items as $item) {
+      //Sets the payment status according to the values of the several payments.
+      $item->payment_status = 'unpaid';
+      if($item->headquarters_payment && $item->communication_payment && $item->cads_payment) {
+	$item->payment_status = 'paid';
+      }
+
+      //Sets the person status.
+      $item->person_status = $item->certificate_status;
+      if($item->status == 'retired' || $item->status == 'deceased') {
+	$item->person_status = $item->status;
+      }
+    }
+
     //Display the tool bar.
     $this->addToolBar();
 

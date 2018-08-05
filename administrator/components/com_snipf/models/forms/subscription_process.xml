@@ -1,17 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<form addrulepath="/administrator/components/com_snipf/models/rules">
+<form>
 
   <fieldset name="process">
 
 	<field name="year" type="text"
 		label="COM_SNIPF_FIELD_YEAR_LABEL"
 		description="COM_SNIPF_FIELD_YEAR_DESC"
+		maxlength="4"
 		required="true" />
 
+	<field name="payment_date" type="calendar"
+	       label="COM_SNIPF_FIELD_PAYMENT_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_PAYMENT_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="headquarters_payment"
+	       type="radio"
+	       default="0"
+	       class="btn-group btn-group-yesno"
+	       label="COM_SNIPF_FIELD_HEADQUARTERS_PAYMENT_LABEL"
+	       description="COM_SNIPF_FIELD_HEADQUARTERS_PAYMENT_DESC">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
+	<field name="communication_payment"
+	       type="radio"
+	       default="0"
+	       class="btn-group btn-group-yesno"
+	       label="COM_SNIPF_FIELD_COMMUNICATION_PAYMENT_LABEL"
+	       description="COM_SNIPF_FIELD_COMMUNICATION_PAYMENT_DESC">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
+	<field name="cads_payment"
+	       type="radio"
+	       default="0"
+	       class="btn-group btn-group-yesno"
+	       label="COM_SNIPF_FIELD_CADS_PAYMENT_LABEL"
+	       description="COM_SNIPF_FIELD_CADS_PAYMENT_DESC">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
 	<field name="comments" type="textarea"
-		label="COM_SNIPF_FIELD_DESCRIPTION_LABEL"
-		description="COM_SNIPF_FIELD_DESCRIPTION_DESC"
+		label="COM_SNIPF_FIELD_COMMENTS_LABEL"
+		description="COM_SNIPF_FIELD_COMMENTS_DESC"
 		rows="5" cols="10"
 		default=""></field>
 

@@ -64,6 +64,12 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	<th width="5%">
 	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_PERSON_ID', 'p.person_id', $listDirn, $listOrder); ?>
 	</th>
+	<th width="15%">
+	  <?php echo JText::_('COM_SNIPF_HEADING_PERSON_STATUS'); ?>
+	</th>
+	<th width="15%">
+	  <?php echo JText::_('COM_SNIPF_HEADING_PAYMENT_STATUS'); ?>
+	</th>
 	<th width="10%" class="nowrap hidden-phone">
 	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_CREATED_BY', 'user', $listDirn, $listOrder); ?>
 	</th>
@@ -124,6 +130,12 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  <td class="hidden-phone center">
 	    <?php echo $this->escape($item->person_id); ?>
 	  </td>
+	  <td class="hidden-phone center">
+	    <?php echo $this->escape($item->person_status); ?>
+	  </td>
+	  <td class="hidden-phone center">
+	    <?php echo $this->escape($item->payment_status); ?>
+	  </td>
 	  <td class="small hidden-phone">
 	    <?php echo $this->escape($item->user); ?>
 	  </td>
@@ -136,7 +148,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+	  <td colspan="10"><?php echo $this->pagination->getListFooter(); ?></td>
       </tr>
       </tbody>
     </table>

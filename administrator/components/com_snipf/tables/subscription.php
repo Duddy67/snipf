@@ -64,6 +64,13 @@ class SnipfTableSubscription extends JTable
     //Sets the name value from the person linked to this subscription.
     $this->name = $table->lastname.' '.$table->firstname;
 
+    // Verify that the person is not already a member.
+    $table = JTable::getInstance('Subscription', 'SnipfTable', array('dbo', $this->getDbo()));
+    if($table->load(array('person_id' => $this->person_id)) && ($table->id != $this->id || $this->id == 0)) {
+      $this->setError(JText::_('COM_SNIPF_ERROR_PERSON_ALREADY_MEMBER'));
+      return false;
+    }
+
     return parent::store($updateNulls);
   }
 }

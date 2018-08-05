@@ -10,12 +10,20 @@ defined( '_JEXEC' ) or die; // No direct access
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-$currentProcess = $this->item->nb_processes;
 ?>
 
 <script type="text/javascript">
+
+//Global variable. It will be set as function in the js file.
+var checkFields;
+
 Joomla.submitbutton = function(task)
 {
+  //Checks the process's fields are properly set.
+  if(task != 'subscription.cancel' && !checkFields()) {
+    return false;
+  }
+
   if(task == 'subscription.cancel' || document.formvalidator.isValid(document.getElementById('subscription-form'))) {
     Joomla.submitform(task, document.getElementById('subscription-form'));
   }
@@ -38,9 +46,13 @@ Joomla.submitbutton = function(task)
 	  <div class="form-vertical">
 	    <?php
 		  echo $this->form->getControlGroup('person_id');
-		  $this->form->setValue('person_status', null, $this->item->person_status);
-		  echo $this->form->getControlGroup('person_status');
-		  echo $this->form->getControlGroup('cqp1');
+
+		  if($this->item->id) { //Existing item.
+		    $this->form->setValue('person_status', null, $this->item->person_status);
+		    echo $this->form->getControlGroup('person_status');
+		    echo $this->form->getControlGroup('cqp1');
+		  }
+
 		  echo $this->form->getControlGroup('description');
 	      ?>
 	  </div>
@@ -67,7 +79,7 @@ Joomla.submitbutton = function(task)
   </div>
 
   <input type="hidden" name="task" value="" />
-  <input type="hidden" name="current_process" id="current-process" value="<?php echo $currentProcess; ?>" />
+  <input type="hidden" name="nb_processes" id="nb-processes" value="<?php echo $this->item->nb_processes; ?>" />
 
   <?php //Sets the last action name (if any) regarding processes (ie: create or delete). 
 	if($action = JFactory::getApplication()->input->get('process', '', 'string')) : ?>

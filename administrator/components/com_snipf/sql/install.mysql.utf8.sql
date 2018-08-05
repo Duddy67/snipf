@@ -128,6 +128,7 @@ CREATE TABLE `#__snipf_process` (
   `headquarters_payment` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 ,
   `communication_payment` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 ,
   `cads_payment` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 ,
+  `payment_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `is_last` TINYINT(1) NOT NULL DEFAULT 0 ,
   `created_by` INT UNSIGNED NOT NULL ,
   `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
