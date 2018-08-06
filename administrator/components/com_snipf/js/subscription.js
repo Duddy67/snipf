@@ -1,4 +1,4 @@
-//var hash = window.location.hash;
+
 (function($) {
 
   //Run a function when the page is fully loaded including graphics.
@@ -7,8 +7,6 @@
     //Set as function the global variable previously declared edit.php file.
     checkFields = $.fn.checkFields;
 
-    //var processAction = $('#process-action').val();
-    var nbProcesses = $('#nb-processes').val();
     $.fn.setReadOnly();
     $.fn.setTabColors();
   });
@@ -16,11 +14,11 @@
 
   $.fn.setReadOnly = function() {
     //Gets needed variables.
-    var certificateState = $('#certificate-state').val();
     var nbProcesses = $('#nb-processes').val();
-    var certificateId = $('#jform_id').val();
+    var processAction = $('#process-action').val();
+    var subscriptionId = $('#jform_id').val();
 
-    if(certificateId != 0) {
+    if(subscriptionId != 0) {
       //Once a person is picked and the item is saved, it's no longer possible to change
       //the person through the picker. 
       var selectBtn = $('#jform_person_id_name').next();
@@ -29,156 +27,48 @@
       $('#jform_person_id_name').css({'border-radius':'2px', 'width':'206px'});
     }
 
-    if(nbProcesses == 0 || (nbProcesses == 1 && $('#end_process_1').val() == '')) {
-      //As long as a certificate is not still valid (ie: has a number) the number field
-      //cannot be edited. 
-      $('#jform_number').prop('readonly', true);
-      $('#jform_number').addClass('readonly');
-    }
-
-    //A single process (ie: CI) can be in readonly mode only if the certificate state is done.  
     if(nbProcesses == 0) {
       return;
     }
 
-    // Disables fields. 
-
-    //process fields that have to be disabled.
-    var fields = ['starting_file_number', 'start_process', 'end_process', 'return_file_number', 
-                  'file_receiving_date', 'reminder_date', 'amount', 'commission_date', 'outcome',
-		  'commission_derogation', 'suspension_date', 'comments', 'created_by'];
-
-    if(certificateState != 'done') {
-      //These options are only available through the person status. 
-      $('#jform_closure_reason option[value="retired"]').attr('disabled', 'disabled');
-      $('#jform_closure_reason option[value="deceased"]').attr('disabled', 'disabled');
-      $('#jform_closure_reason').trigger('liszt:updated');
-      $('#outcome_'+nbProcesses+' option[value="canceled"]').attr('disabled', 'disabled');
-      $('#outcome_'+nbProcesses).trigger('liszt:updated');
-
-      //Only the last process is editable.
-      nbProcesses = nbProcesses - 1;
-    }
-
-    //Note: In case of "done" state, all process's fields have to be disabled. 
-
-    //Disables process fields.
     for(var i = 0; i < nbProcesses; i++) {
       var idNb = i + 1;
-      for(var j = 0; j < fields.length; j++) {
-	if($('#'+fields[j]+'_'+idNb).prop('tagName') == 'SELECT') {
-	  //Note: The value of a disabled drop down list is not sent by the form.
-	  $('#'+fields[j]+'_'+idNb).prop('disabled', true);
-	  $('#'+fields[j]+'_'+idNb).trigger('liszt:updated');
-
-	  //The field value is needed later on for comparison. 
-	  $('#'+fields[j]+'_'+idNb).after('<input type="hidden" name="'+fields[j]+'_'+idNb+'" value="'+$('#'+fields[j]+'_'+idNb).val()+'">');
-	}
-	else { //INPUT
-	  $('#'+fields[j]+'_'+idNb).prop('readonly', true);
-	  $('#'+fields[j]+'_'+idNb).addClass('readonly');
-	  //Removes the calendar button and reshapes its input border.
-	  $('button[id="'+fields[j]+'_'+idNb+'_btn"]').css({'visibility':'hidden','display':'none'});
-	  $('#'+fields[j]+'_'+idNb).css({'border-radius':'2px'});
-
-	  //Specific case.
-	  if(fields[j] == 'created_by') {
-	    //Hides the <a> button link just after the input element.   
-	    $('#'+fields[j]+'_'+idNb).next().css({'visibility':'hidden','display':'none'});
-	  }
-	}
+      //The year field is editable only when a new process has been created.
+      if(idNb < nbProcesses || processAction === undefined) {
+	$('#year_'+idNb).prop('readonly', true);
+	$('#year_'+idNb).addClass('readonly');
       }
-    }
-
-    if(certificateState == 'done') {
-      //certificate fields that have to be disabled.
-      fields = ['jform_number', 'jform_closure_date', 'jform_closure_reason', 'jform_abandon_code', 
-		'jform_file_destruction_date', 'jform_bit_number_1988', 'jform_bit_number_2008',
-		'jform_speciality_id', 'jform_complement_1', 'jform_complement_2', 'jform_comments'];
-
-      for(var i = 0; i < fields.length; i++) {
-	if($('#'+fields[i]).prop('tagName') == 'SELECT') {
-	  //Note: The value of a disabled drop down list is not sent by the form.
-	  $('#'+fields[i]).prop('disabled', true);
-	  //Another approach is to disable all the options but the selected one.
-	  //$('#'+fields[i]+' option:not(:selected)').prop('disabled', true);
-	  $('#'+fields[i]).trigger('liszt:updated');
-	}
-	else { //INPUT
-	  $('#'+fields[i]).prop('readonly', true);
-	  $('#'+fields[i]).addClass('readonly');
-	  //Removes the calendar button and reshapes its input border.
-	  $('button[id="'+fields[i]+'_btn"]').css({'visibility':'hidden','display':'none'});
-	  $('#'+fields[i]).css({'border-radius':'2px'});
-	}
-      }
-
-      //Important: A hidden field is needed to send the closure_reason value or a warning
-      //will be sent from the validate model method.  
-      $('#jform_closure_reason').after('<input type="hidden" name="jform[closure_reason]" value="'+$('#jform_closure_reason').val()+'">');  
     }
   },
 
   $.fn.setTabColors = function() {
     //Gets needed variables.
-    var certificateState = $('#certificate-state').val();
     var nbProcesses = $('#nb-processes').val();
+    var processAction = $('#process-action').val();
 
     if(nbProcesses == 0) {
       return;
     }
 
-    if(certificateState == 'done') {
-      //Sets the color according to the closure reason.
-      switch($('#jform_closure_reason').val()) {
-	case 'retired': //blue
-	  $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#4da6ff', 'color': 'white'});
-	  break;
-
-	case 'deceased': //purple
-	  $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ac00e6', 'color': 'white'});
-	  break;
-
-	default: //black - removal, rejected_file, abandon, other.
-	  $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#404040', 'color': 'white'});
-      }
-
+    //A process has just been created.
+    if(processAction == 'create') {
+      //grey
+      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
       return;
     }
 
-    penultimateProcessNb = nbProcesses - 1;
+    //Checks the payments.
+    var headquartersPayment = $('input[name=headquarters_payment_'+nbProcesses+']:checked').val();
+    var communicationPayment = $('input[name=communication_payment_'+nbProcesses+']:checked').val();
+    var cadsPayment = $('input[name=cads_payment_'+nbProcesses+']:checked').val();
 
-    switch(certificateState) {
-      case 'commission_pending': //green and orange
-	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
-	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ff9933', 'color': 'white'});
-	break;
-
-      case 'file_pending': //green and brown
-	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
-	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#cc9900', 'color': 'white'});
-	break;
-
-      case 'overlap': //red and orange
-	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#e60000', 'color': 'white'});
-	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ff9933', 'color': 'white'});
-	break;
-
-      case 'outdated': //red and brown
-	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#e60000', 'color': 'white'});
-	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#cc9900', 'color': 'white'});
-	break;
-
-      case 'current_outdated': //red
-	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#e60000', 'color': 'white'});
-	break;
-
-      case 'running': //green
-	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
-	break;
-
-      default: //grey - initial_pending, transitory_pending
-	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
+    if(headquartersPayment == 1 && communicationPayment == 1 && cadsPayment == 1) {
+      //green
+      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
+    }
+    else {
+      //red
+      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#e60000', 'color': 'white'});
     }
   },
 
@@ -194,20 +84,21 @@
     var previousYear = 0;
     //Gets fields to check.
     var year = $('#year_'+nbProcesses).val();
+    var id = 'year_'+nbProcesses;
     var regex = /^[1-9][0-9]{3}$/;
 
     //Checks that the year value is correct.
     if(!regex.test(year)) {
       tab = 'process-'+nbProcesses;
-      var id = 'year_'+nbProcesses;
       valid = false;
     }
     else {
       if(nbProcesses > 1) {
 	var penultimateProcessNb = nbProcesses - 1;
 	previousYear = $('#year_'+penultimateProcessNb).val();
-
+        //The current year cannot be lower or equal to the previous year.
 	if(year <= previousYear) {
+	  tab = 'process-'+nbProcesses;
 	  valid = false;
 	}
       }
