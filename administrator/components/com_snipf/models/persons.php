@@ -31,6 +31,7 @@ class SnipfModelPersons extends JModelList
 				       'hits', 'p.hits',
 				       'status', 'p.status',
 				       'certificate_status', 'p.certificate_status',
+				       'subscription_status',
 				       'catid', 'p.catid', 'category_id',
 				       'tag'
 				      );
@@ -67,6 +68,15 @@ class SnipfModelPersons extends JModelList
     $categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
     $this->setState('filter.category_id', $categoryId);
 
+    $personStatus = $this->getUserStateFromRequest($this->context.'.filter.status', 'filter_status');
+    $this->setState('filter.status', $personStatus);
+
+    $certificateStatus = $this->getUserStateFromRequest($this->context.'.filter.certificate_status', 'filter_certificate_status');
+    $this->setState('filter.certificate_status', $certificateStatus);
+
+    $subscriptionStatus = $this->getUserStateFromRequest($this->context.'.filter.subscription_status', 'filter_subscription_status');
+    $this->setState('filter.subscription_status', $subscriptionStatus);
+
     $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language');
     $this->setState('filter.language', $language);
 
@@ -94,6 +104,9 @@ class SnipfModelPersons extends JModelList
     $id .= ':'.$this->getState('filter.published');
     $id .= ':'.$this->getState('filter.user_id');
     $id .= ':'.$this->getState('filter.category_id');
+    $id .= ':'.$this->getState('filter.status');
+    $id .= ':'.$this->getState('filter.certificate_status');
+    $id .= ':'.$this->getState('filter.subscription_status');
     $id .= ':'.$this->getState('filter.language');
 
     return parent::getStoreId($id);
@@ -106,6 +119,7 @@ class SnipfModelPersons extends JModelList
     $db = $this->getDbo();
     $query = $db->getQuery(true);
     $user = JFactory::getUser();
+    $currentYear = date("Y");
 
     // Select the required fields from the table.
     $query->select($this->getState('list.select', 'p.id,p.lastname,p.firstname,p.alias,p.created,p.published,p.catid,p.hits,'.
@@ -133,6 +147,14 @@ class SnipfModelPersons extends JModelList
     $query->select('al.title AS access_level')
 	  ->join('LEFT', '#__viewlevels AS al ON al.id = p.access');
 
+    //Gets the subscription id of the person (if any).
+    $query->select('IFNULL(sub.id, "0") AS subscription_id, sub.cqp1')
+	  ->join('LEFT', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1');
+
+    //Gets the payments of the subscription process matching the current year.
+    $query->select('sp.headquarters_payment, sp.communication_payment, sp.cads_payment')
+	  ->join('LEFT', '#__snipf_process AS sp ON sp.item_id=sub.id AND sp.item_type="subscription" AND sp.name='.$db->Quote($currentYear));
+
     //Filter by component category.
     $categoryId = $this->getState('filter.category_id');
     if(is_numeric($categoryId)) {
@@ -159,6 +181,27 @@ class SnipfModelPersons extends JModelList
     // Filter by access level.
     if($access = $this->getState('filter.access')) {
       $query->where('p.access='.(int) $access);
+    }
+
+    // Filter by person status.
+    if(!empty($personStatus = $this->getState('filter.status'))) {
+      $query->where('p.status='.$db->Quote($personStatus));
+    }
+
+    // Filter by certificate status.
+    if(!empty($certificateStatus = $this->getState('filter.certificate_status'))) {
+      $query->where('p.certificate_status='.$db->Quote($certificateStatus));
+    }
+
+    // Filter by subscription status.
+    if(!empty($subscriptionStatus = $this->getState('filter.subscription_status'))) {
+      if($subscriptionStatus == 'membership') {
+	$query->where('sub.id > 0 AND sp.headquarters_payment=1 AND sp.communication_payment=1 AND sp.cads_payment=1');
+      }
+      else { //no_membership
+	$query->where('ISNULL(sub.id) OR sp.headquarters_payment=0 OR ISNULL(sp.headquarters_payment) OR '.
+	              'sp.communication_payment=0 OR ISNULL(sp.communication_payment) OR sp.cads_payment=0 OR ISNULL(sp.cads_payment)');
+      }
     }
 
     // Filter by access level on categories.
@@ -204,7 +247,7 @@ class SnipfModelPersons extends JModelList
     $orderDirn = $this->state->get('list.direction'); //asc or desc
 
     $query->order($db->escape($orderCol.' '.$orderDirn));
-//echo $query;
+
     return $query;
   }
 

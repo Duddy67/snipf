@@ -33,6 +33,13 @@ class SnipfViewPersons extends JViewLegacy
       return false;
     }
 
+    foreach($this->items as $item) {
+      $item->subscription_status = 'no_membership';
+      if($item->subscription_id && $item->headquarters_payment && $item->communication_payment && $item->cads_payment) {
+	$item->subscription_status = 'membership';
+      }
+    }
+
     //Display the tool bar.
     $this->addToolBar();
 

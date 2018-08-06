@@ -44,11 +44,32 @@
 		       label="JOPTION_SELECT_PUBLISHED"
 		       description="JOPTION_SELECT_PUBLISHED_DESC"
 		       onchange="this.form.submit();">
-		       <option value="">JOPTION_SELECT_PUBLISHED</option>
+		       <option value="">COM_SNIPF_OPTION_SELECT_PERSON_STATUS</option>
+		       <option value="active">COM_SNIPF_OPTION_ACTIVE</option>
+		       <option value="retired">COM_SNIPF_OPTION_RETIRED</option>
+		       <option value="deceased">COM_SNIPF_OPTION_DECEASED</option>
+		</field>
+
+		<field name="certificate_status"
+		       type="list"
+		       label="JOPTION_SELECT_PUBLISHED"
+		       description="JOPTION_SELECT_PUBLISHED_DESC"
+		       onchange="this.form.submit();">
+		       <option value="">COM_SNIPF_OPTION_SELECT_CERTIFICATE_STATUS</option>
+		       <option value="certified">COM_SNIPF_CERTIFICATE_STATUS_CERTIFIED</option>
+		       <option value="no_longer_certified">COM_SNIPF_CERTIFICATE_STATUS_NO_LONGER_CERTIFIED</option>
+		       <option value="formerly_certified">COM_SNIPF_CERTIFICATE_STATUS_FORMERLY_CERTIFIED</option>
+		       <option value="no_certificate">COM_SNIPF_CERTIFICATE_STATUS_NO_CERTIFICATE</option>
+		</field>
+
+		<field name="subscription_status"
+		       type="list"
+		       label="JOPTION_SELECT_PUBLISHED"
+		       description="JOPTION_SELECT_PUBLISHED_DESC"
+		       onchange="this.form.submit();">
+		       <option value="">COM_SNIPF_OPTION_SELECT_SUBSCRIPTION_STATUS</option>
 		       <option value="membership">COM_SNIPF_OPTION_MEMBERSHIP</option>
 		       <option value="no_membership">COM_SNIPF_OPTION_NO_MEMBERSHIP</option>
-		       <option value="certified">COM_SNIPF_OPTION_CERTIFIED</option>
-		       <option value="no_certified">COM_SNIPF_OPTION_NO_CERTIFIED</option>
 		</field>
 
 		<!--<field name="language"

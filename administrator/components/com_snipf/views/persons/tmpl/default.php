@@ -105,13 +105,22 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	<th width="1%" style="min-width:55px" class="nowrap center">
 	  <?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'p.published', $listDirn, $listOrder); ?>
 	</th>
-	<th>
+	<th width="25%">
 	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_LASTNAME', 'p.lastname', $listDirn, $listOrder); ?>
 	</th>
-	<th>
+	<th width="15%">
 	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_FIRSTNAME', 'p.firstname', $listDirn, $listOrder); ?>
 	</th>
-	<th width="10%" class="nowrap hidden-phone">
+	<th width="10%">
+	  <?php echo JText::_('JSTATUS'); ?>
+	</th>
+	<th width="10%">
+	  <?php echo JText::_('COM_SNIPF_HEADING_CERTIFICATE_STATUS'); ?>
+	</th>
+	<th width="10%">
+	  <?php echo JText::_('COM_SNIPF_HEADING_SUBSCRIPTION_STATUS'); ?>
+	</th>
+	<th width="8%" class="nowrap hidden-phone">
 	  <?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'p.access', $listDirn, $listOrder); ?>
 	</th>
 	<th width="10%" class="nowrap hidden-phone">
@@ -206,6 +215,15 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	    <?php echo $this->escape($item->firstname); ?>
 	  </td>
 	  <td class="small hidden-phone">
+	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->status)); ?>
+	  </td>
+	  <td class="small hidden-phone">
+	    <?php echo JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.strtoupper($item->certificate_status)); ?>
+	  </td>
+	  <td class="small hidden-phone">
+	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->subscription_status)); ?>
+	  </td>
+	  <td class="small hidden-phone">
 	    <?php echo $this->escape($item->access_level); ?>
 	  </td>
 	  <td class="small hidden-phone">
@@ -230,7 +248,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+	  <td colspan="12"><?php echo $this->pagination->getListFooter(); ?></td>
       </tr>
       </tbody>
     </table>

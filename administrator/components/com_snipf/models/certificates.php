@@ -118,6 +118,10 @@ class SnipfModelCertificates extends JModelList
     $query->select('IFNULL(fpr.commission_date, "'.$db->getNullDate().'") AS first_commission_date');
     $query->join('LEFT', '#__snipf_process AS fpr ON fpr.item_id=c.id AND fpr.item_type="certificate" AND fpr.number=1');
 
+    //Gets the subscription id of the person (if any).
+    $query->select('IFNULL(sub.id, "0") AS subscription_id')
+	  ->join('LEFT', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1');
+
     //Filter by title search.
     $search = $this->getState('filter.search');
     if(!empty($search)) {
@@ -207,7 +211,8 @@ class SnipfModelCertificates extends JModelList
 
       case 'initial_running':
 	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
-	        ->where('pr.number = 1 AND pr.outcome="accepted"');
+	        //Gets only persons who have no subscription yet.
+	        ->where('pr.number = 1 AND pr.outcome="accepted" AND ISNULL(sub.id)');
 	break;
 
       case 'all_outdated':
