@@ -151,8 +151,8 @@ class SnipfModelPersons extends JModelList
     $query->select('IFNULL(sub.id, "0") AS subscription_id, sub.cqp1')
 	  ->join('LEFT', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1');
 
-    //Gets the payments of the subscription process matching the current year.
-    $query->select('sp.headquarters_payment, sp.communication_payment, sp.cads_payment')
+    //Gets the cads payment of the subscription process matching the current year.
+    $query->select('sp.item_id AS process_id, sp.cads_payment')
 	  ->join('LEFT', '#__snipf_process AS sp ON sp.item_id=sub.id AND sp.item_type="subscription" AND sp.name='.$db->Quote($currentYear));
 
     //Filter by component category.
@@ -196,11 +196,13 @@ class SnipfModelPersons extends JModelList
     // Filter by subscription status.
     if(!empty($subscriptionStatus = $this->getState('filter.subscription_status'))) {
       if($subscriptionStatus == 'membership') {
-	$query->where('sub.id > 0 AND sp.headquarters_payment=1 AND sp.communication_payment=1 AND sp.cads_payment=1');
+	$query->where('sub.id > 0 AND sp.cads_payment=1');
+      }
+      elseif($subscriptionStatus == 'unpaid') {
+	$query->where('sub.id > 0 AND sp.item_id > 0 AND sp.cads_payment=0');
       }
       else { //no_membership
-	$query->where('ISNULL(sub.id) OR sp.headquarters_payment=0 OR ISNULL(sp.headquarters_payment) OR '.
-	              'sp.communication_payment=0 OR ISNULL(sp.communication_payment) OR sp.cads_payment=0 OR ISNULL(sp.cads_payment)');
+	$query->where('ISNULL(sub.id)');
       }
     }
 

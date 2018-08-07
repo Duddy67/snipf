@@ -90,7 +90,7 @@ class SnipfModelSubscriptions extends JModelList
     $query->join('INNER', '#__snipf_person AS p ON p.id = s.person_id');
 
     //Get the last process.
-    $query->select('pr.headquarters_payment, communication_payment, cads_payment');
+    $query->select('cads_payment');
     $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id=s.id AND pr.item_type="subscription" AND pr.name='.$db->Quote($currentYear));
 
     //Get the user name.

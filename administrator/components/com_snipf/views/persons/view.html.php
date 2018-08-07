@@ -33,10 +33,14 @@ class SnipfViewPersons extends JViewLegacy
       return false;
     }
 
+    //Sets the subscription status.
     foreach($this->items as $item) {
       $item->subscription_status = 'no_membership';
-      if($item->subscription_id && $item->headquarters_payment && $item->communication_payment && $item->cads_payment) {
+      if($item->subscription_id && $item->cads_payment) {
 	$item->subscription_status = 'membership';
+      }
+      elseif($item->subscription_id && $item->process_id && $item->cads_payment == 0) {
+	$item->subscription_status = 'unpaid';
       }
     }
 

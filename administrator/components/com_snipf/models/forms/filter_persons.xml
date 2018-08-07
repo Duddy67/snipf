@@ -70,6 +70,7 @@
 		       <option value="">COM_SNIPF_OPTION_SELECT_SUBSCRIPTION_STATUS</option>
 		       <option value="membership">COM_SNIPF_OPTION_MEMBERSHIP</option>
 		       <option value="no_membership">COM_SNIPF_OPTION_NO_MEMBERSHIP</option>
+		       <option value="unpaid">COM_SNIPF_OPTION_UNPAID</option>
 		</field>
 
 		<!--<field name="language"

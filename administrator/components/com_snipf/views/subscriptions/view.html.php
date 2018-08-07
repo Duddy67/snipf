@@ -36,7 +36,7 @@ class SnipfViewSubscriptions extends JViewLegacy
     foreach($this->items as $item) {
       //Sets the payment status according to the values of the several payments.
       $item->payment_status = 'unpaid';
-      if($item->headquarters_payment && $item->communication_payment && $item->cads_payment) {
+      if($item->cads_payment) {
 	$item->payment_status = 'paid';
       }
 

@@ -58,11 +58,11 @@
     }
 
     //Checks the payments.
-    var headquartersPayment = $('input[name=headquarters_payment_'+nbProcesses+']:checked').val();
-    var communicationPayment = $('input[name=communication_payment_'+nbProcesses+']:checked').val();
+    //var headquartersPayment = $('input[name=headquarters_payment_'+nbProcesses+']:checked').val();
+    //var communicationPayment = $('input[name=communication_payment_'+nbProcesses+']:checked').val();
     var cadsPayment = $('input[name=cads_payment_'+nbProcesses+']:checked').val();
 
-    if(headquartersPayment == 1 && communicationPayment == 1 && cadsPayment == 1) {
+    if(cadsPayment == 1) {
       //green
       $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
     }

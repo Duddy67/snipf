@@ -81,6 +81,8 @@ Joomla.submitbutton = function(task)
 		  echo $this->form->getControlGroup('publishing_auth');
 		  $this->form->setValue('certificate_status', null, JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.$this->item->certificate_status));
 		  echo $this->form->getControlGroup('certificate_status');
+		  $this->form->setValue('subscription_status', null, JText::_('COM_SNIPF_OPTION_'.$this->item->subscription_status));
+		  echo $this->form->getControlGroup('subscription_status');
 	    ?>
 	</div>
 	<div class="span4">

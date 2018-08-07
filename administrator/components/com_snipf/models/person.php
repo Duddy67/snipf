@@ -75,6 +75,7 @@ class SnipfModelPerson extends JModelAdmin
       //Gets the person's beneficiaries.
       $item->beneficiaries = BeneficiaryHelper::getBeneficiaries($item->id);
 
+      //Gets the work situation data.
       $db = $this->getDbo();
       $query = $db->getQuery(true);
       $query->select('employer_name, employer_activity, ape_code, position, comments, law_company')
@@ -85,8 +86,7 @@ class SnipfModelPerson extends JModelAdmin
 
       $currentYear = date("Y");
       $query->clear();
-      $query->select('sub.id, sub.cqp1, sp.headquarters_payment,'.
-	             'sp.communication_payment, sp.cads_payment')
+      $query->select('sub.id, sub.cqp1, sp.item_id AS process_id, sp.cads_payment')
 	    ->from('#__snipf_subscription AS sub')
 	    ->join('LEFT', '#__snipf_process AS sp ON sp.item_id=sub.id AND sp.item_type="subscription" AND sp.name='.$db->Quote($currentYear))
 	    ->where('sub.person_id='.(int)$item->id);
@@ -95,6 +95,12 @@ class SnipfModelPerson extends JModelAdmin
 
       $item->subscription_status = 'no_membership';
       if($subscription) {
+	if($subscription->cads_payment) {
+	  $item->subscription_status = 'membership';
+	}
+	elseif($subscription->process_id && $subscription->cads_payment == 0) {
+	  $item->subscription_status = 'unpaid';
+	}
       }
     }
 
