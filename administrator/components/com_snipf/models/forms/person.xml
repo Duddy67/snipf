@@ -24,7 +24,7 @@
 	       <option value="">COM_SNIPF_OPTION_SELECT</option>
 	       <option value="mr">COM_SNIPF_OPTION_MR</option>
 	       <option value="mrs">COM_SNIPF_OPTION_MRS</option>
-	       <option value="miss">COM_SNIPF_OPTION_MISS</option>
+	       <!--<option value="miss">COM_SNIPF_OPTION_MISS</option>-->
 	</field>
 
 	<field name="status" type="list"
@@ -106,6 +106,11 @@
 	<field name="demand_origin" type="text"
 	       label="COM_SNIPF_FIELD_DEMAND_ORIGIN_LABEL"
 	       description="COM_SNIPF_FIELD_DEMAND_ORIGIN_DESC" />
+
+	<field name="certificate_status" type="text"
+	       label="COM_SNIPF_FIELD_CERTIFICATE_STATUS_LABEL"
+	       description="COM_SNIPF_FIELD_CERTIFICATE_STATUS_DESC"
+	       readonly="true" class="readonly" filter="unset" />
 
 	<!-- layout: title_alias -->
 	<field name="lastname" type="text"
@@ -301,15 +306,18 @@
 		  description="COM_SNIPF_FIELD_SRIPF_DESC"
 		  required="true"/>
 
-	  <field name="phone_ha" type="text"
+	  <field name="phone_ha" type="tel"
+		 validate="tel"
 		  label="COM_SNIPF_FIELD_PHONE_LABEL"
 		  description="COM_SNIPF_FIELD_PHONE_DESC"/>
 
-	  <field name="mobile_ha" type="text"
+	  <field name="mobile_ha" type="tel"
+		 validate="tel"
 		  label="COM_SNIPF_FIELD_MOBILE_LABEL"
 		  description="COM_SNIPF_FIELD_MOBILE_DESC"/>
 
-	  <field name="fax_ha" type="text"
+	  <field name="fax_ha" type="tel"
+		 validate="tel"
 		  label="COM_SNIPF_FIELD_FAX_LABEL"
 		  description="COM_SNIPF_FIELD_FAX_DESC"/>
 
@@ -366,15 +374,18 @@
 		  label="COM_SNIPF_FIELD_COUNTRY_LABEL"
 		  description="COM_SNIPF_FIELD_COUNTRY_DESC"/>
 
-	  <field name="phone_pa" type="text"
+	  <field name="phone_pa" type="tel"
+		 validate="tel"
 		  label="COM_SNIPF_FIELD_PHONE_LABEL"
 		  description="COM_SNIPF_FIELD_PHONE_DESC"/>
 
-	  <field name="mobile_pa" type="text"
+	  <field name="mobile_pa" type="tel"
+		 validate="tel"
 		  label="COM_SNIPF_FIELD_MOBILE_LABEL"
 		  description="COM_SNIPF_FIELD_MOBILE_DESC"/>
 
-	  <field name="fax_pa" type="text"
+	  <field name="fax_pa" type="tel"
+		 validate="tel"
 		  label="COM_SNIPF_FIELD_FAX_LABEL"
 		  description="COM_SNIPF_FIELD_FAX_DESC"/>
 

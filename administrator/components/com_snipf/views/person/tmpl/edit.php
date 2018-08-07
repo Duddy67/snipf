@@ -21,6 +21,10 @@ $canDo = SnipfHelper::getActions($this->state->get('filter.category_id'));
 //Lang tag is needed in the Ajax file.
 $lang = JFactory::getLanguage();
 $langTag = $lang->getTag();
+
+$user = JFactory::getUser();
+$authorisedGroups = $user->getAuthorisedGroups();
+$cadsGroupId = JComponentHelper::getParams('com_snipf')->get('cads_group_id');
 ?>
 
 <script type="text/javascript">
@@ -53,31 +57,37 @@ Joomla.submitbutton = function(task)
     <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_SNIPF_TAB_DETAILS')); ?>
 
       <div class="row-fluid">
-	<div class="span9">
-	    <div class="form-vertical">
-	      <?php
-		    echo $this->form->getControlGroup('test_field');
-		    echo $this->form->getControlGroup('firstname');
-		    echo $this->form->getControlGroup('maiden_name');
-		    echo $this->form->getControlGroup('person_title');
-		    echo $this->form->getControlGroup('birthdate');
-		    echo $this->form->getControlGroup('country_of_birth');
-		    echo $this->form->getControlGroup('region_of_birth');
-		    echo $this->form->getControlGroup('city_of_birth');
-		    echo $this->form->getControlGroup('citizenship');
-		    echo $this->form->getControlGroup('status');
-		    echo $this->form->getControlGroup('retirement_date');
-		    echo $this->form->getControlGroup('deceased_date');
-		    echo $this->form->getControlGroup('email');
-		    echo $this->form->getControlGroup('mail_address_type');
-		    echo $this->form->getControlGroup('demand_origin');
-		    echo $this->form->getControlGroup('publishing_auth');
-		    echo $this->form->getControlGroup('persontext');
-	      ?>
-	    </div>
+	<div class="span4 form-vertical">
+	    <?php
+		  echo $this->form->getControlGroup('test_field');
+		  echo $this->form->getControlGroup('firstname');
+		  echo $this->form->getControlGroup('maiden_name');
+		  echo $this->form->getControlGroup('person_title');
+		  echo $this->form->getControlGroup('birthdate');
+		  echo $this->form->getControlGroup('country_of_birth');
+		  echo $this->form->getControlGroup('region_of_birth');
+		  echo $this->form->getControlGroup('city_of_birth');
+		  echo $this->form->getControlGroup('citizenship');
+	    ?>
 	</div>
-	<div class="span3">
+	<div class="span4 form-vertical">
+	    <?php
+		  echo $this->form->getControlGroup('status');
+		  echo $this->form->getControlGroup('retirement_date');
+		  echo $this->form->getControlGroup('deceased_date');
+		  echo $this->form->getControlGroup('email');
+		  echo $this->form->getControlGroup('mail_address_type');
+		  echo $this->form->getControlGroup('demand_origin');
+		  echo $this->form->getControlGroup('publishing_auth');
+		  $this->form->setValue('certificate_status', null, JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.$this->item->certificate_status));
+		  echo $this->form->getControlGroup('certificate_status');
+	    ?>
+	</div>
+	<div class="span4">
 	  <?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+	</div>
+	<div class="span12 form-vertical" style="margin:0;">
+	  <?php echo $this->form->getControlGroup('persontext'); ?>
 	</div>
       </div>
       <?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -94,11 +104,13 @@ Joomla.submitbutton = function(task)
 	</div>
       <?php echo JHtml::_('bootstrap.endTab'); ?>
 
-      <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'cads', JText::_('COM_SNIPF_TAB_CADS')); ?>
-	<div class="row-fluid">
-	  <?php echo $this->loadTemplate('beneficiaries'); ?>
-	</div>
-      <?php echo JHtml::_('bootstrap.endTab'); ?>
+      <?php if(in_array($cadsGroupId, $authorisedGroups)) : ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'cads', JText::_('COM_SNIPF_TAB_CADS')); ?>
+	  <div class="row-fluid">
+	    <?php echo $this->loadTemplate('beneficiaries'); ?>
+	  </div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+      <?php endif; ?>
 
       <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
       <div class="row-fluid form-horizontal-desktop">

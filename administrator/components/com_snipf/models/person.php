@@ -82,6 +82,20 @@ class SnipfModelPerson extends JModelAdmin
 	    ->where('person_id='.(int)$item->id);
       $db->setQuery($query);
       $item->work_situation = $db->loadObject();
+
+      $currentYear = date("Y");
+      $query->clear();
+      $query->select('sub.id, sub.cqp1, sp.headquarters_payment,'.
+	             'sp.communication_payment, sp.cads_payment')
+	    ->from('#__snipf_subscription AS sub')
+	    ->join('LEFT', '#__snipf_process AS sp ON sp.item_id=sub.id AND sp.item_type="subscription" AND sp.name='.$db->Quote($currentYear))
+	    ->where('sub.person_id='.(int)$item->id);
+      $db->setQuery($query);
+      $subscription = $db->loadObject();
+
+      $item->subscription_status = 'no_membership';
+      if($subscription) {
+      }
     }
 
     return $item;

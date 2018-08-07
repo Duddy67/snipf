@@ -77,6 +77,7 @@ class SnipfModelSubscriptions extends JModelList
     //Create a new JDatabaseQuery object.
     $db = $this->getDbo();
     $query = $db->getQuery(true);
+    $currentYear = date("Y");
 
     // Select the required fields from the table.
     $query->select($this->getState('list.select', 's.id, s.name, s.created, s.published,'.
@@ -90,7 +91,7 @@ class SnipfModelSubscriptions extends JModelList
 
     //Get the last process.
     $query->select('pr.headquarters_payment, communication_payment, cads_payment');
-    $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id = s.id AND item_type="subscription" AND is_last=1');
+    $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id=s.id AND pr.item_type="subscription" AND pr.name='.$db->Quote($currentYear));
 
     //Get the user name.
     $query->select('u.name AS user');
