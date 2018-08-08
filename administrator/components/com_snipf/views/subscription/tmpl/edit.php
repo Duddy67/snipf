@@ -80,6 +80,7 @@ Joomla.submitbutton = function(task)
 
   <input type="hidden" name="task" value="" />
   <input type="hidden" name="nb_processes" id="nb-processes" value="<?php echo $this->item->nb_processes; ?>" />
+  <input type="hidden" name="current_year" id="current-year" value="<?php echo date('Y'); ?>" />
 
   <?php //Sets the last action name (if any) regarding processes (ie: create or delete). 
 	if($action = JFactory::getApplication()->input->get('process', '', 'string')) : ?>

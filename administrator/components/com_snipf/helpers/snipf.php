@@ -158,13 +158,15 @@ class SnipfHelper
     $data['name'] = $person->firstname.' '.$person->lastname;
     $data['username'] = $person->alias;
     $data['email'] = $person->email;
-    $data['password'] = '';
-    $data['password2'] = '';
+    $password = JUserHelper::genRandomPassword();
+    $data['password'] = $password;
+    $data['password2'] = $password;
     $data['block'] = 0;
     $data['groups'] = array(2); //Registered
+    $data['requireReset'] = 1;  //Require user to reset password on next login.
 
-file_put_contents('debog_create_user.txt', print_r($person, true));
-return;
+    //return; //To prevent sending emails during tests.
+
     // Generate a new JUser Object
     // Note: It's important to set the "0" otherwise your admin user information will be loaded
     $user = JFactory::getUser(0); 
@@ -183,7 +185,7 @@ return;
     $query->clear();
     $query->select('id')
           ->from('#__users')
-          ->where('username='.$db->quote($userData['username']));
+          ->where('email='.$db->Quote($person->email));
     $db->setQuery($query);
     $userId = $db->loadResult();
 
@@ -194,6 +196,62 @@ return;
 	  ->where('id='.(int)$personId);
     $db->setQuery($query);
     $db->execute();
+
+    //Note: The Joomla system will send an information email automaticaly to the new user. 
+  }
+
+
+  /**
+   * Creates a Joomla user and linked it to a person.
+   * Note: Currently not used.
+   *
+   * @param integer $personId	The id of the user.
+   * @param array   $message    The subject and body of the message.
+   * @param boolean $html       Flag which force the email to be sent in html format.
+   *
+   * @return boolean     True on success, false otherwise.
+   */
+  public static function sendEmail($userId, $message, $html = false)
+  {
+    //A reference to the global mail object (JMail) is fetched through the JFactory object. 
+    //This is the object creating our mail.
+    $mailer = JFactory::getMailer();
+
+    $config = JFactory::getConfig();
+    $sender = array($config->get('mailfrom'),
+		    $config->get('fromname'));
+
+    $mailer->setSender($sender);
+
+    $user = JFactory::getUser($userId);
+    $recipient = $user->email;
+
+    $mailer->addRecipient($recipient);
+
+    //Set the subject and body of the email.
+    $body = $message['body'];
+    $mailer->setSubject($message['subject']);
+
+    if($html) {
+      //We want the body message in HTML.
+      $mailer->isHTML(true);
+      $mailer->Encoding = 'base64';
+    }
+
+    $mailer->setBody($body);
+
+    $send = $mailer->Send();
+
+    //Check for error.
+    if($send !== true) {
+      JError::raiseWarning(500, JText::_('COM_SNIPF_CONFIRMATION_EMAIL_FAILED'));
+      return false;
+    }
+    else {
+      JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_CONFIRMATION_EMAIL_SUCCESS'));
+    }
+
+    return true;
   }
 
 

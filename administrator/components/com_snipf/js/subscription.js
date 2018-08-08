@@ -45,6 +45,7 @@
     //Gets needed variables.
     var nbProcesses = $('#nb-processes').val();
     var processAction = $('#process-action').val();
+    var currentYear = $('#current-year').val();
 
     if(nbProcesses == 0) {
       return;
@@ -57,18 +58,44 @@
       return;
     }
 
-    //Checks the payments.
-    //var headquartersPayment = $('input[name=headquarters_payment_'+nbProcesses+']:checked').val();
-    //var communicationPayment = $('input[name=communication_payment_'+nbProcesses+']:checked').val();
-    var cadsPayment = $('input[name=cads_payment_'+nbProcesses+']:checked').val();
+    //The last year registered is lower than the current year.
+    if($('#year_'+nbProcesses).val() < currentYear) {
+      //grey
+      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
+      return;
+    }
+
+    var processNb = 0;
+    //The last year registered is greater than the current year.
+    if($('#year_'+nbProcesses).val() > currentYear) {
+      //Searches for the process number which contains the current year.
+      for(var i = 1; i < nbProcesses; i++) {
+	if($('#year_'+i).val() == currentYear) {
+	  processNb = i;
+	  break;
+	}
+      }
+    }
+    else {
+      //the current year is the last process.
+      processNb = nbProcesses;
+    }
+
+    //No current year has been found.
+    if(!processNb) {
+      return;
+    }
+
+    //Checks the cads payment.
+    var cadsPayment = $('input[name=cads_payment_'+processNb+']:checked').val();
 
     if(cadsPayment == 1) {
       //green
-      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
+      $('[href="#process-'+processNb+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
     }
     else {
       //red
-      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#e60000', 'color': 'white'});
+      $('[href="#process-'+processNb+'"]').css({'background-color': '#e60000', 'color': 'white'});
     }
   },
 

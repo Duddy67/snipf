@@ -32,7 +32,7 @@
 
 
   $.fn.setProcessState = function(nbProcesses) {
-    $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
+    //$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
   };
 
 

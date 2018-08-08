@@ -34,7 +34,7 @@
 	       <option value="">COM_SNIPF_OPTION_SELECT</option>
 	       <option value="active">COM_SNIPF_OPTION_ACTIVE</option>
 	       <option value="retired">COM_SNIPF_OPTION_RETIRED</option>
-	       <option value="partialy_retired">COM_SNIPF_OPTION_PARTIALY_RETIRED</option>
+	       <!--<option value="partialy_retired">COM_SNIPF_OPTION_PARTIALY_RETIRED</option>-->
 	       <option value="deceased">COM_SNIPF_OPTION_DECEASED</option>
 	</field>
 

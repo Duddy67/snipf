@@ -23,6 +23,31 @@
 			onchange="this.form.submit();" >
 			<option value="">COM_SNIPF_OPTION_SELECT_USER</option>
 		</field>
+		<field name="person_status"
+		       type="list"
+		       label="JOPTION_SELECT_PUBLISHED"
+		       description="JOPTION_SELECT_PUBLISHED_DESC"
+		       onchange="this.form.submit();">
+		       <option value="">COM_SNIPF_OPTION_SELECT_PERSON_STATUS</option>
+		       <option value="certified">COM_SNIPF_OPTION_CERTIFIED</option>
+		       <option value="no_longer_certified">COM_SNIPF_OPTION_NO_LONGER_CERTIFIED</option>
+		       <option value="retired">COM_SNIPF_OPTION_RETIRED</option>
+		       <option value="deceased">COM_SNIPF_OPTION_DECEASED</option>
+		       <option value="cqp1">COM_SNIPF_OPTION_CQP1</option>
+		       <option value="retired_cqp1">COM_SNIPF_OPTION_RETIRED_CQP1</option>
+		       <option value="deceased_cqp1">COM_SNIPF_OPTION_DECEASED_CQP1</option>
+		</field>
+		<field name="subscription_status"
+		       type="list"
+		       label="JOPTION_SELECT_PUBLISHED"
+		       description="JOPTION_SELECT_PUBLISHED_DESC"
+		       onchange="this.form.submit();">
+		       <option value="">COM_SNIPF_OPTION_SELECT_SUBSCRIPTION_STATUS</option>
+		       <option value="paid">COM_SNIPF_OPTION_PAID</option>
+		       <option value="unpaid">COM_SNIPF_OPTION_UNPAID</option>
+		       <option value="outdated">COM_SNIPF_OPTION_OUTDATED</option>
+		</field>
+
 	</fields>
 	<fields name="list">
 		<field name="fullordering" type="list"

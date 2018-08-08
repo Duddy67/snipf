@@ -65,7 +65,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  <?php echo JText::_('COM_SNIPF_HEADING_PERSON_STATUS'); ?>
 	</th>
 	<th width="15%">
-	  <?php echo JText::_('COM_SNIPF_HEADING_PAYMENT_STATUS'); ?>
+	  <?php echo JText::_('COM_SNIPF_HEADING_SUBSCRIPTION_STATUS'); ?>
 	</th>
 	<th width="10%" class="nowrap hidden-phone">
 	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_CREATED_BY', 'user', $listDirn, $listOrder); ?>
@@ -128,10 +128,20 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	    <?php echo $this->escape($item->firstname); ?>
 	  </td>
 	  <td class="hidden-phone center">
-	    <?php echo $this->escape($item->person_status); ?>
+	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->person_status)); ?>
+	      <?php if(($item->person_status == 'retired' || $item->person_status == 'deceased') && $item->cqp1) : ?>
+		<span class="small">
+		  <?php echo '<br />CQP1'; ?>
+		</span>
+	       <?php endif; ?>
 	  </td>
 	  <td class="hidden-phone center">
-	    <?php echo $this->escape($item->payment_status); ?>
+	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->subscription_status)); ?>
+		  <?php if($item->subscription_status == 'outdated') : ?>
+		    <span class="small">
+		      <?php echo '<br />'.$item->last_registered_year; ?>
+		    </span>
+	         <?php endif; ?>
 	  </td>
 	  <td class="small hidden-phone">
 	    <?php echo $this->escape($item->user); ?>

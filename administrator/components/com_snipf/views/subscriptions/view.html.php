@@ -34,16 +34,28 @@ class SnipfViewSubscriptions extends JViewLegacy
     }
 
     foreach($this->items as $item) {
-      //Sets the payment status according to the values of the several payments.
-      $item->payment_status = 'unpaid';
-      if($item->cads_payment) {
-	$item->payment_status = 'paid';
+      //Sets the payment status according to the values of the cads payments.
+      if($item->current_year_process) {
+	$item->subscription_status = 'unpaid';
+	if($item->cads_payment) {
+	  $item->subscription_status = 'paid';
+	}
+      }
+      else { // There is no current year.
+	//Just in case.
+	$item->subscription_status = 'no_process';
+	if($item->last_registered_year) {
+	  $item->subscription_status = 'outdated';
+	}
       }
 
       //Sets the person status.
       $item->person_status = $item->certificate_status;
       if($item->status == 'retired' || $item->status == 'deceased') {
 	$item->person_status = $item->status;
+      }
+      elseif($item->cqp1) {
+	$item->person_status = 'cqp1';
       }
     }
 
