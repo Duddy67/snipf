@@ -165,7 +165,7 @@ class SnipfHelper
     $data['groups'] = array(2); //Registered
     $data['requireReset'] = 1;  //Require user to reset password on next login.
 
-    //return; //To prevent sending emails during tests.
+    return; //To prevent sending emails during tests.
 
     // Generate a new JUser Object
     // Note: It's important to set the "0" otherwise your admin user information will be loaded

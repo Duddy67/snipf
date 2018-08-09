@@ -333,7 +333,7 @@ class SnipfModelCertificates extends JModelList
     else {
       //Fetches the certificates which matche the date filters gap.
       $query->where('c.end_date > '.$db->Quote($nullDate))
-	    ->where('(fpr.commission_date >= '.$db->Quote($filterDates['from_date']).' AND '.$db->Quote($filterDates['to_date']).' <= c.end_date)');
+	    ->where('(fpr.commission_date <= '.$db->Quote($filterDates['from_date']).' AND c.end_date >= '.$db->Quote($filterDates['to_date']).')');
     }
   }
 
