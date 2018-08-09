@@ -59,14 +59,23 @@ class SnipfControllerCertificates extends JControllerAdmin
 
 	$db = JFactory::getDbo();
 	$query = $db->getQuery(true);
-	//Gets some person data.
-	$query->select('*')
-	      ->from('#__snipf_person')
-	      ->where('id IN('.implode(',', $personIds).')');
+	//Gets some data from the person.
+	$query->select('p.lastname, p.firstname, person_title, a.street, a.additional_address, a.postcode, a.city, c.alpha_3')
+	      ->from('#__snipf_person AS p')
+	      ->join('INNER', '#__snipf_address AS a ON a.person_id=p.id AND a.type="ha" AND history=0')
+	      ->join('LEFT', '#__snipf_country AS c ON a.country_code=c.alpha_2')
+	      ->where('p.id IN('.implode(',', $personIds).')');
 	$db->setQuery($query);
 	$persons = $db->loadObjectList(); 
 
-	TcpdfHelper::generatePDF($persons, 'person_pdf');
+	//Adds some extra variables.
+	foreach($persons as $person) {
+	  $person->current_date = JHtml::_('date', new JDate(), JText::_('DATE_FORMAT_LC1'));
+	  $person->title = JText::_('COM_SNIPF_OPTION_'.$person->person_title);
+	  $person->country = JText::_('COM_SNIPF_LANG_COUNTRY_'.$person->alpha_3);
+	}
+
+	TcpdfHelper::generatePDF($persons, 'subscription_letter');
 
 	return true;
       }

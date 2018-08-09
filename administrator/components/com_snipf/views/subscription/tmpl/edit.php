@@ -51,6 +51,7 @@ Joomla.submitbutton = function(task)
 		    $this->form->setValue('person_status', null, $this->item->person_status);
 		    echo $this->form->getControlGroup('person_status');
 		    echo $this->form->getControlGroup('cqp1');
+		    echo $this->form->getControlGroup('honor_member');
 		  }
 
 		  echo $this->form->getControlGroup('description');

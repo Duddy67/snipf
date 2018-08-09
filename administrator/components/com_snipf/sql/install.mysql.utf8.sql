@@ -92,6 +92,7 @@ CREATE TABLE `#__snipf_subscription` (
   `person_id` INT UNSIGNED NOT NULL ,
   `name` VARCHAR(80) NOT NULL ,
   `cqp1` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , -- Specific. Used for historical reason.
+  `honor_member` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , 
   `description` TEXT NULL ,
   `published` TINYINT NOT NULL DEFAULT 0 , 
   `checked_out` INT UNSIGNED NOT NULL DEFAULT 0 , 
@@ -163,6 +164,7 @@ DROP TABLE IF EXISTS `#__snipf_sripf`;
 CREATE TABLE `#__snipf_sripf` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(180) NOT NULL ,
+  `group_id` INT UNSIGNED NOT NULL ,
   `description` TEXT NULL ,
   `published` TINYINT NOT NULL DEFAULT 0 , 
   `checked_out` INT UNSIGNED NOT NULL DEFAULT 0 , 

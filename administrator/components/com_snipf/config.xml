@@ -436,11 +436,11 @@
     <fieldset name="pdf_templates" label="COM_SNIPF_PDF_TEMPLATES_LABEL"
 	      description="COM_SNIPF_PDF_TEMPLATES_DESC" >
 
-	      <field name="person_pdf" 
+	      <field name="subscription_letter" 
 		     type="editor"
 		     filter="JComponentHelper::filterText"
-		     label="COM_SNIPF_NUMBER_ITEMS_DISPLAY_LABEL"
-		     description="COM_SNIPF_NUMBER_ITEMS_DISPLAY_DESC">
+		     label="COM_SNIPF_SUBSCRIPTION_LETTER_LABEL"
+		     description="COM_SNIPF_SUBSCRIPTION_LETTER_DESC">
 	      </field>
     </fieldset>
 
