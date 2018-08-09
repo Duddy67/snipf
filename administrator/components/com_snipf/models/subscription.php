@@ -93,6 +93,54 @@ class SnipfModelSubscription extends JModelAdmin
 
 
   /**
+   * Adds or remove the user from his corresponding SRIPF group according to the payment
+   * state of the current year.
+   *
+   * @param   object  $subscription  The subscription object.
+   *
+   * @return  void
+   */
+  public function updateSripfGroup($subscription)
+  {
+    $db = $this->getDbo();
+    $query = $db->getQuery(true);
+
+    //Fetches the person's user id and the corresponding SRIPF group id.
+    $query->select('s.group_id, p.user_id')
+	  ->from('#__snipf_address AS a')
+	  ->join('INNER', '#__snipf_sripf AS s ON s.id=a.sripf_id')
+	  ->join('INNER', '#__snipf_person AS p ON p.id=a.person_id')
+	  ->where('a.person_id='.(int)$subscription->person_id)
+	  ->where('a.type="ha" AND history=0');
+    $db->setQuery($query);
+    $ids = $db->loadObject();
+
+    //Don't go further if no group id is defined.
+    if(!$ids->group_id) {
+      return;
+    }
+
+    $currentYear = date('Y');
+    $query->clear();
+    //Checks the payment state of the current year.
+    $query->select('cads_payment')
+	  ->from('#__snipf_process')
+	  ->where('item_id='.(int)$subscription->id)
+	  ->where('item_type="subscription" AND name='.$db->Quote($currentYear));
+    $db->setQuery($query);
+    $process = $db->loadObject();
+
+    if($process && $process->cads_payment == 1) {
+      //Note: 2 = Registered.
+      JUserHelper::setUserGroups($ids->user_id, array(2, $ids->group_id));
+    }
+    else {
+      JUserHelper::removeUserFromGroup($ids->user_id, $ids->group_id);
+    }
+  }
+
+
+  /**
    * Loads ContentHelper for filters before validating data.
    *
    * @param   object  $form   The form to validate against.

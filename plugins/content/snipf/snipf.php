@@ -195,6 +195,9 @@ class plgContentSnipf extends JPlugin
     elseif($context == 'com_snipf.subscription' && !$isNew) { //SUBSCRIPTION
       $filteredData = $this->filterDateFields('subscription_process', 'process');
       ProcessHelper::saveProcess($filteredData);
+
+      $model = JModelLegacy::getInstance('Subscription', 'SnipfModel');
+      $model->updateSripfGroup($data);
     }
   }
 
