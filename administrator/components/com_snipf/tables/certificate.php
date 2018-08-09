@@ -60,6 +60,19 @@ class SnipfTableCertificate extends JTable
       }
     }
 
+    //Removes possible spaces from the certificate number.
+    $this->number = trim($this->number);
+
+    //Checks that a valid number is set.  
+    if(preg_match('#^[0-9]+$#', $this->number)) {
+      $table = JTable::getInstance('Certificate', 'SnipfTable', array('dbo', $this->getDbo()));
+      // Verify that the certificate number is unique.
+      if($table->load(array('number' => $this->number)) && ($table->id != $this->id || $this->id == 0)) {
+	$this->setError(JText::_('COM_SNIPF_DATABASE_ERROR_CERTIFICATE_UNIQUE_NUMBER'));
+	return false;
+      }
+    }
+
     return parent::store($updateNulls);
   }
 }
