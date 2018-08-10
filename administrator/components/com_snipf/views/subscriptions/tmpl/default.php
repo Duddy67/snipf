@@ -137,11 +137,15 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  </td>
 	  <td class="hidden-phone center">
 	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->subscription_status)); ?>
-		  <?php if($item->subscription_status == 'outdated') : ?>
+		  <?php if($item->subscription_status == 'paid' && $item->payment_date) : ?>
+		    <span class="small">
+		      <?php echo '<br />'.JHtml::_('date', $item->payment_date, JText::_('DATE_FORMAT_LC4')); ?>
+		    </span>
+		  <?php elseif($item->subscription_status == 'outdated') : ?>
 		    <span class="small">
 		      <?php echo '<br />'.$item->last_registered_year; ?>
 		    </span>
-	         <?php endif; ?>
+		  <?php endif; ?>
 	  </td>
 	  <td class="small hidden-phone">
 	    <?php echo $this->escape($item->user); ?>

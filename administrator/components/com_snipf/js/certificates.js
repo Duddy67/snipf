@@ -15,6 +15,23 @@
     if((fromDate != '' && toDate == '') || (fromDate == '' && toDate != '')) {
       $.fn.clearDates();
     }
+
+    //Prevent the user to type into the filter date fields.
+    $('#filter_from_date').keypress(function(e) {
+	return false;
+      });
+
+    $('#filter_from_date').keydown(function(e) {
+	return false;
+      });
+
+    $('#filter_to_date').keypress(function(e) {
+	return false;
+      });
+
+    $('#filter_to_date').keydown(function(e) {
+	return false;
+      });
   });
 
   $.fn.filterDates = function() {

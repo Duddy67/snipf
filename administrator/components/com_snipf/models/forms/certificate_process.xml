@@ -70,6 +70,18 @@
 		label="COM_SNIPF_FIELD_COMMISSION_DEROGATION_LABEL"
 		description="COM_SNIPF_FIELD_COMMISSION_DEROGATION_DESC" />
 
+	<field name="appeal_date" type="calendar"
+	       label="COM_SNIPF_FIELD_APPEAL_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_APPEAL_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="appeal_result" type="text"
+		label="COM_SNIPF_FIELD_APPEAL_RESULT_LABEL"
+		description="COM_SNIPF_FIELD_APPEAL_RESULT_DESC" />
+
 	<field name="end_process" type="calendar"
 	       label="COM_SNIPF_FIELD_CERTIFICATE_END_PROCESS_LABEL" 
 	       description="COM_SNIPF_FIELD_CERTIFICATE_END_PROCESS_DESC"

@@ -99,7 +99,7 @@ class SnipfModelSubscriptions extends JModelList
     $query->join('INNER', '#__snipf_person AS p ON p.id = s.person_id');
 
     //Get the process containing the current year.
-    $query->select('pr.number AS current_year_process, pr.cads_payment');
+    $query->select('pr.number AS current_year_process, pr.cads_payment, pr.payment_date');
     $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id=s.id AND pr.item_type="subscription" AND pr.name='.$db->Quote($currentYear));
 
     //Get the process containing the current year.

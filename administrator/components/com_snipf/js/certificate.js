@@ -46,7 +46,7 @@
     //process fields that have to be disabled.
     var fields = ['starting_file_number', 'start_process', 'end_process', 'return_file_number', 
                   'file_receiving_date', 'reminder_date', 'amount', 'commission_date', 'outcome',
-		  'commission_derogation', 'suspension_date', 'comments', 'created_by'];
+		  'commission_derogation', 'appeal_date', 'appeal_result', 'comments', 'created_by'];
 
     if(certificateState != 'done') {
       //These options are only available through the person status. 

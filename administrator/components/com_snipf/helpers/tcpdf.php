@@ -40,13 +40,14 @@ class TcpdfHelper
 
     // set margins
     //$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-    $pdf->SetMargins(5, 5, 5);
+    $pdf->SetMargins(5, 10, 5);
     $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
     $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
     // set auto page breaks
     $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
+    $pdf->SetFont('dejavusans', '', 10);
     // set image scale factor
     $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 

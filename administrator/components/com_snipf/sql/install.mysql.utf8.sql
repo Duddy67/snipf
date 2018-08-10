@@ -125,6 +125,8 @@ CREATE TABLE `#__snipf_process` (
   `amount` DECIMAL(14,2) UNSIGNED NOT NULL ,
   `outcome` VARCHAR(10) NOT NULL ,
   `commission_derogation` VARCHAR(80) NOT NULL ,
+  `appeal_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `appeal_result` VARCHAR(80) NOT NULL ,
   `year` CHAR(4) NULL ,
   `headquarters_payment` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 ,
   `communication_payment` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 ,
