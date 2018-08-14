@@ -28,7 +28,7 @@ class AddressHelper
     $db = JFactory::getDbo();
     $query = $db->getQuery(true);
     $query->select('street AS street_ha, additional_address AS additional_address_ha, city AS city_ha,'.
-		   'postcode AS postcode_ha, phone AS phone_ha, mobile AS mobile_ha, fax AS fax_ha,'.
+		   'postcode AS postcode_ha, phone AS phone_ha, mobile AS mobile_ha, fax AS fax_ha, cee AS cee_ha,'.
 		   'country_code AS country_code_ha, sripf_id AS sripf_id_ha, created AS created_ha,'.
 		   'created_by AS created_by_ha, modified AS modified_ha, modified_by AS modified_by_ha')
 	  ->from('#__snipf_address')
@@ -41,7 +41,7 @@ class AddressHelper
 
     $query->clear();
     $query->select('employer_name AS employer_name_pa, street AS street_pa, additional_address AS additional_address_pa,'.
-		   'city AS city_pa, postcode AS postcode_pa, phone AS phone_pa, mobile AS mobile_pa, fax AS fax_pa,'.
+		   'city AS city_pa, postcode AS postcode_pa, phone AS phone_pa, mobile AS mobile_pa, fax AS fax_pa, cee AS cee_pa,'.
 		   'country_code AS country_code_pa, created AS created_pa, created_by AS created_by_pa,'.
 		   'modified AS modified_pa, modified_by AS modified_by_pa')
 	  ->from('#__snipf_address')
@@ -72,7 +72,7 @@ class AddressHelper
     $query = $db->getQuery(true);
     $query->select('street AS street_'.$addressType.', additional_address AS additional_address_'.$addressType.','.
 	           'city AS city_'.$addressType.', postcode AS postcode_'.$addressType.', phone AS phone_'.$addressType.','.
-		   'mobile AS mobile_'.$addressType.', fax AS fax_'.$addressType.','.
+		   'mobile AS mobile_'.$addressType.', fax AS fax_'.$addressType.', cee AS cee_'.$addressType.','.
 		   'country_code AS country_code_'.$addressType.', created AS created_'.$addressType.','.
 		   'created_by AS created_by_'.$addressType.', modified AS modified_'.$addressType.','.
 		   'modified_by AS modified_by_'.$addressType);

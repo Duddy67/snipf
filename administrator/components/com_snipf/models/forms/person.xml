@@ -311,6 +311,16 @@
 		  description="COM_SNIPF_FIELD_SRIPF_DESC"
 		  required="true"/>
 
+	  <field name="cee_ha"
+		 type="radio"
+		 default="1"
+		 class="btn-group btn-group-yesno"
+		 label="COM_SNIPF_FIELD_CEE_LABEL"
+		 description="COM_SNIPF_FIELD_CEE_DESC">
+		 <option value="1">JYES</option>
+		 <option value="0">JNO</option>
+	  </field>
+
 	  <field name="phone_ha" type="tel"
 		 validate="tel"
 		  label="COM_SNIPF_FIELD_PHONE_LABEL"
@@ -378,6 +388,16 @@
 	  <field name="country_code_pa" type="countrylist"
 		  label="COM_SNIPF_FIELD_COUNTRY_LABEL"
 		  description="COM_SNIPF_FIELD_COUNTRY_DESC"/>
+
+	  <field name="cee_pa"
+		 type="radio"
+		 default="1"
+		 class="btn-group btn-group-yesno"
+		 label="COM_SNIPF_FIELD_CEE_LABEL"
+		 description="COM_SNIPF_FIELD_CEE_DESC">
+		 <option value="1">JYES</option>
+		 <option value="0">JNO</option>
+	  </field>
 
 	  <field name="phone_pa" type="tel"
 		 validate="tel"

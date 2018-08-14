@@ -255,6 +255,7 @@ CREATE TABLE `#__snipf_address` (
   `sripf_id` INT UNSIGNED NOT NULL ,
   `employer_name` VARCHAR(255) NULL ,
   `history` TINYINT(1) NOT NULL DEFAULT 0 ,
+  `cee` TINYINT(1) NOT NULL DEFAULT 1 ,
   `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `created_by` INT UNSIGNED NOT NULL ,
   `modified` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
