@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
  
 // import Joomla table library
 jimport('joomla.database.table');
-require_once JPATH_COMPONENT.'/helpers/snipf.php';
+require_once JPATH_ROOT.'/administrator/components/com_snipf/helpers/snipf.php';
  
 use Joomla\Registry\Registry;
 

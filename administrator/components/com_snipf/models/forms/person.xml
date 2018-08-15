@@ -457,7 +457,6 @@
 		 description="COM_SNIPF_FIELD_END_DATE_LABEL"
 		 translateformat="true"
 		 showtime="true"
-		 readonly="true"
 		 filter="user_utc" />
     </fieldset>
 

@@ -288,8 +288,21 @@ class SnipfModelPerson extends JModelAdmin
 
     //Formats the date values according to the current format.
     foreach($positions as $key => $position) {
-      $positions[$key]['start_date'] = HTMLHelper::date($position['start_date'], $format);
-      $positions[$key]['end_date'] = HTMLHelper::date($position['end_date'], $format);
+
+      if($positions[$key]['start_date'] == $db->getNullDate()) {
+	//Important: or HTMLHelper returns a random and invalid date.
+	$positions[$key]['start_date'] = '';
+      }
+      else {
+	$positions[$key]['start_date'] = HTMLHelper::date($position['start_date'], $format);
+      }
+
+      if($positions[$key]['end_date'] == $db->getNullDate()) {
+	$positions[$key]['end_date'] = '';
+      }
+      else {
+	$positions[$key]['end_date'] = HTMLHelper::date($position['end_date'], $format);
+      }
     }
 
     return $positions;
