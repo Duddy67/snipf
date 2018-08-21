@@ -9,7 +9,7 @@
         //Fields relating to the commission are not shown as long as both 
 	//file_receiving_date and return_file_number fields are not properly set.
 	$commission = false;
-        $hiddenFields = array('commission_date', 'outcome', 'commission_derogation', 'end_process', 'suspension_date');
+        $hiddenFields = array('commission_date', 'outcome', 'commission_derogation', 'end_process', 'appeal_date', 'appeal_result');
 
 	if($process->file_receiving_date != $this->nullDate && !empty($process->return_file_number)) {
 	  $commission = true;
