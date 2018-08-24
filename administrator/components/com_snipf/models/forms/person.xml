@@ -117,6 +117,27 @@
 	       description="COM_SNIPF_FIELD_SUBSCRIPTION_STATUS_DESC"
 	       readonly="true" class="readonly" filter="unset" />
 
+	<field name="active_retired"
+	       type="radio"
+	       default="0"
+	       class="btn-group btn-group-yesno"
+	       label="COM_SNIPF_FIELD_ACTIVE_RETIRED_LABEL"
+	       description="COM_SNIPF_FIELD_ACTIVE_RETIRED_DESC">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
+	<field name="cqp1"
+	       type="radio"
+	       default="0"
+	       readonly="true"
+	       class="btn-group btn-group-yesno readonly"
+	       label="COM_SNIPF_FIELD_CQP1_LABEL"
+	       description="COM_SNIPF_FIELD_CQP1_DESC">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
 	<!-- layout: title_alias -->
 	<field name="lastname" type="text"
 	       label="COM_SNIPF_FIELD_LASTNAME_LABEL"

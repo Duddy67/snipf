@@ -124,7 +124,7 @@ class SnipfModelPersons extends JModelList
     // Select the required fields from the table.
     $query->select($this->getState('list.select', 'p.id,p.lastname,p.firstname,p.alias,p.created,p.published,p.catid,p.hits,'.
 				   'p.status,p.certificate_status,p.access,p.ordering,p.created_by,p.checked_out,'.
-				   'p.checked_out_time,p.language'))
+				   'p.cqp1,p.checked_out_time,p.language'))
 	  ->from('#__snipf_person AS p');
 
     //Get the user name.
@@ -148,7 +148,7 @@ class SnipfModelPersons extends JModelList
 	  ->join('LEFT', '#__viewlevels AS al ON al.id = p.access');
 
     //Gets the subscription id of the person (if any).
-    $query->select('IFNULL(sub.id, "0") AS subscription_id, sub.cqp1')
+    $query->select('IFNULL(sub.id, "0") AS subscription_id')
 	  ->join('LEFT', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1');
 
     //Gets the cads payment of the subscription process matching the current year.

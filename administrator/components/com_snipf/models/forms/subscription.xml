@@ -22,17 +22,6 @@
 		class="input-xxlarge input-large-text readonly"
 	        readonly="true" />
 
-	<field name="cqp1"
-	       type="radio"
-	       default="0"
-	       readonly="true"
-	       class="btn-group btn-group-yesno readonly"
-	       label="COM_SNIPF_FIELD_CQP1_LABEL"
-	       description="COM_SNIPF_FIELD_CQP1_DESC">
-	       <option value="1">JYES</option>
-	       <option value="0">JNO</option>
-	</field>
-
 	<field name="honor_member"
 	       type="radio"
 	       default="0"

@@ -89,13 +89,13 @@ class SnipfModelSubscriptions extends JModelList
     $currentYear = date('Y');
 
     // Select the required fields from the table.
-    $query->select($this->getState('list.select', 's.id, s.name, s.created, s.published,s.cqp1,'.
+    $query->select($this->getState('list.select', 's.id, s.name, s.created, s.published,'.
 				   's.created_by, s.checked_out, s.checked_out_time'));
 
     $query->from('#__snipf_subscription AS s');
 
     //Subscription must be linked to a person.
-    $query->select('p.lastname, p.firstname, p.id AS person_id, p.status, p.certificate_status');
+    $query->select('p.lastname, p.firstname, p.id AS person_id, p.status, p.certificate_status, p.cqp1');
     $query->join('INNER', '#__snipf_person AS p ON p.id = s.person_id');
 
     //Get the process containing the current year.
@@ -151,13 +151,13 @@ class SnipfModelSubscriptions extends JModelList
 	$query->where('p.status='.$db->Quote($personStatus));
       }
       elseif($personStatus == 'cqp1') {
-	$query->where('s.cqp1=1');
+	$query->where('p.cqp1=1');
       }
       elseif($personStatus == 'retired_cqp1') {
-	$query->where('p.status="retired" AND s.cqp1=1');
+	$query->where('p.status="retired" AND p.cqp1=1');
       }
       elseif($personStatus == 'deceased_cqp1') {
-	$query->where('p.status="deceased" AND s.cqp1=1');
+	$query->where('p.status="deceased" AND p.cqp1=1');
       }
     }
 

@@ -68,25 +68,27 @@ Joomla.submitbutton = function(task)
 		  echo $this->form->getControlGroup('region_of_birth');
 		  echo $this->form->getControlGroup('city_of_birth');
 		  echo $this->form->getControlGroup('citizenship');
+		  echo $this->form->getControlGroup('cqp1');
 	    ?>
 	</div>
 	<div class="span4 form-vertical">
 	    <?php
 		  echo $this->form->getControlGroup('status');
+		  echo $this->form->getControlGroup('active_retired');
 		  echo $this->form->getControlGroup('retirement_date');
 		  echo $this->form->getControlGroup('deceased_date');
 		  echo $this->form->getControlGroup('email');
 		  echo $this->form->getControlGroup('mail_address_type');
 		  echo $this->form->getControlGroup('demand_origin');
 		  echo $this->form->getControlGroup('publishing_auth');
+	    ?>
+	</div>
+	<div class="span4 form-vertical">
+	  <?php echo JLayoutHelper::render('joomla.edit.global', $this); 
 		  $this->form->setValue('certificate_status', null, JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.$this->item->certificate_status));
 		  echo $this->form->getControlGroup('certificate_status');
 		  $this->form->setValue('subscription_status', null, JText::_('COM_SNIPF_OPTION_'.$this->item->subscription_status));
-		  echo $this->form->getControlGroup('subscription_status');
-	    ?>
-	</div>
-	<div class="span4">
-	  <?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+		  echo $this->form->getControlGroup('subscription_status'); ?>
 	</div>
 	<div class="span12 form-vertical" style="margin:0;">
 	  <?php echo $this->form->getControlGroup('persontext'); ?>
