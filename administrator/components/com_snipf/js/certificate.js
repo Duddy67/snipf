@@ -52,6 +52,7 @@
       //These options are only available through the person status. 
       $('#jform_closure_reason option[value="retired"]').attr('disabled', 'disabled');
       $('#jform_closure_reason option[value="deceased"]').attr('disabled', 'disabled');
+      $('#jform_closure_reason option[value="obsolete"]').attr('disabled', 'disabled');
       $('#jform_closure_reason').trigger('liszt:updated');
       $('#outcome_'+nbProcesses+' option[value="canceled"]').attr('disabled', 'disabled');
       $('#outcome_'+nbProcesses).trigger('liszt:updated');

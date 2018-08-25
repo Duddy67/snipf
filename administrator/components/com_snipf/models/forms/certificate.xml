@@ -36,6 +36,7 @@
 	       <option value="abandon">COM_SNIPF_OPTION_ABANDON</option>
 	       <option value="retired">COM_SNIPF_OPTION_RETIRED</option>
 	       <option value="deceased">COM_SNIPF_OPTION_DECEASED</option>
+	       <option value="obsolete">COM_SNIPF_OPTION_OBSOLETE</option>
 	       <option value="other">COM_SNIPF_OPTION_OTHER</option>
 	</field>
 

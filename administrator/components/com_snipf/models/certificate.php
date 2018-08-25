@@ -241,7 +241,7 @@ class SnipfModelCertificate extends JModelAdmin
     $now = JFactory::getDate()->toSql();
 
     //Fetches all certificates bounded to the given person.
-    $query->select('id, closure_date, closure_reason')
+    $query->select('id, closure_date, closure_reason, end_date')
 	  ->from('#__snipf_certificate')
 	  ->where('person_id='.(int)$person->id);
     $db->setQuery($query);
@@ -265,7 +265,8 @@ class SnipfModelCertificate extends JModelAdmin
     }
 
     //Builds the CASE/WHEN clauses.
-    $cases = array('closure_date' => array(), 'closure_reason' => array(), 'modified' => array(), 'modified_by' => array());
+    $cases = array('closure_date' => array(), 'closure_reason' => array(),
+		   'modified' => array(), 'modified_by' => array(), 'number' => array());
     foreach($certificates as $certificate) {
 
       if(!in_array($certificate->closure_reason, $doNotTreat)) {
@@ -279,6 +280,17 @@ class SnipfModelCertificate extends JModelAdmin
 	//In case of way back to the active status.
 	elseif(empty($personStatus)) {
 	  $cases['closure_date'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote($db->getNullDate());
+
+	  if($certificate->end_date == $db->getNullDate()) {
+	    //In case of initial pending the title becomes Pending again.
+	    $cases['number'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote(JText::_('COM_SNIPF_STATUS_PENDING'));
+	  }
+	}
+
+	//Checks for initial pending (ie: the certificate doesn't exist yet).
+	if(!empty($personStatus) && $certificate->end_date == $db->getNullDate()) {
+	  $personStatus = 'obsolete';
+	  $cases['number'][] = ' WHEN id='.(int)$certificate->id.' THEN '.$db->Quote(JText::_('COM_SNIPF_STATUS_OBSOLETE'));
 	}
 
 	//Updates the closure reason as well as the last modification variables.
