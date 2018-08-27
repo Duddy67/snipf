@@ -22,6 +22,46 @@
 		class="input-xxlarge input-large-text readonly"
 	        readonly="true" />
 
+	<field name="adhesion_date" type="calendar"
+	       label="COM_SNIPF_FIELD_ADHESION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_ADHESION_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="resignation_date" type="calendar"
+	       label="COM_SNIPF_FIELD_RESIGNATION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_RESIGNATION_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="deregistration_date" type="calendar"
+	       label="COM_SNIPF_FIELD_DEREGISTRATION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_DEREGISTRATION_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="reinstatement_date" type="calendar"
+	       label="COM_SNIPF_FIELD_REINSTATEMENT_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_REINSTATEMENT_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="honor_member_date" type="calendar"
+	       label="COM_SNIPF_FIELD_HONOR_MEMBER_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_HONOR_MEMBER_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
 	<field name="honor_member"
 	       type="radio"
 	       default="0"
