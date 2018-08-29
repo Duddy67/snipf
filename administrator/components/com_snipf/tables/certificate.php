@@ -47,6 +47,16 @@ class SnipfTableCertificate extends JTable
     if($this->id) { // Existing item
       $this->modified = $now;
       $this->modified_by = $user->get('id');
+
+      //In case of abandonment during the very first commission pending 
+      if($this->closure_reason == 'abandon' && ProcessHelper::getNbProcesses($this->id, 'certificate') == 1) {
+	$process = ProcessHelper::getProcesses($this->id, 'certificate', 1);
+	//Ensures that no certificate has been created yet.
+	if($process->commission_date > '0000-00-00 00:00:00' && $process->end_process == '0000-00-00 00:00:00') {
+	  //Sets the number field to the abandon label.
+	  $this->number = JText::_('COM_SNIPF_STATUS_ABANDON');
+	}
+      }
     }
     else {
       // New item. An item created and created_by field can be set by the user,
@@ -59,6 +69,7 @@ class SnipfTableCertificate extends JTable
 	$this->created_by = $user->get('id');
       }
     }
+
 
     //Removes possible spaces from the certificate number.
     $this->number = trim($this->number);

@@ -63,7 +63,6 @@
 	       <option value="renewed">COM_SNIPF_OPTION_RENEWED</option>-->
 	       <option value="rejected">COM_SNIPF_OPTION_REJECTED</option>
 	       <option value="adjourned">COM_SNIPF_OPTION_ADJOURNED</option>
-	       <option value="canceled">COM_SNIPF_OPTION_CANCELED</option>
 	</field>
 
 	<field name="commission_derogation" type="text"

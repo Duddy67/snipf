@@ -53,9 +53,15 @@
       $('#jform_closure_reason option[value="retired"]').attr('disabled', 'disabled');
       $('#jform_closure_reason option[value="deceased"]').attr('disabled', 'disabled');
       $('#jform_closure_reason option[value="obsolete"]').attr('disabled', 'disabled');
+      //Rejected is only available through the commission result.
+      $('#jform_closure_reason option[value="rejected_file"]').attr('disabled', 'disabled');
       $('#jform_closure_reason').trigger('liszt:updated');
-      $('#outcome_'+nbProcesses+' option[value="canceled"]').attr('disabled', 'disabled');
-      $('#outcome_'+nbProcesses).trigger('liszt:updated');
+
+      if(certificateState == 'commission_pending' || certificateState == 'overlap') {
+	//Removal option is not available during the commission pending.
+	$('#jform_closure_reason option[value="removal"]').attr('disabled', 'disabled');
+	$('#jform_closure_reason').trigger('liszt:updated');
+      }
 
       //Only the last process is editable.
       nbProcesses = nbProcesses - 1;

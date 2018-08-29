@@ -142,7 +142,9 @@ CREATE TABLE `#__snipf_process` (
   `created_by` INT UNSIGNED NOT NULL ,
   `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `modified` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
-  `modified_by` INT UNSIGNED NOT NULL )
+  `modified_by` INT UNSIGNED NOT NULL ,
+   INDEX `idx_item_id` (`item_id` ASC) ,
+   INDEX `idx_type` (`item_type` ASC))
 ENGINE = MyISAM DEFAULT CHARSET=utf8;
 
 

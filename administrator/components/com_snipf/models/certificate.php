@@ -204,7 +204,7 @@ class SnipfModelCertificate extends JModelAdmin
 
       //The closure date corresponds to the commission date as well.
       $set = array('closure_date='.$db->Quote($lastProcess->commission_date),
-		   'closure_reason="rejected_file"');
+		   'closure_reason='.$db->Quote($lastProcess->outcome));
 
       //In case of initial process (no certificate was ever created).
       if($nbProcesses == 1) {

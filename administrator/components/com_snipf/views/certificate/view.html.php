@@ -162,9 +162,9 @@ class SnipfViewCertificate extends JViewLegacy
 	return 'transitory_pending';
       }
       elseif($lastProcess->outcome == 'pending' || $lastProcess->outcome == 'adjourned') {
-	if($now > $this->item->end_date) {
+	if($now > $this->item->end_date && $nbProcesses > 1) {
 	  //outdated && commission_pending
-	  return 'overlap';
+	  return 'overlap'; 
 	}
 
 	//running && commission_pending
