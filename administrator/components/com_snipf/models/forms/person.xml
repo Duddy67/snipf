@@ -138,6 +138,22 @@
 	       <option value="0">JNO</option>
 	</field>
 
+	<field name="rgpd_sending_date" type="calendar"
+	       label="COM_SNIPF_FIELD_RGPD_SENDING_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_RGPD_SENDING_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="rgpd_reception_date" type="calendar"
+	       label="COM_SNIPF_FIELD_RGPD_RECEPTION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_RGPD_RECEPTION_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
 	<!-- layout: title_alias -->
 	<field name="lastname" type="text"
 	       label="COM_SNIPF_FIELD_LASTNAME_LABEL"

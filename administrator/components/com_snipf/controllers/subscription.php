@@ -155,8 +155,8 @@ class SnipfControllerSubscription extends JControllerForm
 	$year = trim($value);
 
 	//Updates some attributes from the year value.
-	$this->input->post->set('start_process_'.$processNb, $year.'-01-01 00:00:00');
-	$this->input->post->set('end_process_'.$processNb, $year.'-12-31 00:00:00');
+	$this->input->post->set('start_process_'.$processNb, $year.'-01-01 00:01:00');
+	$this->input->post->set('end_process_'.$processNb, $year.'-12-31 23:59:00');
 	$this->input->post->set('name_'.$processNb, $year);
       }
     }

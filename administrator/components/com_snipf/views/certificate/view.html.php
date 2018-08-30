@@ -99,7 +99,7 @@ class SnipfViewCertificate extends JViewLegacy
     JToolBarHelper::divider();
     //
     if($this->canAddProcess()) {
-      JToolbarHelper::custom('certificate.process.create', 'cogs', '', 'COM_SNIPF_NEW_PROCESS', false);
+      JToolbarHelper::custom('certificate.process.create', 'cogs', '', 'COM_SNIPF_CI_OR_RENEWAL', false);
     }
 
     JToolBarHelper::cancel('certificate.cancel', 'JTOOLBAR_CANCEL');

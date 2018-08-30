@@ -155,7 +155,13 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this));
 	    </div>
 	  </td>
 	  <td class="hidden-phone">
-	    <?php echo $this->escape($item->lastname); ?>
+	      <?php if($canEdit || $canEditOwn) : ?>
+		<a href="<?php echo JRoute::_('index.php?option=com_snipf&task=certificate.edit&id='.$item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+		<?php echo $this->escape($item->lastname); ?></a>
+	      <?php else : ?>
+		<?php echo $this->escape($item->lastname); ?>
+	      <?php endif; ?>
+
 		<span class="small">
 		  <?php echo '<br />(id: '.$item->person_id.')'; ?>
 		</span>
@@ -166,7 +172,7 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this));
 	  <td class="hidden-phone">
 	  <?php
 	        if($item->process_states[0] == 'no_process') {
-		  echo '<div class="no-process">'.JText::_('COM_SNIPF_NO_PROCESS').'</div>';
+		  echo '<div class="no-process">'.JText::_('COM_SNIPF_NO_CERTIFICATE').'</div>';
 		}
                 else {
 		  foreach($item->process_names as $key => $name) {

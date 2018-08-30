@@ -93,7 +93,7 @@ class SnipfViewSubscription extends JViewLegacy
     JToolBarHelper::divider();
     //
     if($this->item->id && JFactory::getApplication()->input->get('process', '', 'string') == '') {
-      JToolbarHelper::custom('subscription.process.create', 'cogs', '', 'COM_SNIPF_NEW_PROCESS', false);
+      JToolbarHelper::custom('subscription.process.create', 'cogs', '', 'COM_SNIPF_NEW_SUBSCRIPTION', false);
     }
 
     JToolBarHelper::cancel('subscription.cancel', 'JTOOLBAR_CANCEL');

@@ -27,6 +27,8 @@ CREATE TABLE `#__snipf_person` (
   `certificate_status` VARCHAR(20) NOT NULL ,
   `active_retired` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , 
   `cqp1` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , -- Specific. Used for historical reason.
+  `rgpd_sending_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `rgpd_reception_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `published` TINYINT NOT NULL DEFAULT 0 ,
   `catid` INT UNSIGNED NOT NULL ,
   `checked_out` INT UNSIGNED NOT NULL DEFAULT 0 ,
@@ -81,7 +83,8 @@ CREATE TABLE `#__snipf_certificate` (
   `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `modified` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
   `modified_by` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  INDEX `idx_person_id` (`person_id` ASC) )
 ENGINE = MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
@@ -107,7 +110,8 @@ CREATE TABLE `#__snipf_subscription` (
   `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `modified` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
   `modified_by` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`) ,
+  INDEX `idx_person_id` (`person_id` ASC) )
 ENGINE = MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 

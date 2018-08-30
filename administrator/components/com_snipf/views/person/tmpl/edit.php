@@ -88,7 +88,10 @@ Joomla.submitbutton = function(task)
 		  $this->form->setValue('certificate_status', null, JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.$this->item->certificate_status));
 		  echo $this->form->getControlGroup('certificate_status');
 		  $this->form->setValue('subscription_status', null, JText::_('COM_SNIPF_OPTION_'.$this->item->subscription_status));
-		  echo $this->form->getControlGroup('subscription_status'); ?>
+		  echo $this->form->getControlGroup('subscription_status');
+		  echo $this->form->getControlGroup('rgpd_sending_date');
+		  echo $this->form->getControlGroup('rgpd_reception_date');
+	       ?>
 	</div>
 	<div class="span12 form-vertical" style="margin:0;">
 	  <?php echo $this->form->getControlGroup('persontext'); ?>
