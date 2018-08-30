@@ -29,6 +29,7 @@ class SnipfModelPersons extends JModelList
 				       'ordering', 'p.ordering', 'tm.ordering', 'tm_ordering',
 				       'language', 'p.language',
 				       'hits', 'p.hits',
+				       'cqp1', 'p.cqp1',
 				       'status', 'p.status',
 				       'certificate_status', 'p.certificate_status',
 				       'subscription_status',
@@ -77,6 +78,9 @@ class SnipfModelPersons extends JModelList
     $subscriptionStatus = $this->getUserStateFromRequest($this->context.'.filter.subscription_status', 'filter_subscription_status');
     $this->setState('filter.subscription_status', $subscriptionStatus);
 
+    $cqp1 = $this->getUserStateFromRequest($this->context.'.filter.cqp1', 'filter_cqp1');
+    $this->setState('filter.cqp1', $cqp1);
+
     $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language');
     $this->setState('filter.language', $language);
 
@@ -107,6 +111,7 @@ class SnipfModelPersons extends JModelList
     $id .= ':'.$this->getState('filter.status');
     $id .= ':'.$this->getState('filter.certificate_status');
     $id .= ':'.$this->getState('filter.subscription_status');
+    $id .= ':'.$this->getState('filter.cqp1');
     $id .= ':'.$this->getState('filter.language');
 
     return parent::getStoreId($id);
@@ -124,7 +129,7 @@ class SnipfModelPersons extends JModelList
     // Select the required fields from the table.
     $query->select($this->getState('list.select', 'p.id,p.lastname,p.firstname,p.alias,p.created,p.published,p.catid,p.hits,'.
 				   'p.status,p.certificate_status,p.access,p.ordering,p.created_by,p.checked_out,'.
-				   'p.cqp1,p.checked_out_time,p.language'))
+				   'p.cqp1,p.old_id,p.checked_out_time,p.language'))
 	  ->from('#__snipf_person AS p');
 
     //Get the user name.
@@ -203,6 +208,16 @@ class SnipfModelPersons extends JModelList
       }
       else { //no_membership
 	$query->where('ISNULL(sub.id)');
+      }
+    }
+
+    // Filter by cqp1.
+    if(!empty($cqp1 = $this->getState('filter.cqp1'))) {
+      if($cqp1) {
+	$query->where('p.cqp1=1');
+      }
+      else {
+	$query->where('p.cqp1=0');
       }
     }
 

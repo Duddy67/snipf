@@ -204,11 +204,18 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 		<?php echo $this->escape($item->lastname); ?>
 	      <?php endif; ?>
 		<span class="small break-word">
-		  <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+		  <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); 
+		   if($item->cqp1) {
+		    echo ' <strong>CQP1</strong>'; 
+		   }
+		   ?>
 		</span>
-		<div class="small">
-		  <?php echo JText::_('JCATEGORY') . ": ".$this->escape($item->category_title); ?>
-		</div>
+		<?php if ($item->old_id):?>
+		  <div class="small">
+		    <?php echo 'ID Nextmedia: '.$item->old_id; ?>
+		    <?php //echo JText::_('JCATEGORY') . ": ".$this->escape($item->category_title); ?>
+		  </div>
+		<?php endif;?>
 	    </div>
 	  </td>
 	  <td class="hidden-phone">
@@ -254,9 +261,15 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
     </table>
   <?php endif; ?>
 
+<input type="hidden" name="is_root" id="is-root" value="<?php echo (int)$user->get('isRoot'); ?>" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="option" value="com_snipf" />
 <input type="hidden" name="task" value="" />
 <?php echo JHtml::_('form.token'); ?>
 </form>
+
+<?php
+//Load the jQuery scripts.
+$doc = JFactory::getDocument();
+$doc->addScript(JURI::base().'components/com_snipf/js/hidesearchtools.js');
 

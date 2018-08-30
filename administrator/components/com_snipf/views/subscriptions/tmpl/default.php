@@ -165,9 +165,15 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
     </table>
   <?php endif; ?>
 
+<input type="hidden" name="is_root" id="is-root" value="<?php echo (int)$user->get('isRoot'); ?>" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="option" value="com_snipf" />
 <input type="hidden" name="task" value="" />
 <?php echo JHtml::_('form.token'); ?>
 </form>
+
+<?php
+$doc = JFactory::getDocument();
+//Load the jQuery script.
+$doc->addScript(JURI::base().'components/com_snipf/js/hidesearchtools.js');
 

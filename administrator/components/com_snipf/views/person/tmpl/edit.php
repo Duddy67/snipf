@@ -81,6 +81,11 @@ Joomla.submitbutton = function(task)
 		  echo $this->form->getControlGroup('mail_address_type');
 		  echo $this->form->getControlGroup('demand_origin');
 		  echo $this->form->getControlGroup('publishing_auth');
+
+		  if($this->item->old_id) {
+		    $this->form->setValue('nextmedia_id', null, $this->item->old_id);
+		    echo $this->form->getControlGroup('nextmedia_id');
+		  }
 	    ?>
 	</div>
 	<div class="span4 form-vertical">

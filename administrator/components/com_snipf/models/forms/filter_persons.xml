@@ -73,6 +73,16 @@
 		       <option value="unpaid">COM_SNIPF_OPTION_UNPAID</option>
 		</field>
 
+		<field name="cqp1"
+		       type="list"
+		       label="JOPTION_SELECT_PUBLISHED"
+		       description="JOPTION_SELECT_PUBLISHED_DESC"
+		       onchange="this.form.submit();">
+		       <option value="">COM_SNIPF_OPTION_SELECT_CQP1</option>
+		       <option value="1">COM_SNIPF_OPTION_CQP1</option>
+		       <option value="0">COM_SNIPF_OPTION_NO_CQP1</option>
+		</field>
+
 		<!--<field name="language"
 		       type="contentlanguage"
 		       label="JOPTION_FILTER_LANGUAGE"
