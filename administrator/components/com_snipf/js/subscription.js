@@ -9,6 +9,11 @@
 
     $.fn.setReadOnly();
     $.fn.setTabColors();
+
+    //Hides status field if the user is not a super user.
+    if($('#is-root').val() != 1) {
+      $('#jform_published').parent().parent().css({'visibility':'hidden','display':'none'});
+    }
   });
 
 

@@ -15,6 +15,8 @@ class SnipfHelper
   //Create the tabs bar ($viewName = name of the active view).
   public static function addSubmenu($viewName)
   {
+    $user = JFactory::getUser();
+
     JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_PERSONS'),
 				      'index.php?option=com_snipf&view=persons', $viewName == 'persons');
 
@@ -24,24 +26,26 @@ class SnipfHelper
     JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_SUBSCRIPTIONS'),
 				      'index.php?option=com_snipf&view=subscriptions', $viewName == 'subscriptions');
 
-    JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_POSITIONS'),
-				      'index.php?option=com_snipf&view=positions', $viewName == 'positions');
+    if($user->get('isRoot')) {
+      JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_POSITIONS'),
+					'index.php?option=com_snipf&view=positions', $viewName == 'positions');
 
-    JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_SRIPFS'),
-				      'index.php?option=com_snipf&view=sripfs', $viewName == 'sripfs');
+      JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_SRIPFS'),
+					'index.php?option=com_snipf&view=sripfs', $viewName == 'sripfs');
 
-    JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_SPECIALITIES'),
-				      'index.php?option=com_snipf&view=specialities', $viewName == 'specialities');
+      JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_SPECIALITIES'),
+					'index.php?option=com_snipf&view=specialities', $viewName == 'specialities');
 
-    JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_COUNTRIES'),
-				      'index.php?option=com_snipf&view=countries', $viewName == 'countries');
+      JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_COUNTRIES'),
+					'index.php?option=com_snipf&view=countries', $viewName == 'countries');
 
-    JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_CATEGORIES'),
-				      'index.php?option=com_categories&extension=com_snipf', $viewName == 'categories');
+      JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_CATEGORIES'),
+					'index.php?option=com_categories&extension=com_snipf', $viewName == 'categories');
 
-    if($viewName == 'categories') {
-      $document = JFactory::getDocument();
-      $document->setTitle(JText::_('COM_SNIPF_ADMINISTRATION_CATEGORIES'));
+      if($viewName == 'categories') {
+	$document = JFactory::getDocument();
+	$document->setTitle(JText::_('COM_SNIPF_ADMINISTRATION_CATEGORIES'));
+      }
     }
   }
 

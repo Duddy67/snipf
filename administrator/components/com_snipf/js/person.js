@@ -53,6 +53,7 @@
     $('[id^="btn-delete-address-"]').children().click( function() { $.fn.deleteItem($(this)); });
     $('[id^="btn-delete-beneficiary-"]').children().click( function() { $.fn.deleteItem($(this)); });
     $.fn.setMandatoryFields();
+    $.fn.hideFields();
   });
 
 
@@ -335,6 +336,27 @@
 	    $('#ajax-waiting-screen').css({'visibility':'hidden','display':'none'});
 	  }
       });
+    }
+  };
+
+
+  $.fn.hideFields = function() {
+    //Hides some fields if the user is not a super user.
+    if($('#is-root').val() != 1) {
+      $('#attrib-basic').css({'visibility':'hidden','display':'none'});
+      $('a[href="#attrib-basic"]').css({'visibility':'hidden','display':'none'});
+      $('#permissions').css({'visibility':'hidden','display':'none'});
+      $('a[href="#permissions"]').css({'visibility':'hidden','display':'none'});
+
+      $('#jform_publish_up').parent().parent().parent().parent().css({'visibility':'hidden','display':'none'});
+      $('#jform_publish_down').parent().parent().parent().parent().css({'visibility':'hidden','display':'none'});
+      $('#jform_hits').parent().parent().css({'visibility':'hidden','display':'none'});
+      $('#jform_metadesc').parent().parent().parent().css({'visibility':'hidden','display':'none'});
+      $('#jform_published').parent().parent().css({'visibility':'hidden','display':'none'});
+      $('#jform_catid').parent().parent().css({'visibility':'hidden','display':'none'});
+      $('#jform_access').parent().parent().css({'visibility':'hidden','display':'none'});
+      $('#jform_language').parent().parent().css({'visibility':'hidden','display':'none'});
+      $('#jform_tags').parent().parent().css({'visibility':'hidden','display':'none'});
     }
   };
 })(jQuery);

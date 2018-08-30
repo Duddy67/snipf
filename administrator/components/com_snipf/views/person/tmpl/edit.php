@@ -84,7 +84,8 @@ Joomla.submitbutton = function(task)
 	    ?>
 	</div>
 	<div class="span4 form-vertical">
-	  <?php echo JLayoutHelper::render('joomla.edit.global', $this); 
+	  <?php
+		  echo JLayoutHelper::render('joomla.edit.global', $this); 
 		  $this->form->setValue('certificate_status', null, JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.$this->item->certificate_status));
 		  echo $this->form->getControlGroup('certificate_status');
 		  $this->form->setValue('subscription_status', null, JText::_('COM_SNIPF_OPTION_'.$this->item->subscription_status));
@@ -132,12 +133,10 @@ Joomla.submitbutton = function(task)
 
       <?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
-      <?php if($canDo->get('core.admin')) : ?>
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_SNIPF_TAB_PERMISSIONS', true)); ?>
-		<?php echo $this->form->getInput('rules'); ?>
-		<?php echo $this->form->getInput('asset_id'); ?>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
-      <?php endif; ?>
+      <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_SNIPF_TAB_PERMISSIONS', true)); ?>
+	      <?php echo $this->form->getInput('rules'); ?>
+	      <?php echo $this->form->getInput('asset_id'); ?>
+      <?php echo JHtml::_('bootstrap.endTab'); ?>
   </div>
 
   <input type="hidden" name="task" value="" />
@@ -146,6 +145,7 @@ Joomla.submitbutton = function(task)
   <input type="hidden" name="lang_tag" id="lang-tag" value="<?php echo $langTag; ?>" />
   <?php //Required for the checkCertificateClosure function. ?>
   <input type="hidden" name="old_status" value="<?php echo $this->item->status; ?>" />
+  <input type="hidden" name="is_root" id="is-root" value="<?php echo (int)$user->get('isRoot'); ?>" />
   <?php echo JHtml::_('form.token', array('id' => 'token')); ?>
 </form>
 

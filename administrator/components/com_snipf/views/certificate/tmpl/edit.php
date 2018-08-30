@@ -10,6 +10,8 @@ defined( '_JEXEC' ) or die; // No direct access
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
+
+$user = JFactory::getUser();
 ?>
 
 <script type="text/javascript">
@@ -108,6 +110,7 @@ Joomla.submitbutton = function(task)
   <input type="hidden" name="nb_processes" id="nb-processes" value="<?php echo $this->item->nb_processes; ?>" />
   <input type="hidden" name="certificate_state" id="certificate-state" value="<?php echo $this->certificateState; ?>" />
   <input type="hidden" name="person_status" id="person-status" value="<?php echo $this->item->person_status; ?>" />
+  <input type="hidden" name="is_root" id="is-root" value="<?php echo (int)$user->get('isRoot'); ?>" />
 
   <?php //Sets the last action name (if any) regarding processes (ie: create or delete). 
 	if($action = JFactory::getApplication()->input->get('process', '', 'string')) : ?>
