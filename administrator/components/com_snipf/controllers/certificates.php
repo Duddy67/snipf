@@ -84,11 +84,11 @@ class SnipfControllerCertificates extends JControllerAdmin
 	  $data = array();
 	  $item = new JObject;
 	  $nbPerPage = 4;
+	  $index = 1;
 
 	  //For labels we need to display 4 person's data per page. So the data has to be
 	  //slightly reorganized.
 	  foreach($persons as $key => $person) {
-	    $index = $key + 1;
 	    //Turns object into associative array.
 	    $person = (array)$person; 
 
@@ -97,12 +97,15 @@ class SnipfControllerCertificates extends JControllerAdmin
 	      $item->{$attribute.'_'.$index} = $value;
 	    }
 
+	    $index++;
+
 	    //The loop reaches the number of person per page (or the end of the array).
 	    if($index % $nbPerPage == 0 || !isset($persons[$key + 1])) {
 	      //Stores the set of person data.
 	      $data[] = $item;
 	      //Starts a new set of person's data.
 	      $item = new JObject;
+	      $index = 1;
 	    }
 	  }
 	}
