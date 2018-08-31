@@ -93,8 +93,9 @@ class TcpdfHelper
 	//Variable names are set with upper case characters in the html template.
 	$attrName = strtolower($matches[1]);
 
-	if($attrName == 'additional_address' && empty($item->additional_address)) {
-	  continue;
+	if(preg_match('#^additional_address#', $attrName) && !empty($item->$attrName)) {
+	  //In case of additional address the value is displayed in a new line.
+	  $item->$attrName = '<br />'.$item->$attrName;
 	}
 
 	$replacements[] = $item->$attrName;
@@ -117,7 +118,7 @@ class TcpdfHelper
 	$htmls[] = $html;
       }
     }
-//file_put_contents('debog_file.txt', print_r($htmls, true));
+
     return $htmls;
   }
 }

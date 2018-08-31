@@ -77,13 +77,37 @@ class SnipfControllerCertificates extends JControllerAdmin
 	  $person->country = JText::_('COM_SNIPF_LANG_COUNTRY_'.$person->alpha_3);
 	}
 
+	$data = $persons;
+
 	if($documentType == 'pdf_labels') {
 	  $template = 'subscription_labels';
-	  //foreach($persons as $key => $person) {
-	  //}
+	  $data = array();
+	  $item = new JObject;
+	  $nbPerPage = 4;
+
+	  //For labels we need to display 4 person's data per page. So the data has to be
+	  //slightly reorganized.
+	  foreach($persons as $key => $person) {
+	    $index = $key + 1;
+	    //Turns object into associative array.
+	    $person = (array)$person; 
+
+	    foreach($person as $attribute => $value) {
+	      //Postfixes each person's attribute. 
+	      $item->{$attribute.'_'.$index} = $value;
+	    }
+
+	    //The loop reaches the number of person per page (or the end of the array).
+	    if($index % $nbPerPage == 0 || !isset($persons[$key + 1])) {
+	      //Stores the set of person data.
+	      $data[] = $item;
+	      //Starts a new set of person's data.
+	      $item = new JObject;
+	    }
+	  }
 	}
 
-	TcpdfHelper::generatePDF($persons, $template);
+	TcpdfHelper::generatePDF($data, $template);
 
 	return true;
       }
