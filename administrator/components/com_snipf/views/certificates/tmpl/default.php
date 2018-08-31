@@ -39,7 +39,7 @@ Joomla.submitbutton = function(task)
 {
   var form = document.getElementById("adminForm");
 
-  if(task == 'certificates.generateDocument.pdf_new_ci') {
+  if(task == 'certificates.generateDocument.pdf_new_ci' || task == 'certificates.generateDocument.pdf_labels') {
     //Displays the pdf output in a new tab.
     form.setAttribute('target', '_blank');
     Joomla.submitform(task);

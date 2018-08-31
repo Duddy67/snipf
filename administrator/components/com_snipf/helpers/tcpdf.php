@@ -87,11 +87,16 @@ class TcpdfHelper
     foreach($data as $item) {
       $replacements = array();
       //Sets the corresponding value for each variable name.
-      foreach($patterns as $pattern) {
+      foreach($patterns as $key => $pattern) {
 	//Extracts the variable name from the pattern.
 	preg_match('#\[([A-Z-0-9_]+)#', $pattern, $matches);
 	//Variable names are set with upper case characters in the html template.
 	$attrName = strtolower($matches[1]);
+
+	if($attrName == 'additional_address' && empty($item->additional_address)) {
+	  continue;
+	}
+
 	$replacements[] = $item->$attrName;
       }
 

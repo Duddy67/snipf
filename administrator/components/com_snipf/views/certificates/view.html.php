@@ -87,7 +87,8 @@ class SnipfViewCertificates extends JViewLegacy
     }
 
     if($this->state->get('filter.certificate_state') == 'initial_running') {
-      JToolBarHelper::custom('certificates.generateDocument.pdf_new_ci', 'file-2.png', 'file-2_f2.png','COM_SNIPF_GENERATE_PDF', false);
+      JToolBarHelper::custom('certificates.generateDocument.pdf_new_ci', 'file-2.png', 'file-2_f2.png','COM_SNIPF_PDF_LETTERS', false);
+      JToolBarHelper::custom('certificates.generateDocument.pdf_labels', 'file-2.png', 'file-2_f2.png','COM_SNIPF_PDF_LABELS', false);
     }
 
     if($canDo->get('core.admin')) {

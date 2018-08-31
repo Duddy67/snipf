@@ -442,6 +442,13 @@
 		     label="COM_SNIPF_SUBSCRIPTION_LETTER_LABEL"
 		     description="COM_SNIPF_SUBSCRIPTION_LETTER_DESC">
 	      </field>
+
+	      <field name="subscription_labels" 
+		     type="editor"
+		     filter="JComponentHelper::filterText"
+		     label="COM_SNIPF_SUBSCRIPTION_LABELS_LABEL"
+		     description="COM_SNIPF_SUBSCRIPTION_LABELS_DESC">
+	      </field>
     </fieldset>
 
     <fieldset name="shared" label="COM_SNIPF_SHARED_LABEL"

@@ -49,8 +49,10 @@ class SnipfControllerCertificates extends JControllerAdmin
       return true;
     }
     else {
-      if($documentType == 'pdf_new_ci') {
+      if($documentType == 'pdf_new_ci' || $documentType == 'pdf_labels') {
 	$personIds = array();
+	$template = 'subscription_letter';
+
 	foreach($data as $certificate) {
 	  if(!in_array($certificate->person_id)) {
 	    $personIds[] = $certificate->person_id;
@@ -75,7 +77,13 @@ class SnipfControllerCertificates extends JControllerAdmin
 	  $person->country = JText::_('COM_SNIPF_LANG_COUNTRY_'.$person->alpha_3);
 	}
 
-	TcpdfHelper::generatePDF($persons, 'subscription_letter');
+	if($documentType == 'pdf_labels') {
+	  $template = 'subscription_labels';
+	  //foreach($persons as $key => $person) {
+	  //}
+	}
+
+	TcpdfHelper::generatePDF($persons, $template);
 
 	return true;
       }
