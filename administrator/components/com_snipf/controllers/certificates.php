@@ -97,8 +97,6 @@ class SnipfControllerCertificates extends JControllerAdmin
 	      $item->{$attribute.'_'.$index} = $value;
 	    }
 
-	    $index++;
-
 	    //The loop reaches the number of person per page (or the end of the array).
 	    if($index % $nbPerPage == 0 || !isset($persons[$key + 1])) {
 	      //Stores the set of person data.
@@ -106,6 +104,9 @@ class SnipfControllerCertificates extends JControllerAdmin
 	      //Starts a new set of person's data.
 	      $item = new JObject;
 	      $index = 1;
+	    }
+	    else {
+	      $index++;
 	    }
 	  }
 	}
