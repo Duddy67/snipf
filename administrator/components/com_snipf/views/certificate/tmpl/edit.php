@@ -59,7 +59,7 @@ Joomla.submitbutton = function(task)
 	    <?php
 		  echo $this->form->getControlGroup('person_id');
 		  $states = array('done', 'outdated', 'running', 'current_outdated',
-		      'file_pending', 'commission_pending');
+		      'file_pending', 'commission_pending', 'overlap');
 		  //Shows or hides the fields relating to the certificate closure according
 		  //to the process state.
 		  if($this->item->id && in_array($this->certificateState, $states)) {

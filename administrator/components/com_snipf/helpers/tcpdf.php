@@ -25,8 +25,8 @@ class TcpdfHelper
     $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
     // set document information
     $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('Our Code World');
-    $pdf->SetTitle('Example Write Html');
+    $pdf->SetAuthor('SNIPF');
+    $pdf->SetTitle('Résultat PDF');
 
     // set default header data
     //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);

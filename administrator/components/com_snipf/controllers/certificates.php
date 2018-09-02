@@ -64,7 +64,7 @@ class SnipfControllerCertificates extends JControllerAdmin
 	//Gets some data from the person.
 	$query->select('p.lastname, p.firstname, person_title, a.street, a.additional_address, a.postcode, a.city, c.alpha_3')
 	      ->from('#__snipf_person AS p')
-	      ->join('INNER', '#__snipf_address AS a ON a.person_id=p.id AND a.type="ha" AND history=0')
+	      ->join('INNER', '#__snipf_address AS a ON a.person_id=p.id AND a.type=p.mail_address_type AND history=0')
 	      ->join('LEFT', '#__snipf_country AS c ON a.country_code=c.alpha_2')
 	      ->where('p.id IN('.implode(',', $personIds).')');
 	$db->setQuery($query);
