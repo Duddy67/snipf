@@ -76,6 +76,7 @@ class SnipfModelCategory extends JModelList
       $config['filter_fields'] = array(
 	      'id', 'p.id',
 	      'lastname', 'p.lastname',
+	      'firstname', 'p.firstname',
 	      'author', 'p.author',
 	      'created', 'p.created',
 	      'catid', 'p.catid', 'category_title',
@@ -166,6 +167,8 @@ class SnipfModelCategory extends JModelList
     $this->setState('list.filter', $app->input->getString('filter-search'));
     //Get the value of the select list and load it in the session.
     $this->setState('list.filter_ordering', $app->input->getString('filter-ordering'));
+    $this->setState('list.filter_sripf', $app->input->getString('sripf_id'));
+    $this->setState('list.filter_speciality', $app->input->getString('speciality_id'));
 
     $user = JFactory::getUser();
     $asset = 'com_snipf';
@@ -324,15 +327,19 @@ class SnipfModelCategory extends JModelList
   {
     $user = JFactory::getUser();
     $groups = implode(',', $user->getAuthorisedViewLevels());
+    $jinput = JFactory::getApplication()->input;
+    $personType = $jinput->get('person_type', '', 'string');
 
     // Create a new query object.
     $db = $this->getDbo();
     $query = $db->getQuery(true);
+    $nowDate = $db->quote(JFactory::getDate()->toSql());
 
     // Select required fields from the categories.
-    $query->select($this->getState('list.select', 'p.id,p.lastname,p.alias,p.intro_text,p.full_text,p.catid,p.published,'.
-	                           'p.checked_out,p.checked_out_time,p.created,p.created_by,p.access,p.params,p.metadata,'.
-				   'p.metakey,p.metadesc,p.hits,p.publish_up,p.publish_down,p.language,p.modified,p.modified_by'))
+    $query->select($this->getState('list.select', 'p.id,p.lastname,p.firstname,p.alias,p.intro_text,p.full_text,p.catid,p.published,'.
+	                           'p.person_title,p.checked_out,p.checked_out_time,p.created,p.created_by,p.access,p.params,'.
+				   'p.metadata,p.metakey,p.metadesc,p.hits,p.publish_up,p.publish_down,p.language,p.modified,'.
+				   'p.birthdate,p.modified_by'))
 	  ->from($db->quoteName('#__snipf_person').' AS p')
 	  //Display persons of the current category.
 	  ->where('p.catid='.(int)$this->getState('category.id'));
@@ -359,6 +366,16 @@ class SnipfModelCategory extends JModelList
 	    ->where('ca.access IN ('.$groups.')');
     }
 
+    // Join over the address and the sripf.
+    $query->select('ad.sripf_id, sr.name AS sripf_name');
+    $query->join('LEFT', '#__snipf_address AS ad ON ad.person_id=p.id AND ad.type="ha" AND ad.history=0')
+	  ->join('LEFT', '#__snipf_sripf AS sr ON sr.id=ad.sripf_id');
+
+    if($personType == 'certified') {
+      $query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
+		      WHERE c.person_id=p.id AND c.published=1 AND c.closure_reason="" AND c.end_date > '.$nowDate.') > 0 ');
+    }
+
     // Filter by state
     $published = $this->getState('filter.published');
     if(is_numeric($published)) {
@@ -376,10 +393,19 @@ class SnipfModelCategory extends JModelList
     if($this->getState('filter.publish_date')) {
       // Filter by start and end dates.
       $nullDate = $db->quote($db->getNullDate());
-      $nowDate = $db->quote(JFactory::getDate()->toSql());
 
       $query->where('(p.publish_up = '.$nullDate.' OR p.publish_up <= '.$nowDate.')')
 	    ->where('(p.publish_down = '.$nullDate.' OR p.publish_down >= '.$nowDate.')');
+    }
+
+    // Filter by sripf
+    if($sripfId = $this->getState('list.filter_sripf')) {
+      $query->where('ad.sripf_id='.(int)$sripfId);
+    }
+
+    // Filter by speciality
+    if($specialityId = $this->getState('list.filter_speciality')) {
+      //$query->where('ad.sripf_id='.(int)$sripfId);
     }
 
     // Filter by language
@@ -541,6 +567,7 @@ class SnipfModelCategory extends JModelList
     return $this->_children;
   }
 
+
   /**
    * Increment the hit counter for the category.
    *
@@ -564,6 +591,36 @@ class SnipfModelCategory extends JModelList
     }
 
     return true;
+  }
+
+
+  /**
+   * Returns person's lastname suggestions for a given search request.
+   *
+   * @param   int  $pk  	Optional primary key of the current tag.
+   * @param   string $search 	The request search to get the matching lastname suggestions.
+   *
+   * @return  mixed		An array of suggestion results.
+   *
+   */
+  public function getAutocompleteSuggestions($pk = null, $search)
+  {
+    $pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
+    $results = array();
+
+    $db = $this->getDbo();
+    $query = $db->getQuery(true);
+    $query->select('lastname AS value, id AS data')
+	  ->from('#__snipf_person')
+	  ->where('catid='.(int)$pk)
+	  ->where('published=1')
+	  ->where('lastname LIKE '.$db->Quote($search.'%'))
+	  ->order('lastname DESC');
+    $db->setQuery($query);
+    //Requested to get the JQuery autocomplete working properly.
+    $results['suggestions'] = $db->loadAssocList();
+
+    return $results;
   }
 }
 

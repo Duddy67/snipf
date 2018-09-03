@@ -19,6 +19,13 @@
 			extension="com_snipf"
 			label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 			required="true" />
+
+		<field name="person_type" type="list"
+		       label="COM_SNIPF_FIELD_PERSON_TYPE_LABEL"
+		       description="COM_SNIPF_FIELD_PERSON_TYPE_DESC">
+		       <option value="certified">COM_SNIPF_OPTION_PERSON_TYPE_CERTIFIED</option>
+		       <option value="membership">COM_SNIPF_OPTION_PERSON_TYPE_MEMBERSHIP</option>
+		</field>
 	      </fieldset>
 	</fields>
 

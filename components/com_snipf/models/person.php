@@ -143,6 +143,29 @@ class SnipfModelPerson extends JModelItem
   }
 
 
+  public function getCertificates($pk = 0)
+  {
+    $pk = (!empty($pk)) ? $pk : (int) $this->getState('person.id');
+    $now = JFactory::getDate()->toSql();
+
+    $db = JFactory::getDbo();
+    $query = $db->getQuery(true);
+
+    $query->select($this->getState('list.select', 'c.number, c.end_date, ip.commission_date AS initial_commission_date,'.
+	                                          'lp.commission_date AS current_commission_date, s.name AS speciality,'.
+						  'c.complement_1, c.complement_2'))
+	  ->from('#__snipf_certificate AS c')
+	  ->join('INNER', '#__snipf_process AS lp ON lp.item_id=c.id AND lp.item_type="certificate" AND lp.is_last=1')
+	  ->join('INNER', '#__snipf_process AS ip ON ip.item_id=c.id AND ip.item_type="certificate" AND ip.number=1')
+	  ->join('LEFT', '#__snipf_speciality AS s ON s.id=c.speciality_id')
+	  ->where('c.person_id='.$pk)
+	  ->where('c.published=1 AND c.closure_reason="" AND c.end_date > '.$db->Quote($now));
+    $db->setQuery($query);
+
+    return $db->loadObjectList();
+  }
+
+
   /**
    * Increment the hit counter for the person.
    *

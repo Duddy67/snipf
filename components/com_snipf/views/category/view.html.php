@@ -72,6 +72,9 @@ class SnipfViewCategory extends JViewCategory
     //Get the user object and the current url, (needed in the person edit layout).
     $this->user = JFactory::getUser();
     $this->uri = JUri::getInstance();
+    $this->state = $this->get('State');
+
+    $model = JModelLegacy::getInstance('Person', 'SnipfModel');
 
     // Prepare the data.
     // Compute the person slugs.
@@ -83,6 +86,8 @@ class SnipfViewCategory extends JViewCategory
       if($item->parent_alias == 'root') {
 	$item->parent_slug = null;
       }
+
+      $item->certificates = $model->getCertificates($item->id);
     }
 
     // Check for layout override only if this is not the active menu item
@@ -149,9 +154,13 @@ class SnipfViewCategory extends JViewCategory
 
     $this->nowDate = JFactory::getDate()->toSql();
 
+    // Creates a new JForm object
+    $this->filterForm = new JForm('FilterForm');
+    $this->filterForm->loadFile(JPATH_SITE.'/components/com_snipf/models/forms/filter_category.xml');
+
     $this->prepareDocument();
 
-    //$this->setDocument();
+    $this->setDocument();
 
     return parent::display($tpl);
   }
@@ -237,7 +246,7 @@ class SnipfViewCategory extends JViewCategory
   protected function setDocument() 
   {
     //Include css file (if needed).
-    //$doc = JFactory::getDocument();
-    //$doc->addStyleSheet(JURI::base().'components/com_snipf/css/snipf.css');
+    $doc = JFactory::getDocument();
+    $doc->addStyleSheet(JURI::base().'components/com_snipf/css/snipf.css');
   }
 }

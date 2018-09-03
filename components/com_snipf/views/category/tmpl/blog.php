@@ -167,3 +167,13 @@ var snipf = {
   </form>
 </div><!-- blog -->
 
+<?php
+
+if($this->params->get('filter_field') == 'lastname') {
+  //Loads the JQuery autocomplete file.
+  JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js');
+  //Loads our js script.
+  $doc = JFactory::getDocument();
+  $doc->addScript(JURI::base().'components/com_snipf/js/autocomplete.js');
+}
+

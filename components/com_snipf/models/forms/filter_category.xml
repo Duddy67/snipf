@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldpath="/administrator/components/com_snipf/models/fields">
+	<fieldset name="filter">
+	  <field name="sripf_id" type="sripflist"
+		 onchange="this.form.submit();"
+		 label="COM_SNIPF_FIELD_SRIPF_LABEL"
+		 description="COM_SNIPF_FIELD_SRIPF_DESC" />
+
+	<field name="speciality_id" type="specialitylist"
+	       onchange="this.form.submit();"
+	       label="COM_SNIPF_FIELD_SPECIALITY_LABEL"
+	       description="COM_SNIPF_FIELD_SPECIALITY_DESC" />
+	</fieldset>
+</form>
