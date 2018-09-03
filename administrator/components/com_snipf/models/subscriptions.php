@@ -23,7 +23,6 @@ class SnipfModelSubscriptions extends JModelList
 	      'lastname', 'p.lastname',
 	      'firstname', 'p.firstname',
 	      'status', 'p.status',
-	      'certificate_status', 'p.certificate_status',
 	      'created', 's.created',
 	      'created_by', 's.created_by',
 	      'published', 's.published',
@@ -87,6 +86,7 @@ class SnipfModelSubscriptions extends JModelList
     $db = $this->getDbo();
     $query = $db->getQuery(true);
     $currentYear = date('Y');
+    $now = JFactory::getDate()->toSql();
 
     // Select the required fields from the table.
     $query->select($this->getState('list.select', 's.id, s.name, s.created, s.published,'.
@@ -95,7 +95,7 @@ class SnipfModelSubscriptions extends JModelList
     $query->from('#__snipf_subscription AS s');
 
     //Subscription must be linked to a person.
-    $query->select('p.lastname, p.firstname, p.id AS person_id, p.status, p.certificate_status, p.cqp1');
+    $query->select('p.lastname, p.firstname, p.id AS person_id, p.status, p.cqp1');
     $query->join('INNER', '#__snipf_person AS p ON p.id = s.person_id');
 
     //Get the process containing the current year.
@@ -144,8 +144,23 @@ class SnipfModelSubscriptions extends JModelList
 
     // Filter by person status.
     if(!empty($personStatus = $this->getState('filter.person_status'))) {
-      if($personStatus == 'certified' || $personStatus == 'no_longer_certified') {
-	$query->where('p.certificate_status='.$db->Quote($personStatus));
+      if($personStatus == 'certified') {
+	$query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
+			WHERE c.person_id=p.id AND c.published=1 AND c.closure_reason="" AND c.end_date > '.$db->Quote($now).') > 0 ');
+      }
+      elseif($personStatus == 'no_longer_certified') {
+	//The no_longer_certified status is trickier.
+	$query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
+			WHERE c.person_id=p.id AND c.published=1 AND (c.closure_reason="removal" OR
+			      c.closure_reason="rejected_file" OR c.closure_reason="abandon"  OR
+			      c.closure_reason="other") AND c.end_date > '.$db->Quote($db->getNullDate()).') > 0 ');
+
+	//Ensures also that no certified or formerly_certified certificate is found.
+	$query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
+			WHERE c.person_id=p.id AND c.published=1 AND c.closure_reason="" AND c.end_date > '.$db->Quote($now).') = 0 ');
+
+	$query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
+			WHERE c.person_id=p.id AND c.published=1 AND (c.closure_reason="retired" OR c.closure_reason="deceased")) = 0 ');
       }
       elseif($personStatus == 'retired' || $personStatus == 'deceased') {
 	$query->where('p.status='.$db->Quote($personStatus));

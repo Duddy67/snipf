@@ -74,7 +74,7 @@ class SnipfModelSubscription extends JModelAdmin
     if($item->id) { //Existing item.
       $db = $this->getDbo();
       $query = $db->getQuery(true);
-      $query->select('status, certificate_status')
+      $query->select('status')
 	    ->from('#__snipf_person')
 	    ->where('id='.(int)$item->person_id);
       $db->setQuery($query);
@@ -84,7 +84,8 @@ class SnipfModelSubscription extends JModelAdmin
 	$item->person_status = JText::_('COM_SNIPF_OPTION_'.strtoupper($person->status));
       }
       else { 
-	$item->person_status = JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.strtoupper($person->certificate_status));
+	$model = JModelLegacy::getInstance('Person', 'SnipfModel');
+	$item->person_status = JText::_('COM_SNIPF_CERTIFICATION_STATUS_'.strtoupper($model->getCertificationStatus($item->id)));
       }
     }
 

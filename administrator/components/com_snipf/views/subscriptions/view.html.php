@@ -26,6 +26,7 @@ class SnipfViewSubscriptions extends JViewLegacy
     $this->pagination = $this->get('Pagination');
     $this->filterForm = $this->get('FilterForm');
     $this->activeFilters = $this->get('ActiveFilters');
+    $model = JModelLegacy::getInstance('Person', 'SnipfModel');
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
@@ -50,7 +51,7 @@ class SnipfViewSubscriptions extends JViewLegacy
       }
 
       //Sets the person status.
-      $item->person_status = $item->certificate_status;
+      $item->person_status = $model->getCertificationStatus($item->person_id);
       if($item->status == 'retired' || $item->status == 'deceased') {
 	$item->person_status = $item->status;
       }

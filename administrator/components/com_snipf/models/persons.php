@@ -213,7 +213,7 @@ class SnipfModelPersons extends JModelList
 	$certified = substr($certStatus['certified'], 0, -5);
 	$formerlyCertified = substr($certStatus['formerly_certified'], 0, -5);
 
-	//Ensures that no certified or formerly_certified certificate is found.
+	//Ensures also that no certified or formerly_certified certificate is found.
 	$query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
 			WHERE c.person_id=p.id AND c.published=1 AND '.$certified.' = 0 ');
 
