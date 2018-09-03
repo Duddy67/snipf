@@ -102,6 +102,8 @@ class SnipfModelPerson extends JModelAdmin
 	  $item->subscription_status = 'unpaid';
 	}
       }
+
+      $item->certification_status = $this->getCertificationStatus($item->id);
     }
 
     return $item;
@@ -211,51 +213,54 @@ class SnipfModelPerson extends JModelAdmin
 
 
   /**
-   * Updates the certificate_status variable value for a given person. 
-   * The certificate status is computed according to the state of the 
+   * Computes the certification status for a given person. 
+   * The certification status is computed according to the state of the 
    * certificates owned by the given person.
    *
    * @param   integer  $personId  The id of the person.
    *
-   * @return  void
+   * @return string  The certification status. 
    */
-  public function updateCertificateStatus($personId)
+  public function getCertificationStatus($personId)
   {
     $db = $this->getDbo();
     $query = $db->getQuery(true);
-    //Gets all of the certificates accepted by the commission owned by the given person.
-    //The closure_reason value will determine whether they are still valide.
-    $query->select('c.closure_reason')
+    $query->select('c.closure_reason, c.end_date, p.number, p.outcome')
 	  ->from('#__snipf_certificate AS c')
 	  ->join('INNER', '#__snipf_process AS p ON p.item_id=c.id AND p.item_type="certificate"')
 	  ->where('c.person_id='.(int)$personId)
-	  ->where('c.published=1 AND p.number=1 AND p.outcome="accepted"');
+	  ->where('c.published=1 AND p.is_last=1');
     $db->setQuery($query);
-    $certificates = $db->loadColumn();
+    $certificates = $db->loadObjectList();
 
-    if(empty($certificates)) {
-      $status = 'no_certificate';
-    }
-    else {
-      if(in_array('', $certificates)) {
-	//No closure reason means that the certificate is still running.
-	$status = 'certified';
+    $nbCertificates = count($certificates);
+    $now = JFactory::getDate()->toSql();
+    $initialCertificate = 0;
+
+    foreach($certificates as $certificate) {
+      //As soon as a retired or deceased closure reason is found, it means that the person 
+      //has to be formerly certified. 
+      if($certificate->closure_reason == 'retired' || $certificate->closure_reason == 'deceased') {
+	return 'formerly_certified';
       }
-      elseif(in_array('retired', $certificates) || in_array('deceased', $certificates)) {
-	$status = 'formerly_certified';
+
+      if(empty($certificate->closure_reason) && $certificate->end_date > $now) {
+	return 'certified';
       }
-      else {
-	//All certificates owned by this person are no longer valide.
-	$status = 'no_longer_certified';
+
+      //Initial certificates. There can be several of them for the same person.
+      if($certificate->number == 1 && $certificate->end_date == $db->getNullDate()) {
+	$initialCertificate++;
       }
     }
 
-    $query->clear();
-    $query->update('#__snipf_person')
-	  ->set('certificate_status='.$db->Quote($status))
-	  ->where('id='.(int)$personId);
-    $db->setQuery($query);
-    $db->execute();
+    if(!$nbCertificates || $initialCertificate == $nbCertificates) {
+      return 'no_certificate';
+    }
+
+    //If no certification status has matched so far the person 
+    //has to be no longer certified
+    return 'no_longer_certified';
   }
 
 

@@ -115,7 +115,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  <?php echo JText::_('JSTATUS'); ?>
 	</th>
 	<th width="10%">
-	  <?php echo JText::_('COM_SNIPF_HEADING_CERTIFICATE_STATUS'); ?>
+	  <?php echo JText::_('COM_SNIPF_HEADING_CERTIFICATION_STATUS'); ?>
 	</th>
 	<th width="10%">
 	  <?php echo JText::_('COM_SNIPF_HEADING_SUBSCRIPTION_STATUS'); ?>
@@ -225,7 +225,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->status)); ?>
 	  </td>
 	  <td class="small hidden-phone">
-	    <?php echo JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.strtoupper($item->certificate_status)); ?>
+	    <?php echo JText::_('COM_SNIPF_CERTIFICATION_STATUS_'.strtoupper($item->certification_status)); ?>
 	  </td>
 	  <td class="small hidden-phone">
 	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->subscription_status)); ?>

@@ -24,7 +24,8 @@ $canOrder = $user->authorise('core.edit.state', 'com_snipf');
 
 $colorCodes = array('initial_pending' => '#bfbfbf', 'commission_pending' => '#ff9933', 'file_pending' => '#cc9900', 
                     'running' => '#6cd26b', 'outdated' => '#e60000', 'retired' => '#4da6ff', 'deceased' => '#ac00e6',
-		    'removal' => '#404040', 'rejected_file' => '#404040', 'abandon' => '#404040', 'other' => '#404040');
+		    'removal' => '#404040', 'rejected_file' => '#404040', 'abandon' => '#404040',
+		    'obsolete' => '#bfbfbf', 'other' => '#404040');
 ?>
 
 <script>

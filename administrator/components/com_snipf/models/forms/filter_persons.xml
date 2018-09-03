@@ -50,16 +50,16 @@
 		       <option value="deceased">COM_SNIPF_OPTION_DECEASED</option>
 		</field>
 
-		<field name="certificate_status"
+		<field name="certification_status"
 		       type="list"
 		       label="JOPTION_SELECT_PUBLISHED"
 		       description="JOPTION_SELECT_PUBLISHED_DESC"
 		       onchange="this.form.submit();">
-		       <option value="">COM_SNIPF_OPTION_SELECT_CERTIFICATE_STATUS</option>
-		       <option value="certified">COM_SNIPF_CERTIFICATE_STATUS_CERTIFIED</option>
-		       <option value="no_longer_certified">COM_SNIPF_CERTIFICATE_STATUS_NO_LONGER_CERTIFIED</option>
-		       <option value="formerly_certified">COM_SNIPF_CERTIFICATE_STATUS_FORMERLY_CERTIFIED</option>
-		       <option value="no_certificate">COM_SNIPF_CERTIFICATE_STATUS_NO_CERTIFICATE</option>
+		       <option value="">COM_SNIPF_OPTION_SELECT_CERTIFICATION_STATUS</option>
+		       <option value="certified">COM_SNIPF_CERTIFICATION_STATUS_CERTIFIED</option>
+		       <option value="no_longer_certified">COM_SNIPF_CERTIFICATION_STATUS_NO_LONGER_CERTIFIED</option>
+		       <option value="formerly_certified">COM_SNIPF_CERTIFICATION_STATUS_FORMERLY_CERTIFIED</option>
+		       <option value="no_certificate">COM_SNIPF_CERTIFICATION_STATUS_NO_CERTIFICATE</option>
 		</field>
 
 		<field name="subscription_status"

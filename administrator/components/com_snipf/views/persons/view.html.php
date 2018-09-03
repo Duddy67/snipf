@@ -26,6 +26,7 @@ class SnipfViewPersons extends JViewLegacy
     $this->pagination = $this->get('Pagination');
     $this->filterForm = $this->get('FilterForm');
     $this->activeFilters = $this->get('ActiveFilters');
+    $model = JModelLegacy::getInstance('Person', 'SnipfModel');
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
@@ -33,7 +34,7 @@ class SnipfViewPersons extends JViewLegacy
       return false;
     }
 
-    //Sets the subscription status.
+    //Sets the certification and subscription statuses.
     foreach($this->items as $item) {
       $item->subscription_status = 'no_membership';
       if($item->subscription_id && $item->cads_payment) {
@@ -42,6 +43,8 @@ class SnipfViewPersons extends JViewLegacy
       elseif($item->subscription_id && $item->process_id && $item->cads_payment == 0) {
 	$item->subscription_status = 'unpaid';
       }
+
+      $item->certification_status = $model->getCertificationStatus($item->id);
     }
 
     //Display the tool bar.
@@ -49,6 +52,7 @@ class SnipfViewPersons extends JViewLegacy
 
     $this->setDocument();
     $this->sidebar = JHtmlSidebar::render();
+
 
     //Display the template.
     parent::display($tpl);

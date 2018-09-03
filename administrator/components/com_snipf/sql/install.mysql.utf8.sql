@@ -24,7 +24,6 @@ CREATE TABLE `#__snipf_person` (
   `email` VARCHAR(255) NULL ,
   `mail_address_type` CHAR(2) NOT NULL ,
   `demand_origin` VARCHAR(85) NOT NULL ,
-  `certificate_status` VARCHAR(20) NOT NULL ,
   `active_retired` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , 
   `cqp1` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , -- Specific. Used for historical reason.
   `rgpd_sending_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,

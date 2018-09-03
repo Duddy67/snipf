@@ -91,8 +91,8 @@ Joomla.submitbutton = function(task)
 	<div class="span4 form-vertical">
 	  <?php
 		  echo JLayoutHelper::render('joomla.edit.global', $this); 
-		  $this->form->setValue('certificate_status', null, JText::_('COM_SNIPF_CERTIFICATE_STATUS_'.$this->item->certificate_status));
-		  echo $this->form->getControlGroup('certificate_status');
+		  $this->form->setValue('certification_status', null, JText::_('COM_SNIPF_CERTIFICATION_STATUS_'.$this->item->certification_status));
+		  echo $this->form->getControlGroup('certification_status');
 		  $this->form->setValue('subscription_status', null, JText::_('COM_SNIPF_OPTION_'.$this->item->subscription_status));
 		  echo $this->form->getControlGroup('subscription_status');
 		  echo $this->form->getControlGroup('rgpd_sending_date');
