@@ -48,6 +48,7 @@ CREATE TABLE `#__snipf_person` (
   `modified` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `modified_by` INT UNSIGNED NOT NULL ,
   `language` CHAR(7) NOT NULL,
+  `old_id` INT UNSIGNED NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`id`) ,
   INDEX `idx_access` (`access` ASC) ,
   INDEX `idx_created_by` (`created_by` ASC) ,
