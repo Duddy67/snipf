@@ -30,7 +30,7 @@ class SnipfViewPersons extends JViewLegacy
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
-      JFactory::getApplication()->enqueueMessage($errors, 'error');
+      JFactory::getApplication()->enqueueMessage(implode('<br />', $errors), 'error');
       return false;
     }
 

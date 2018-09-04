@@ -28,7 +28,7 @@ class SnipfViewSpeciality extends JViewLegacy
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
-      JError::raiseError(500, implode('<br />', $errors));
+      JFactory::getApplication()->enqueueMessage(implode('<br />', $errors), 'error');
       return false;
     }
 

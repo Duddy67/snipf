@@ -248,7 +248,7 @@ class SnipfHelper
 
     //Check for error.
     if($send !== true) {
-      JError::raiseWarning(500, JText::_('COM_SNIPF_CONFIRMATION_EMAIL_FAILED'));
+      JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_CONFIRMATION_EMAIL_FAILED'), 'warning');
       return false;
     }
     else {
