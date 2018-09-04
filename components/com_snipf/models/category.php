@@ -333,6 +333,7 @@ class SnipfModelCategory extends JModelList
     $db = $this->getDbo();
     $query = $db->getQuery(true);
     $nowDate = $db->quote(JFactory::getDate()->toSql());
+    $currentYear = date('Y');
 
     // Select required fields from the categories.
     $query->select($this->getState('list.select', 'p.id,p.lastname,p.firstname,p.alias,p.intro_text,p.full_text,p.catid,p.published,'.
@@ -366,13 +367,26 @@ class SnipfModelCategory extends JModelList
     }
 
     // Join over the address and the sripf.
-    $query->select('ad.sripf_id, sr.name AS sripf_name');
-    $query->join('LEFT', '#__snipf_address AS ad ON ad.person_id=p.id AND ad.type="ha" AND ad.history=0')
-	  ->join('LEFT', '#__snipf_sripf AS sr ON sr.id=ad.sripf_id');
+    $query->select('ha.sripf_id, sr.name AS sripf_name, ha.street AS street_ha, ha.additional_address AS additional_address_ha,'.
+                   'ha.postcode AS postcode_ha, ha.phone AS phone_ha, ha.mobile AS mobile_ha, ha.fax AS fax_ha,'.
+		   'hac.lang_var AS country_lang_var_ha');
+    $query->join('LEFT', '#__snipf_address AS ha ON ha.person_id=p.id AND ha.type="ha" AND ha.history=0')
+	  ->join('LEFT', '#__snipf_sripf AS sr ON sr.id=ha.sripf_id')
+	  ->join('LEFT', '#__snipf_country AS hac ON hac.alpha_2=ha.country_code');
 
     if($this->getState('list.person_type') == 'certified') {
       $query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
 		      WHERE c.person_id=p.id AND c.published=1 AND c.closure_reason="" AND c.end_date > '.$nowDate.') > 0 ');
+    }
+    elseif($this->getState('list.person_type') == 'membership') {
+      $query->select('pa.street AS street_pa, pa.additional_address AS additional_address_pa,'.
+	             'pa.postcode AS postcode_pa, pa.phone AS phone_pa, pa.mobile AS mobile_pa,'.
+		     'pa.fax AS fax_pa, pac.lang_var AS country_lang_var_pa')
+	    ->join('INNER', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1')
+	    ->join('INNER', '#__snipf_process AS sp ON sp.item_id=sub.id AND sp.item_type="subscription" AND '.
+		   'sp.year='.$db->Quote($currentYear).' AND sp.cads_payment=1')
+	    ->join('LEFT', '#__snipf_address AS pa ON pa.person_id=p.id AND pa.type="pa" AND pa.history=0')
+	    ->join('LEFT', '#__snipf_country AS pac ON pac.alpha_2=pa.country_code');
     }
 
     // Filter by state
@@ -399,7 +413,7 @@ class SnipfModelCategory extends JModelList
 
     // Filter by sripf
     if($sripfId = $this->getState('list.filter_sripf')) {
-      $query->where('ad.sripf_id='.(int)$sripfId);
+      $query->where('ha.sripf_id='.(int)$sripfId);
     }
 
     // Filter by speciality
