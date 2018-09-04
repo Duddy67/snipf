@@ -103,9 +103,10 @@ class SnipfModelCategory extends JModelList
   {
     $app = JFactory::getApplication('site');
 
-    //Get and set the current category id.
+    //Gets and sets the current category id as well as the person type.
     $pk = $app->input->getInt('id');
     $this->setState('category.id', $pk);
+    $this->setState('list.person_type', $app->input->get('person_type', '', 'string'));
 
     //getParams function return global parameters overrided by the menu parameters (if any).
     //Person: Some specific parameters of this menu are not returned.
@@ -327,8 +328,6 @@ class SnipfModelCategory extends JModelList
   {
     $user = JFactory::getUser();
     $groups = implode(',', $user->getAuthorisedViewLevels());
-    $jinput = JFactory::getApplication()->input;
-    $personType = $jinput->get('person_type', '', 'string');
 
     // Create a new query object.
     $db = $this->getDbo();
@@ -371,7 +370,7 @@ class SnipfModelCategory extends JModelList
     $query->join('LEFT', '#__snipf_address AS ad ON ad.person_id=p.id AND ad.type="ha" AND ad.history=0')
 	  ->join('LEFT', '#__snipf_sripf AS sr ON sr.id=ad.sripf_id');
 
-    if($personType == 'certified') {
+    if($this->getState('list.person_type') == 'certified') {
       $query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
 		      WHERE c.person_id=p.id AND c.published=1 AND c.closure_reason="" AND c.end_date > '.$nowDate.') > 0 ');
     }
@@ -405,7 +404,9 @@ class SnipfModelCategory extends JModelList
 
     // Filter by speciality
     if($specialityId = $this->getState('list.filter_speciality')) {
-      //$query->where('ad.sripf_id='.(int)$sripfId);
+      $query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
+		      WHERE c.person_id=p.id AND c.published=1 AND c.closure_reason="" 
+		      AND c.end_date > '.$nowDate.' AND c.speciality_id='.(int)$specialityId.') > 0 ');
     }
 
     // Filter by language
