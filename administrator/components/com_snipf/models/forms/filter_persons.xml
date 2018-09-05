@@ -60,6 +60,7 @@
 		       <option value="no_longer_certified">COM_SNIPF_CERTIFICATION_STATUS_NO_LONGER_CERTIFIED</option>
 		       <option value="formerly_certified">COM_SNIPF_CERTIFICATION_STATUS_FORMERLY_CERTIFIED</option>
 		       <option value="no_certificate">COM_SNIPF_CERTIFICATION_STATUS_NO_CERTIFICATE</option>
+		       <option value="outdated">COM_SNIPF_CERTIFICATION_STATUS_OUTDATED</option>
 		</field>
 
 		<field name="subscription_status"

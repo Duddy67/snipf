@@ -199,6 +199,7 @@ class SnipfModelPersons extends JModelList
       //Sets up an array containing the end of query for each status.
       $certStatus = array();
       $certStatus['certified'] = 'c.closure_reason="" AND c.end_date > '.$db->Quote($now).') > 0 ';
+      $certStatus['outdated'] = 'c.closure_reason="" AND c.end_date < '.$db->Quote($now).' AND c.end_date != '.$db->Quote($db->getNullDate()).') > 0 ';
       $certStatus['formerly_certified'] = '(c.closure_reason="retired" OR c.closure_reason="deceased")) > 0 ';
       $certStatus['no_certificate'] = 'c.end_date > '.$db->Quote($db->getNullDate()).') = 0 ';
       $certStatus['no_longer_certified'] = '(c.closure_reason="removal" OR c.closure_reason="rejected_file" OR c.closure_reason="abandon"  OR c.closure_reason="other") AND c.end_date > '.$db->Quote($db->getNullDate()).') > 0 ';
@@ -207,7 +208,7 @@ class SnipfModelPersons extends JModelList
       $query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
 		      WHERE c.person_id=p.id AND c.published=1 AND '.$certStatus[$certificationStatus]);
 
-      //The no_longer_certified status is trickier.
+      //The no_longer_certified and outdated statuses are trickier.
       if($certificationStatus == 'no_longer_certified') {
         //Removes the " > 0" from the end of the queries.
 	$certified = substr($certStatus['certified'], 0, -5);
@@ -219,6 +220,12 @@ class SnipfModelPersons extends JModelList
 
 	$query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
 			WHERE c.person_id=p.id AND c.published=1 AND '.$formerlyCertified.' = 0 ');
+      }
+      elseif($certificationStatus == 'outdated') {
+	$certified = substr($certStatus['certified'], 0, -5);
+	//Ensures also that no certified certificate is found.
+	$query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
+			WHERE c.person_id=p.id AND c.published=1 AND '.$certified.' = 0 ');
       }
     }
 
