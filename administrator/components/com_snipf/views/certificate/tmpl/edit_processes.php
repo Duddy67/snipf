@@ -1,6 +1,15 @@
 
-<?php foreach($this->item->processes as $key => $process) : 
-        echo JHtml::_('bootstrap.addTab', 'myTab', 'process-'.$process->number, $process->name); 
+<?php   $index = 'a';
+	foreach($this->item->processes as $key => $process) : 
+
+	$processName = $process->name;
+	//Starts the indexing after the first process.
+	if($process->number > 1) {
+	  $processName = $processName.' '.$index;
+	  $index++;
+	}
+
+        echo JHtml::_('bootstrap.addTab', 'myTab', 'process-'.$process->number, $processName); 
 	$fieldset = $this->processForm->getFieldset('process');
 ?>
 	<div class="span4">

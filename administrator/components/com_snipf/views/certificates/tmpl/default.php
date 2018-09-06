@@ -26,6 +26,10 @@ $colorCodes = array('initial_pending' => '#bfbfbf', 'commission_pending' => '#ff
                     'running' => '#6cd26b', 'outdated' => '#e60000', 'retired' => '#4da6ff', 'deceased' => '#ac00e6',
 		    'removal' => '#404040', 'rejected_file' => '#404040', 'abandon' => '#404040',
 		    'obsolete' => '#bfbfbf', 'other' => '#404040');
+
+$indexes = array(1 => '', 2 => 'a', 3 => 'b', 4 => 'c', 5 => 'd', 6 => 'e', 7 => 'f', 8 => 'g', 9 => 'h', 10 => 'i', 11 => 'j',
+		 12 => 'k', 13 => 'l', 14 => 'm', 15 => 'n', 16 => 'o', 17 => 'p', 18 => 'q', 19 => 'r', 20 => 's',
+		 21 => 't', 22 => 'u', 23 => 'v', 24 => 'w', 25 => 'x', 26 => 'y', 27 => 'z');
 ?>
 
 <script>
@@ -149,20 +153,14 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this));
 	      <?php endif; ?>
 	      <?php if($canEdit || $canEditOwn) : ?>
 		<a href="<?php echo JRoute::_('index.php?option=com_snipf&task=certificate.edit&id='.$item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
-			<?php echo $this->escape($item->number); ?></a>
+			<?php echo $this->escape($item->number).$indexes[$item->process_nb]; ?></a>
 	      <?php else : ?>
-		<?php echo $this->escape($item->number); ?>
+		<?php echo $this->escape($item->number).$indexes[$item->process_nb]; ?>
 	      <?php endif; ?>
 	    </div>
 	  </td>
 	  <td class="hidden-phone">
-	      <?php if($canEdit || $canEditOwn) : ?>
-		<a href="<?php echo JRoute::_('index.php?option=com_snipf&task=certificate.edit&id='.$item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
-		<?php echo $this->escape($item->lastname); ?></a>
-	      <?php else : ?>
 		<?php echo $this->escape($item->lastname); ?>
-	      <?php endif; ?>
-
 		<span class="small">
 		  <?php echo '<br />(id: '.$item->person_id.')'; ?>
 		</span>
