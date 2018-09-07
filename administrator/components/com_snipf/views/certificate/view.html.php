@@ -161,14 +161,24 @@ class SnipfViewCertificate extends JViewLegacy
 	//This is a transitory state.
 	return 'transitory_pending';
       }
-      elseif($lastProcess->outcome == 'pending' || $lastProcess->outcome == 'adjourned') {
-	if($now > $this->item->end_date && $nbProcesses > 1) {
+      elseif($lastProcess->outcome == 'pending' || $lastProcess->outcome == 'adjourned' || $lastProcess->outcome == 'rejected') {
+	if($now > $this->item->end_date && $nbProcesses > 1 && $lastProcess->outcome != 'rejected') {
 	  //outdated && commission_pending
 	  return 'overlap'; 
 	}
+	elseif($now > $this->item->end_date && $nbProcesses > 1 && $lastProcess->outcome == 'rejected') {
+	  //outdated && rejected_file
+	  return 'rejected_overlap'; 
+	}
 
-	//running && commission_pending
-	return 'commission_pending';
+	if($lastProcess->outcome == 'rejected') {
+	  //running && rejected_file
+	  return 'rejected_file';
+	}
+	else {
+	  //running && commission_pending
+	  return 'commission_pending';
+	}
       }
       //For whatever reason there's no ask for renewal and the current process came to an end. 
       elseif($lastProcess->outcome == 'accepted' && $now > $lastProcess->end_process) {

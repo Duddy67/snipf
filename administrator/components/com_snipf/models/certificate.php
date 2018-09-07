@@ -152,12 +152,19 @@ class SnipfModelCertificate extends JModelAdmin
     $lastProcess = $processes[$nbProcesses - 1];
 
     if($lastProcess->outcome == 'accepted') {
-      //Computes the end process date (ie: fin de validité du certificat). 
-      $date = new DateTime($lastProcess->commission_date);
-      //Adds 3 years from the commission date.
-      $date->add(new DateInterval('P3Y'));
-      //Sets to the last day of the month.
-      $endDate = $endProcess = $date->format('Y-m-t H:i:s');
+      //The end process date is already set.
+      if($lastProcess->end_process > $db->getNullDate()) {
+	//Keeps it as it is.
+	$endDate = $endProcess = $lastProcess->end_process;
+      }
+      else {
+	//Computes the end process date (ie: fin de validité du certificat). 
+	$date = new DateTime($lastProcess->commission_date);
+	//Adds 3 years from the commission date.
+	$date->add(new DateInterval('P3Y'));
+	//Sets to the last day of the month.
+	$endDate = $endProcess = $date->format('Y-m-t H:i:s');
+      }
     }
     //The last process is not accepted, so we rely on the penultimate process to get the
     //end date.
@@ -188,36 +195,6 @@ class SnipfModelCertificate extends JModelAdmin
 	  ->where('id='.(int)$itemId);
     $db->setQuery($query);
     $db->execute();
-
-    //In case of rejected file, ensure the closure_reason and closure_date fields are properly set.
-    if($lastProcess->outcome == 'rejected') {
-
-      //The end date of the last process corresponds to the commission date.
-      $query->clear();
-      $query->update('#__snipf_process')
-	    ->set('end_process='.$db->Quote($lastProcess->commission_date))
-	    ->where('item_id='.(int)$itemId)
-	    ->where('item_type="certificate"')
-	    ->where('number='.(int)$nbProcesses);
-      $db->setQuery($query);
-      $db->execute();
-
-      //The closure date corresponds to the commission date as well.
-      $set = array('closure_date='.$db->Quote($lastProcess->commission_date),
-		   'closure_reason='.$db->Quote($lastProcess->outcome));
-
-      //In case of initial process (no certificate was ever created).
-      if($nbProcesses == 1) {
-	$set[] = 'number='.$db->Quote(JText::_('COM_SNIPF_OPTION_REJECTED_FILE'));
-      }
-
-      $query->clear();
-      $query->update('#__snipf_certificate')
-	    ->set($set)
-	    ->where('id='.(int)$itemId);
-      $db->setQuery($query);
-      $db->execute();
-    }
   }
 
 

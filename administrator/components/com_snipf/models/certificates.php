@@ -204,6 +204,11 @@ class SnipfModelCertificates extends JModelList
 	        ->where('pr.file_receiving_date='.$db->Quote($nullDate));
 	break;
 
+      case 'running_rejected_file':
+	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
+	        ->where('pr.commission_date > '.$db->Quote($nullDate).' AND pr.outcome="rejected"');
+	break;
+
       case 'running':
 	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
 	        ->where('pr.outcome="accepted"');
@@ -231,6 +236,12 @@ class SnipfModelCertificates extends JModelList
 	        ->where('c.closure_date='.$db->Quote($nullDate).' AND pr.file_receiving_date='.$db->Quote($nullDate));
 	break;
 
+      case 'outdated_rejected_file':
+	  $query->where('c.end_date < '.$db->Quote($now).' AND c.end_date > '.$db->Quote($nullDate))
+	        ->where('c.closure_date='.$db->Quote($nullDate).' AND pr.commission_date > '.$db->Quote($nullDate))
+		->where('pr.outcome="rejected"');
+	break;
+
       case 'outdated':
 	  $query->where('c.end_date < '.$db->Quote($now).' AND c.end_date > '.$db->Quote($nullDate))
 	        ->where('c.closure_date='.$db->Quote($nullDate).' AND pr.outcome="accepted"');
@@ -246,7 +257,12 @@ class SnipfModelCertificates extends JModelList
 
       case 'initial_commission_pending':
 	  $query->where('pr.number=1 AND pr.commission_date > '.$db->Quote($nullDate))
-		->where('(pr.outcome="pending" OR pr.outcome="adjourned")');
+		->where('(pr.outcome="pending" OR pr.outcome="adjourned") AND c.closure_reason=""');
+	break;
+
+      case 'initial_rejected_file':
+	  $query->where('pr.number=1 AND pr.commission_date > '.$db->Quote($nullDate))
+		->where('pr.outcome="rejected" AND c.closure_reason=""');
 	break;
 
       case 'all_invalidated':

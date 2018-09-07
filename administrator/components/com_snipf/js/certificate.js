@@ -58,12 +58,21 @@
       $('#jform_closure_reason option[value="retired"]').attr('disabled', 'disabled');
       $('#jform_closure_reason option[value="deceased"]').attr('disabled', 'disabled');
       $('#jform_closure_reason option[value="obsolete"]').attr('disabled', 'disabled');
-      //Rejected is only available through the commission result.
+      //Rejected is only available in a rejection case.
       $('#jform_closure_reason option[value="rejected_file"]').attr('disabled', 'disabled');
       $('#jform_closure_reason').trigger('liszt:updated');
 
-      if(certificateState == 'commission_pending' || certificateState == 'overlap') {
-	//Removal option is not available during the commission pending.
+      if(certificateState == 'rejected_file' || certificateState == 'rejected_overlap') {
+	//Rejected is the only option available.
+	$('#jform_closure_reason option[value="rejected_file"]').prop('disabled', false);
+	$('#jform_closure_reason option[value="abandon"]').attr('disabled', 'disabled');
+	$('#jform_closure_reason option[value="other"]').attr('disabled', 'disabled');
+	$('#jform_closure_reason').trigger('liszt:updated');
+      }
+
+      if(certificateState == 'commission_pending' || certificateState == 'overlap' || 
+	 certificateState == 'rejected_file' || certificateState == 'rejected_overlap') {
+	//Removal option is not available during the commission pending or a rejection case.
 	$('#jform_closure_reason option[value="removal"]').attr('disabled', 'disabled');
 	$('#jform_closure_reason').trigger('liszt:updated');
       }
@@ -171,9 +180,19 @@
 	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#cc9900', 'color': 'white'});
 	break;
 
+      case 'rejected_file': //green and dark brown
+	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
+	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#805500', 'color': 'white'});
+	break;
+
       case 'overlap': //red and orange
 	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#e60000', 'color': 'white'});
 	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ff9933', 'color': 'white'});
+	break;
+
+      case 'rejected_overlap': //red and dark brown
+	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#e60000', 'color': 'white'});
+	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#805500', 'color': 'white'});
 	break;
 
       case 'outdated': //red and brown
@@ -254,16 +273,6 @@
       $('#'+id).addClass('invalid');
 
       return false
-    }
-
-    //Handles the rejected file case.
-    if(outcome == 'rejected' && (closureDate == '' || closureDate == nullDate)) {
-      if(confirm(Joomla.JText._('COM_SNIPF_WARNING_REJECTED_FILE_CASE'))) {
-	return true;
-      }
-      else {
-	return false
-      }
     }
 
     return true;

@@ -24,8 +24,8 @@ $canOrder = $user->authorise('core.edit.state', 'com_snipf');
 
 $colorCodes = array('initial_pending' => '#bfbfbf', 'commission_pending' => '#ff9933', 'file_pending' => '#cc9900', 
                     'running' => '#6cd26b', 'outdated' => '#e60000', 'retired' => '#4da6ff', 'deceased' => '#ac00e6',
-		    'removal' => '#404040', 'rejected_file' => '#404040', 'abandon' => '#404040',
-		    'obsolete' => '#bfbfbf', 'other' => '#404040');
+		    'removal' => '#404040', 'rejected_file' => '#404040', 'rejected' => '#805500','rejected_pending' => '#805500',
+		    'abandon' => '#404040', 'obsolete' => '#bfbfbf', 'other' => '#404040');
 
 $indexes = array(1 => '', 2 => 'a', 3 => 'b', 4 => 'c', 5 => 'd', 6 => 'e', 7 => 'f', 8 => 'g', 9 => 'h', 10 => 'i', 11 => 'j',
 		 12 => 'k', 13 => 'l', 14 => 'm', 15 => 'n', 16 => 'o', 17 => 'p', 18 => 'q', 19 => 'r', 20 => 's',

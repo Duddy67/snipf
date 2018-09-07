@@ -18,10 +18,18 @@
         //Fields relating to the commission are not shown as long as both 
 	//file_receiving_date and return_file_number fields are not properly set.
 	$commission = false;
-        $hiddenFields = array('commission_date', 'outcome', 'commission_derogation', 'end_process', 'appeal_date', 'appeal_result');
+        $hiddenFields = array('commission_date', 'outcome', 'end_process');
 
 	if($process->file_receiving_date != $this->nullDate && !empty($process->return_file_number)) {
 	  $commission = true;
+	}
+
+        //Checks for initial certificate (CI) still not validated.
+        if(!$commission && $key == 0 && $process->is_last == 1) {
+	  //These fields are not needed.
+	  $hiddenFields[] = 'commission_derogation';
+	  $hiddenFields[] = 'appeal_date';
+	  $hiddenFields[] = 'appeal_result';
 	}
 
 	foreach($fieldset as $field) {
@@ -35,8 +43,8 @@
 	    //Turns commission fields into hidden fields.
 	    echo '<input type="hidden" name="'.$name.'_'.$process->number.'" id="'.$name.'_'.$process->number.'" value="" />';
 	  }
-	  //Hides end_process and suspension_date as long as the outcome is not accepted.
-	  elseif($commission && $process->outcome != 'accepted' && ($name == 'end_process' || $name == 'suspension_date')) {
+	  //Hides end_process as long as the outcome is not accepted.
+	  elseif($commission && $process->outcome != 'accepted' && $name == 'end_process') {
 	    echo '<input type="hidden" name="'.$name.'_'.$process->number.'" id="'.$name.'_'.$process->number.'" value="" />';
 	  }
 	  else {

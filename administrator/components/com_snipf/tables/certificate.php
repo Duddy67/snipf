@@ -48,13 +48,18 @@ class SnipfTableCertificate extends JTable
       $this->modified = $now;
       $this->modified_by = $user->get('id');
 
-      //In case of abandonment during the very first commission pending 
-      if($this->closure_reason == 'abandon' && ProcessHelper::getNbProcesses($this->id, 'certificate') == 1) {
+      //In case of abandonment or rejection during the very first commission pending 
+      if(($this->closure_reason == 'abandon' || $this->closure_reason == 'rejected_file') &&
+	  ProcessHelper::getNbProcesses($this->id, 'certificate') == 1) {
 	$process = ProcessHelper::getProcesses($this->id, 'certificate', 1);
 	//Ensures that no certificate has been created yet.
 	if($process->commission_date > '0000-00-00 00:00:00' && $process->end_process == '0000-00-00 00:00:00') {
-	  //Sets the number field to the abandon label.
+	  //Sets the number field to the corresponding label.
 	  $this->number = JText::_('COM_SNIPF_STATUS_ABANDON');
+
+	  if($this->closure_reason == 'rejected_file') {
+	    $this->number = JText::_('COM_SNIPF_OPTION_REJECTED_FILE');
+	  }
 	}
       }
     }

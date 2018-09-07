@@ -119,6 +119,10 @@ class SnipfViewCertificates extends JViewLegacy
 	elseif($item->end_date == $this->nullDate && !empty($item->return_file_number) &&
 	       $item->process_nb == 1 && empty($item->closure_reason)) {
 	  $item->process_states = array('commission_pending');
+
+	  if($item->outcome == 'rejected') {
+	    $item->process_states = array('rejected_pending');
+	  }
 	}
 	elseif(empty($item->closure_reason)) { //The certificate is opened.
 
@@ -126,22 +130,30 @@ class SnipfViewCertificates extends JViewLegacy
 	    if(!empty($item->return_file_number) && $item->outcome == 'accepted') {
 	      $item->process_states = array('running');
 	    }
-	    elseif(!empty($item->return_file_number) && $item->outcome != 'accepted') { //pending, adjourned, canceled
+	    elseif(!empty($item->return_file_number) && $item->outcome != 'accepted' &&
+		    $item->outcome != 'rejected') { //pending, adjourned
 	      $item->process_states = array('running', 'commission_pending');
 	    }
-	    elseif(empty($item->return_file_number)) {
+	    elseif(empty($item->return_file_number) && $item->outcome != 'rejected') {
 	      $item->process_states = array('running', 'file_pending');
+	    }
+	    elseif($item->outcome == 'rejected') {
+	      $item->process_states = array('running', 'rejected');
 	    }
 	  }
 	  else { //Certificate validity is outdated.
 	    if(!empty($item->return_file_number) && $item->outcome == 'accepted') {
 	      $item->process_states = array('outdated');
 	    }
-	    elseif(!empty($item->return_file_number) && $item->outcome != 'accepted') { //pending, adjourned, canceled
+	    elseif(!empty($item->return_file_number) && $item->outcome != 'accepted' && 
+		   $item->outcome != 'rejected') { //pending, adjourned
 	      $item->process_states = array('outdated', 'commission_pending');
 	    }
 	    elseif(empty($item->return_file_number)) {
 	      $item->process_states = array('outdated', 'file_pending');
+	    }
+	    elseif($item->outcome == 'rejected') {
+	      $item->process_states = array('outdated', 'rejected');
 	    }
 	  }
 	}
