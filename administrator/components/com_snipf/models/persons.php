@@ -295,7 +295,7 @@ class SnipfModelPersons extends JModelList
     $orderDirn = $this->state->get('list.direction'); //asc or desc
 
     $query->order($db->escape($orderCol.' '.$orderDirn));
-file_put_contents('debog_file.txt', print_r($query->__toString(), true));
+
     return $query;
   }
 

@@ -53,7 +53,6 @@ class SnipfViewPersons extends JViewLegacy
     $this->setDocument();
     $this->sidebar = JHtmlSidebar::render();
 
-
     //Display the template.
     parent::display($tpl);
   }

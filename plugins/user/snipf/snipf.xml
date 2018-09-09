@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="user" method="upgrade">
+    <name>PLG_USER_SNIPF</name>
+    <author>Lucas Sanner</author>
+    <creationDate>September 2018</creationDate>
+    <copyright> Copyright (C) 2018 2018 Lucas Sanner. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later http://www.gnu.org/licenses/gpl.html</license>
+    <authorEmail>lucas.sanner@gmail.com</authorEmail>
+    <version>1.0</version>
+    <description>PLG_USER_SNIPF_XML_DESCRIPTION</description>
+	<files>
+	  <filename plugin="snipf">snipf.php</filename>
+	  <filename>index.html</filename>
+	  <folder>language</folder>
+	</files>
+
+	<config>
+	</config>
+</extension>

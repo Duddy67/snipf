@@ -152,6 +152,22 @@ class SnipfTablePerson extends JTable
       return false;
     }
 
+    //The person has still no Joomla user account.
+    if(!$this->user_id) {
+      // Verify as well in the Jooma user's table that the email is unique.
+      $db = JFactory::getDbo();
+      $query = $db->getQuery(true);
+      $query->select('COUNT(*)')
+	    ->from('#__users')
+	    ->where('email='.$db->Quote($this->email));
+      $db->setQuery($query);
+
+      if($db->loadResult()) {
+	$this->setError(JText::_('COM_SNIPF_DATABASE_ERROR_PERSON_UNIQUE_EMAIL'));
+	return false;
+      }
+    }
+
     return parent::store($updateNulls);
   }
 

@@ -168,6 +168,9 @@ class SnipfHelper
     $data['block'] = 0;
     $data['groups'] = array(2); //Registered
     $data['requireReset'] = 1;  //Require user to reset password on next login.
+    //Extra data used as a flag to indicate that the Joomla user is created from the SNIPF
+    //component (note: used in the SNIPF user plugin).
+    $data['initial_registration'] = 1;
 
     return; //To prevent sending emails during tests.
 

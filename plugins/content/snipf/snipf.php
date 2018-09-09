@@ -74,11 +74,6 @@ class plgContentSnipf extends JPlugin
 	}
       }
     }
-    elseif($context == 'com_users.user') { 
-      /*$table = JTable::getInstance('Person', 'SnipfTable', array('dbo', $this->getDbo()));
-      if($table->load(array('email' => $data->email)) && ($table->user_id != $data->id || $data->id == 0)) {
-      }*/
-    }
 
     return true;
   }
@@ -205,36 +200,7 @@ class plgContentSnipf extends JPlugin
   public function onContentAfterDelete($context, $data)
   {
     if($context == 'com_snipf.person') { 
-      //First gets the certificate ids which are linked to this person.
-      $db = JFactory::getDbo();
-      $query = $db->getQuery(true);
-      $query->select('id')
-	    ->from('#__snipf_certificate')
-	    ->where('person_id='.(int)$data->id);
-      $db->setQuery($query);
-      $certificateIds = $db->loadColumn();
-
-      if(!empty($certificateIds)) {
-	SnipfHelper::deleteItems($certificateIds, 'Certificate');
-
-	//Deletes all the processes linked to the person's certificates.
-	$query->clear();
-	$query->delete('#__snipf_process')
-	      ->where('item_id IN('.implode(',', $certificateIds).')')
-	      ->where('item_type="certificate"');
-	$db->setQuery($query);
-	$db->execute();
-      }
-
-      $tables = array('address', 'beneficiary', 'person_position_map', 'work_situation');
-
-      foreach($tables as $table) {
-	$query->clear();
-	$query->delete('#__snipf_'.$table)
-	      ->where('person_id='.(int)$data->id);
-	$db->setQuery($query);
-	$db->execute();
-      }
+      $this->deletePerson($data->id);
 
       //TODO: Removes the possible Joomla user linked to this person.
     }
@@ -276,6 +242,61 @@ class plgContentSnipf extends JPlugin
   public function onContentChangeState($context, $pks, $value)
   {
     return true;
+  }
+
+
+  private function deletePerson($personId)
+  {
+    //First gets the certificate ids which are linked to this person.
+    $db = JFactory::getDbo();
+    $query = $db->getQuery(true);
+    $query->select('id')
+	  ->from('#__snipf_certificate')
+	  ->where('person_id='.(int)$personId);
+    $db->setQuery($query);
+    $certificateIds = $db->loadColumn();
+
+    if(!empty($certificateIds)) {
+      SnipfHelper::deleteItems($certificateIds, 'Certificate');
+
+      //Deletes all the processes linked to the person's certificates.
+      $query->clear();
+      $query->delete('#__snipf_process')
+	    ->where('item_id IN('.implode(',', $certificateIds).')')
+	    ->where('item_type="certificate"');
+      $db->setQuery($query);
+      $db->execute();
+    }
+
+    //Same thing with the subscription items.
+    $query->clear();
+    $query->select('id')
+	  ->from('#__snipf_subscription')
+	  ->where('person_id='.(int)$personId);
+    $db->setQuery($query);
+    $subscriptionIds = $db->loadColumn();
+
+    if(!empty($certificateIds)) {
+      SnipfHelper::deleteItems($subscriptionIds, 'Subscription');
+
+      //Deletes all the processes linked to the person's certificates.
+      $query->clear();
+      $query->delete('#__snipf_process')
+	    ->where('item_id IN('.implode(',', $subscriptionIds).')')
+	    ->where('item_type="subscription"');
+      $db->setQuery($query);
+      $db->execute();
+    }
+
+    $tables = array('address', 'beneficiary', 'person_position_map', 'work_situation');
+
+    foreach($tables as $table) {
+      $query->clear();
+      $query->delete('#__snipf_'.$table)
+	    ->where('person_id='.(int)$personId);
+      $db->setQuery($query);
+      $db->execute();
+    }
   }
 
 
