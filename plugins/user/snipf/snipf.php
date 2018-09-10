@@ -111,12 +111,23 @@ class plgUserSnipf extends JPlugin
     if(!$isNew && $result) {
       $db = JFactory::getDbo();
       $query = $db->getQuery(true);
-      //Updates the email address in the person table.
-      $query->update('#__snipf_person')
-	    ->set('email='.$db->Quote($data['email']))
+      //Gets the email value of the corresponding person (if exists).
+      $query->select('email')
+	    ->from('#__snipf_person')
 	    ->where('user_id='.(int)$data['id']);
       $db->setQuery($query);
-      $db->execute();
+      $email = $db->loadResult();
+
+      if($email !== null) {
+	//Updates some user's variables with the person's email value.
+	$fields = array('email='.$db->Quote($email), 'username='.$db->Quote($email));
+	$query->clear();
+	$query->update('#__users')
+	      ->set($fields)
+	      ->where('id='.(int)$data['id']);
+	$db->setQuery($query);
+	$db->execute();
+      }
     }
   }
 

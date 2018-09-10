@@ -44,7 +44,6 @@ class plgContentSnipf extends JPlugin
       if($data->status == 'retired' || $data->status == 'deceased') {
 	$db = JFactory::getDbo();
 	$query = $db->getQuery(true);
-
 	//Checks whether the person's status has been changed since the last session.
 	$query->select('status')
 	      ->from('#__snipf_person')
@@ -82,7 +81,6 @@ class plgContentSnipf extends JPlugin
   public function onContentAfterSave($context, $data, $isNew)
   {
     if($context == 'com_snipf.person') { 
-      //$post = JFactory::getApplication()->input->post->getArray();
       $jform = JFactory::getApplication()->input->post->get('jform', array(), 'array');
       //Prepares the array to store the address values.
       $addresses = array('ha' => array(), 'pa' => array());
@@ -159,6 +157,18 @@ class plgContentSnipf extends JPlugin
 
       $model = JModelLegacy::getInstance('Certificate', 'SnipfModel');
       $model->checkCertificateClosure($data);
+
+      if(!$isNew) {
+	//Updates some user's variables with the person's email value.
+	$db = JFactory::getDbo();
+	$query = $db->getQuery(true);
+	$fields = array('email='.$db->Quote($data->email), 'username='.$db->Quote($data->email));
+	$query->update('#__users')
+	      ->set($fields)
+	      ->where('id='.(int)$data->user_id);
+	$db->setQuery($query);
+	$db->execute();
+      }
     }
     elseif($context == 'com_snipf.certificate' && !$isNew) { //CERTIFICATE
       $filteredData = $this->filterDateFields('certificate_process', 'process');
