@@ -147,9 +147,11 @@ class SnipfHelper
     $db = JFactory::getDbo();
     $query = $db->getQuery(true);
     //Gets some person data.
-    $query->select('user_id, lastname, firstname, alias, email')
-	  ->from('#__snipf_person')
-	  ->where('id='.(int)$personId);
+    $query->select('p.user_id, p.lastname, p.firstname, p.alias, p.email, s.group_id AS sripf_group_id')
+	  ->from('#__snipf_person AS p')
+	  ->join('LEFT', '#__snipf_address AS a ON a.person_id=p.id AND a.type="ha" AND a.history=0')
+	  ->join('LEFT', '#__snipf_sripf AS s ON s.id=a.sripf_id')
+	  ->where('p.id='.(int)$personId);
     $db->setQuery($query);
     $person = $db->loadObject(); 
 
@@ -166,7 +168,7 @@ class SnipfHelper
     $data['password'] = $password;
     $data['password2'] = $password;
     $data['block'] = 0;
-    $data['groups'] = array(2); //Registered
+    $data['groups'] = array(2, $person->sripf_group_id); //Registered + sripf group id
     $data['requireReset'] = 1;  //Require user to reset password on next login.
     //Extra data used as a flag to indicate that the Joomla user is created from the SNIPF
     //component (note: used in the SNIPF user plugin).
