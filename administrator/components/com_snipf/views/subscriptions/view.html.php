@@ -107,6 +107,10 @@ class SnipfViewSubscriptions extends JViewLegacy
       JToolBarHelper::deleteList('', 'subscriptions.delete', 'JTOOLBAR_DELETE');
     }
 
+    if($this->state->get('filter.sripf_id') != '') {
+      JToolBarHelper::custom('subscriptions.generateDocument.pdf_labels', 'file-2.png', 'file-2_f2.png','COM_SNIPF_PDF_LABELS', false);
+    }
+
     if($canDo->get('core.admin')) {
       JToolBarHelper::divider();
       JToolBarHelper::preferences('com_snipf', 550);

@@ -23,6 +23,32 @@ $trashed = $this->state->get('filter.published') == -2 ? true : false;
 $canOrder = $user->authorise('core.edit.state', 'com_snipf');
 ?>
 
+<script>
+/**
+ * Default function. Can be overriden by the component to add custom logic
+ *
+ * @param  {bool}  task  The given task
+ *
+ * @returns {void}
+ */
+Joomla.submitbutton = function(task)
+{
+  var form = document.getElementById("adminForm");
+
+  if(task == 'subscriptions.generateDocument.pdf_labels') {
+    //Displays the pdf output in a new tab.
+    form.setAttribute('target', '_blank');
+    Joomla.submitform(task);
+    //Cleans out the values previously set to prevent the other tasks
+    //to be also opened in a new tab.
+    document.getElementById('task').value = '';
+    form.removeAttribute('target');
+  }
+  else {
+    Joomla.submitform(task);
+  }
+}
+</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_snipf&view=subscriptions');?>" method="post" name="adminForm" id="adminForm">
 
@@ -177,7 +203,7 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 <input type="hidden" name="is_root" id="is-root" value="<?php echo (int)$user->get('isRoot'); ?>" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="option" value="com_snipf" />
-<input type="hidden" name="task" value="" />
+<input type="hidden" name="task" id="task" value="" />
 <?php echo JHtml::_('form.token'); ?>
 </form>
 

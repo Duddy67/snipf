@@ -5,7 +5,6 @@
 
     $('#clear_dates').click( function() { $.fn.clearDates(); });
     $('#filter_dates').click( function() { $.fn.filterDates(); });
-    $('#clear_dates').click( function() { $.fn.clearDates(); });
 
     var fromDate = $('#filter_from_date').val();
     var toDate = $('#filter_to_date').val();
