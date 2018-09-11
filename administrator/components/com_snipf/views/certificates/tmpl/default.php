@@ -72,7 +72,7 @@ Joomla.submitbutton = function(task)
 
 <?php
 // Search tools bar (uses the component layout). 
-echo JLayoutHelper::render('searchtools.default', array('view' => $this));
+echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_name' => 'certificates'));
 ?>
 
   <div class="clr"> </div>

@@ -160,7 +160,7 @@ class SnipfHelper
 
     $data = array();
     $data['name'] = $person->firstname.' '.$person->lastname;
-    $data['username'] = $person->alias;
+    $data['username'] = $person->email;
     $data['email'] = $person->email;
     $password = JUserHelper::genRandomPassword();
     $data['password'] = $password;

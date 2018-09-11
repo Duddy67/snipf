@@ -37,6 +37,12 @@
 		       <option value="retired_cqp1">COM_SNIPF_OPTION_RETIRED_CQP1</option>
 		       <option value="deceased_cqp1">COM_SNIPF_OPTION_DECEASED_CQP1</option>
 		</field>
+		<field name="sripf_id"
+		       type="sripflist"
+		       label="JOPTION_SELECT_PUBLISHED"
+		       description="JOPTION_SELECT_PUBLISHED_DESC"
+		       onchange="this.form.submit();">
+		</field>
 		<field name="subscription_status"
 		       type="list"
 		       label="JOPTION_SELECT_PUBLISHED"
@@ -44,9 +50,13 @@
 		       onchange="this.form.submit();">
 		       <option value="">COM_SNIPF_OPTION_SELECT_SUBSCRIPTION_STATUS</option>
 		       <option value="paid">COM_SNIPF_OPTION_PAID</option>
-		       <option value="unpaid">COM_SNIPF_OPTION_UNPAID</option>
+		       <!--<option value="unpaid">COM_SNIPF_OPTION_UNPAID</option>-->
 		       <option value="outdated">COM_SNIPF_OPTION_OUTDATED</option>
 		</field>
+		<field name="since_year" type="text"
+		       maxlength="4" 
+		       label="COM_SNIPF_FIELD_SINCE_YEAR_LABEL" 
+		       description="COM_SNIPF_FIELD_SINCE_YEAR_DESC" />
 
 	</fields>
 	<fields name="list">

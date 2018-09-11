@@ -36,7 +36,7 @@ class JFormFieldSripfList extends JFormFieldList
     $sripfs = $db->loadObjectList();
 
     //Build the first option.
-    $options[] = JHtml::_('select.option', '', JText::_('COM_SNIPF_OPTION_SELECT'));
+    $options[] = JHtml::_('select.option', '', JText::_('COM_SNIPF_OPTION_SELECT_SRIPF'));
 
     //Build the select options.
     foreach($sripfs as $sripf) {

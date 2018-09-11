@@ -73,11 +73,13 @@
   margin-top: 15px;
 }
 
-.date-filters {
+.date-filters, 
+.year-filter {
   /*border: 1px solid #999999;*/
 }
 
-.date-filters h3 {
+.date-filters h3,
+.year-filter h3 {
   font-size: 13px;
   margin: 0;
 }

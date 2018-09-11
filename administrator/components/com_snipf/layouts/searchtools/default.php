@@ -98,7 +98,7 @@ JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options'])
 	<?php if ($data['options']['filterButton']) : ?>
 	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersActiveClass; ?>">
 		<?php //Uses the component layout.
-		      echo $this->sublayout('filters', $data); ?>
+		      echo $this->sublayout('filter_'.$data['view_name'], $data); ?>
 	</div>
 	<?php endif; ?>
 </div>

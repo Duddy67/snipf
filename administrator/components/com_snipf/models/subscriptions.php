@@ -23,11 +23,12 @@ class SnipfModelSubscriptions extends JModelList
 	      'lastname', 'p.lastname',
 	      'firstname', 'p.firstname',
 	      'status', 'p.status',
+	      'sripf_id', 'a.sripf_id',
 	      'created', 's.created',
 	      'created_by', 's.created_by',
 	      'published', 's.published',
 	      'person_status', 'subscription_status',
-	      'user', 'user_id', 'person_id',
+	      'user', 'user_id', 'person_id', 'since_year'
       );
     }
 
@@ -59,6 +60,12 @@ class SnipfModelSubscriptions extends JModelList
     $personStatus = $this->getUserStateFromRequest($this->context.'.filter.person_status', 'filter_person_status');
     $this->setState('filter.person_status', $personStatus);
 
+    $sripfId = $this->getUserStateFromRequest($this->context.'.filter.sripf_id', 'filter_sripf_id');
+    $this->setState('filter.sripf_id', $sripfId);
+
+    $sinceYear = $this->getUserStateFromRequest($this->context.'.filter.since_year', 'filter_since_year');
+    $this->setState('filter.since_year', $sinceYear);
+
     $subscriptionStatus = $this->getUserStateFromRequest($this->context.'.filter.subscription_status', 'filter_subscription_status');
     $this->setState('filter.subscription_status', $subscriptionStatus);
 
@@ -74,7 +81,9 @@ class SnipfModelSubscriptions extends JModelList
     $id .= ':'.$this->getState('filter.published');
     $id .= ':'.$this->getState('filter.user_id');
     $id .= ':'.$this->getState('filter.person_status');
+    $id .= ':'.$this->getState('filter.sripf_id');
     $id .= ':'.$this->getState('filter.subscription_status');
+    $id .= ':'.$this->getState('filter.since_year');
 
     return parent::getStoreId($id);
   }
@@ -100,11 +109,16 @@ class SnipfModelSubscriptions extends JModelList
 
     //Get the process containing the current year.
     $query->select('pr.number AS current_year_process, pr.cads_payment, pr.payment_date');
-    $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id=s.id AND pr.item_type="subscription" AND pr.name='.$db->Quote($currentYear));
+    $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id=s.id AND pr.item_type="subscription" AND pr.year='.$db->Quote($currentYear));
 
     //Get the process containing the current year.
     $query->select('lp.name AS last_registered_year');
     $query->join('LEFT', '#__snipf_process AS lp ON lp.item_id=s.id AND lp.item_type="subscription" AND lp.is_last=1');
+
+    //Gets the sripf id from the current home address.
+    $query->select('a.sripf_id, sr.name AS sripf_name')
+	  ->join('LEFT', '#__snipf_address AS a ON a.person_id=p.id AND a.type="ha" AND a.history=0')
+	  ->join('LEFT', '#__snipf_sripf AS sr ON sr.id=a.sripf_id');
 
     //Get the user name.
     $query->select('u.name AS user');
@@ -187,6 +201,17 @@ class SnipfModelSubscriptions extends JModelList
       else { //outdated
 	$query->where('ISNULL(pr.number) AND lp.name!=""');
       }
+    }
+
+    //Filter by sripf.
+    $sripfId = $this->getState('filter.sripf_id');
+    if(is_numeric($sripfId)) {
+      $query->where('a.sripf_id='.(int) $sripfId);
+    }
+
+    //Filter by year (only for outdated subscriptions).
+    if(!empty($sinceYear = $this->getState('filter.since_year'))) {
+      $query->where('lp.year='.$db->Quote($sinceYear));
     }
 
     //Add the list to the sort.

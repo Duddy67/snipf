@@ -36,8 +36,10 @@ $canOrder = $user->authorise('core.edit.state', 'com_snipf');
 <?php endif;?>
 
 <?php
+// Search tools bar (uses the component layout). 
+echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_name' => 'subscriptions'));
 // Search tools bar 
-echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+//echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 ?>
 
   <div class="clr"> </div>
@@ -66,6 +68,9 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	</th>
 	<th width="15%">
 	  <?php echo JText::_('COM_SNIPF_HEADING_SUBSCRIPTION_STATUS'); ?>
+	</th>
+	<th width="15%">
+	  <?php echo JText::_('COM_SNIPF_HEADING_SRIPF'); ?>
 	</th>
 	<th width="10%" class="nowrap hidden-phone">
 	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_CREATED_BY', 'user', $listDirn, $listOrder); ?>
@@ -143,9 +148,13 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 		    </span>
 		  <?php elseif($item->subscription_status == 'outdated') : ?>
 		    <span class="small">
-		      <?php echo '<br />'.$item->last_registered_year; ?>
+		      <br />
+		      <?php echo JText::sprintf('COM_SNIPF_SINCE_YEAR_LABEL', $item->last_registered_year); ?>
 		    </span>
 		  <?php endif; ?>
+	  </td>
+	  <td class="hidden-phone">
+	    <?php echo $this->escape($item->sripf_name); ?>
 	  </td>
 	  <td class="small hidden-phone">
 	    <?php echo $this->escape($item->user); ?>
@@ -159,7 +168,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+	  <td colspan="10"><?php echo $this->pagination->getListFooter(); ?></td>
       </tr>
       </tbody>
     </table>
@@ -176,4 +185,5 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 $doc = JFactory::getDocument();
 //Load the jQuery script.
 $doc->addScript(JURI::base().'components/com_snipf/js/hidesearchtools.js');
+$doc->addScript(JURI::base().'components/com_snipf/js/subscriptions.js');
 
