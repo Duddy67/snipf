@@ -54,7 +54,7 @@ class SnipfControllerCertificates extends JControllerAdmin
 	$template = 'subscription_letter';
 
 	foreach($data as $certificate) {
-	  if(!in_array($certificate->person_id)) {
+	  if(!in_array($certificate->person_id, $personIds)) {
 	    $personIds[] = $certificate->person_id;
 	  }
 	}

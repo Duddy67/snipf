@@ -27,7 +27,7 @@ class SnipfModelSubscriptions extends JModelList
 	      'created', 's.created',
 	      'created_by', 's.created_by',
 	      'published', 's.published',
-	      'person_status', 'subscription_status',
+	      'person_status', 'subscription_status', 'payment_status',
 	      'user', 'user_id', 'person_id', 'since_year'
       );
     }
@@ -66,6 +66,9 @@ class SnipfModelSubscriptions extends JModelList
     $sinceYear = $this->getUserStateFromRequest($this->context.'.filter.since_year', 'filter_since_year');
     $this->setState('filter.since_year', $sinceYear);
 
+    $paymentStatus = $this->getUserStateFromRequest($this->context.'.filter.payment_status', 'filter_payment_status');
+    $this->setState('filter.payment_status', $paymentStatus);
+
     $subscriptionStatus = $this->getUserStateFromRequest($this->context.'.filter.subscription_status', 'filter_subscription_status');
     $this->setState('filter.subscription_status', $subscriptionStatus);
 
@@ -82,6 +85,7 @@ class SnipfModelSubscriptions extends JModelList
     $id .= ':'.$this->getState('filter.user_id');
     $id .= ':'.$this->getState('filter.person_status');
     $id .= ':'.$this->getState('filter.sripf_id');
+    $id .= ':'.$this->getState('filter.payment_status');
     $id .= ':'.$this->getState('filter.subscription_status');
     $id .= ':'.$this->getState('filter.since_year');
 
@@ -98,8 +102,8 @@ class SnipfModelSubscriptions extends JModelList
     $now = JFactory::getDate()->toSql();
 
     // Select the required fields from the table.
-    $query->select($this->getState('list.select', 's.id, s.name, s.created, s.published,'.
-				   's.created_by, s.checked_out, s.checked_out_time'));
+    $query->select($this->getState('list.select', 's.id, s.name, s.created, s.published, s.deregistration_date, s.resignation_date,'.
+				   's.reinstatement_date, s.created_by, s.checked_out, s.checked_out_time'));
 
     $query->from('#__snipf_subscription AS s');
 
@@ -111,8 +115,8 @@ class SnipfModelSubscriptions extends JModelList
     $query->select('pr.number AS current_year_process, pr.cads_payment, pr.payment_date');
     $query->join('LEFT', '#__snipf_process AS pr ON pr.item_id=s.id AND pr.item_type="subscription" AND pr.year='.$db->Quote($currentYear));
 
-    //Get the process containing the current year.
-    $query->select('lp.name AS last_registered_year');
+    //Get the process containing the last known year.
+    $query->select('lp.year AS last_registered_year');
     $query->join('LEFT', '#__snipf_process AS lp ON lp.item_id=s.id AND lp.item_type="subscription" AND lp.is_last=1');
 
     //Gets the sripf id from the current home address.
@@ -190,16 +194,28 @@ class SnipfModelSubscriptions extends JModelList
       }
     }
 
-    // Filter by subscription status.
-    if(!empty($subscriptionStatus = $this->getState('filter.subscription_status'))) {
-      if($subscriptionStatus == 'paid') {
+    // Filter by payment status.
+    if(!empty($paymentStatus = $this->getState('filter.payment_status'))) {
+      if($paymentStatus == 'paid') {
 	$query->where('pr.number > 0 AND pr.cads_payment=1');
       }
-      elseif($subscriptionStatus == 'unpaid') {
+      elseif($paymentStatus == 'partially_paid') {
 	$query->where('pr.number > 0 AND pr.cads_payment=0');
       }
-      else { //outdated
-	$query->where('ISNULL(pr.number) AND lp.name!=""');
+      else { //unpaid
+	$query->where('ISNULL(pr.number) AND lp.year!=""');
+      }
+    }
+
+    // Filter by subscription status.
+    if(!empty($subscriptionStatus = $this->getState('filter.subscription_status'))) {
+      if($subscriptionStatus == 'membership') {
+	$query->where('((s.deregistration_date='.$db->Quote($db->getNullDate()).' AND s.resignation_date='.$db->Quote($db->getNullDate()).') OR s.reinstatement_date > '.$db->Quote($db->getNullDate()).')');
+      }
+      else { //no_longer_membership
+       $query->where('((s.deregistration_date > '.$db->Quote($db->getNullDate()).' OR s.resignation_date > '.$db->Quote($db->getNullDate()).') AND s.reinstatement_date='.$db->Quote($db->getNullDate()).')');
+	//Rules out the deceased persons from the search.
+	$query->where('p.status!="deceased"');
       }
     }
 

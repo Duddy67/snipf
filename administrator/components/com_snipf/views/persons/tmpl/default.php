@@ -255,7 +255,12 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="12"><?php echo $this->pagination->getListFooter(); ?></td>
+	  <td colspan="12">
+	    <div class="nb-results">
+	       <?php echo JText::sprintf('COM_SNIPF_PAGINATION_NB_RESULTS', $this->pagination->get('total')); ?>
+	    </div>
+	    <?php echo $this->pagination->getListFooter(); ?>
+	  </td>
       </tr>
       </tbody>
     </table>

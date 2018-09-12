@@ -49,9 +49,18 @@
 		       description="JOPTION_SELECT_PUBLISHED_DESC"
 		       onchange="this.form.submit();">
 		       <option value="">COM_SNIPF_OPTION_SELECT_SUBSCRIPTION_STATUS</option>
+		       <option value="membership">COM_SNIPF_OPTION_MEMBERSHIP</option>
+		       <option value="no_longer_membership">COM_SNIPF_OPTION_NO_LONGER_MEMBERSHIP</option>
+		</field>
+		<field name="payment_status"
+		       type="list"
+		       label="JOPTION_SELECT_PUBLISHED"
+		       description="JOPTION_SELECT_PUBLISHED_DESC"
+		       onchange="this.form.submit();">
+		       <option value="">COM_SNIPF_OPTION_SELECT_PAYMENT_STATUS</option>
 		       <option value="paid">COM_SNIPF_OPTION_PAID</option>
-		       <!--<option value="unpaid">COM_SNIPF_OPTION_UNPAID</option>-->
-		       <option value="outdated">COM_SNIPF_OPTION_OUTDATED</option>
+		       <option value="partially_paid">COM_SNIPF_OPTION_PARTIALLY_PAID</option>
+		       <option value="unpaid">COM_SNIPF_OPTION_UNPAID</option>
 		</field>
 		<field name="since_year" type="text"
 		       maxlength="4" 

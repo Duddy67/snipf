@@ -32,6 +32,9 @@ class SnipfControllerSubscriptions extends JControllerAdmin
 
     $model = $this->getModel('Subscriptions');
     $data = $model->getDataFromCurrentQuery();
+    $post = $this->input->post->getArray();
+    //Gets a possible selection.
+    $selection = $this->input->post->get('cid', array());
 
     //Gets the task string.
     $task = $this->input->post->get('task', '', 'str');
@@ -44,8 +47,11 @@ class SnipfControllerSubscriptions extends JControllerAdmin
       $personIds = array();
 
       foreach($data as $subscription) {
-	if(!in_array($subscription->person_id)) {
-	  $personIds[] = $subscription->person_id;
+	if(!in_array($subscription->person_id, $personIds)) {
+
+	  if(empty($selection) || (!empty($selection) && in_array($subscription->id, $selection))) { 
+	    $personIds[] = $subscription->person_id;
+	  }
 	}
       }
 

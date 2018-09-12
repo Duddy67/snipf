@@ -108,8 +108,8 @@ class SnipfViewPersons extends JViewLegacy
   protected function setDocument() 
   {
     //Include css file (if needed).
-    //$doc = JFactory::getDocument();
-    //$doc->addStyleSheet(JURI::base().'components/com_snipf/snipf.css');
+    $doc = JFactory::getDocument();
+    $doc->addStyleSheet(JURI::base().'components/com_snipf/snipf.css');
   }
 }
 

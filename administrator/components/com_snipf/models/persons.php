@@ -154,7 +154,7 @@ class SnipfModelPersons extends JModelList
 	  ->join('LEFT', '#__viewlevels AS al ON al.id = p.access');
 
     //Gets the subscription id of the person (if any).
-    $query->select('IFNULL(sub.id, "0") AS subscription_id')
+    $query->select('IFNULL(sub.id, "0") AS subscription_id, sub.resignation_date, sub.deregistration_date, sub.reinstatement_date')
 	  ->join('LEFT', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1');
 
     //Gets the cads payment of the subscription process matching the current year.
@@ -232,13 +232,10 @@ class SnipfModelPersons extends JModelList
     // Filter by subscription status.
     if(!empty($subscriptionStatus = $this->getState('filter.subscription_status'))) {
       if($subscriptionStatus == 'membership') {
-	$query->where('sub.id > 0 AND sp.cads_payment=1');
-      }
-      elseif($subscriptionStatus == 'unpaid') {
-	$query->where('sub.id > 0 AND sp.item_id > 0 AND sp.cads_payment=0');
+	$query->where('((sub.deregistration_date='.$db->Quote($db->getNullDate()).' AND sub.resignation_date='.$db->Quote($db->getNullDate()).') OR sub.reinstatement_date > '.$db->Quote($db->getNullDate()).')');
       }
       else { //no_membership
-	$query->where('ISNULL(sub.id)');
+	$query->where('(ISNULL(sub.id) OR ((sub.deregistration_date > '.$db->Quote($db->getNullDate()).' OR sub.resignation_date > '.$db->Quote($db->getNullDate()).') AND sub.reinstatement_date='.$db->Quote($db->getNullDate()).'))');
       }
     }
 

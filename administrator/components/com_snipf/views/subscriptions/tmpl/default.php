@@ -12,7 +12,6 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-
 $user = JFactory::getUser();
 $userId = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -64,8 +63,6 @@ Joomla.submitbutton = function(task)
 <?php
 // Search tools bar (uses the component layout). 
 echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_name' => 'subscriptions'));
-// Search tools bar 
-//echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 ?>
 
   <div class="clr"> </div>
@@ -94,6 +91,9 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	</th>
 	<th width="15%">
 	  <?php echo JText::_('COM_SNIPF_HEADING_SUBSCRIPTION_STATUS'); ?>
+	</th>
+	<th width="15%">
+	  <?php echo JText::_('COM_SNIPF_HEADING_PAYMENT_STATUS'); ?>
 	</th>
 	<th width="15%">
 	  <?php echo JText::_('COM_SNIPF_HEADING_SRIPF'); ?>
@@ -166,13 +166,16 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 		</span>
 	       <?php endif; ?>
 	  </td>
-	  <td class="hidden-phone center">
+	  <td class="hidden-phone">
 	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->subscription_status)); ?>
-		  <?php if($item->subscription_status == 'paid' && $item->payment_date) : ?>
+	  </td>
+	  <td class="hidden-phone center">
+	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->payment_status)); ?>
+		  <?php if($item->payment_status == 'paid' && $item->payment_date) : ?>
 		    <span class="small">
 		      <?php echo '<br />'.JHtml::_('date', $item->payment_date, JText::_('DATE_FORMAT_LC4')); ?>
 		    </span>
-		  <?php elseif($item->subscription_status == 'outdated') : ?>
+		  <?php elseif($item->payment_status == 'unpaid') : ?>
 		    <span class="small">
 		      <br />
 		      <?php echo JText::sprintf('COM_SNIPF_SINCE_YEAR_LABEL', $item->last_registered_year); ?>
@@ -194,7 +197,12 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="10"><?php echo $this->pagination->getListFooter(); ?></td>
+	  <td colspan="11">
+	    <div class="nb-results">
+	       <?php echo JText::sprintf('COM_SNIPF_PAGINATION_NB_RESULTS', $this->pagination->get('total')); ?>
+	    </div>
+	    <?php echo $this->pagination->getListFooter(); ?>
+	  </td>
       </tr>
       </tbody>
     </table>

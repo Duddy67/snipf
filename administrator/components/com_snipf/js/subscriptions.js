@@ -6,7 +6,7 @@
     $('#clear_year').click( function() { $.fn.clearYear(); });
     $('#filter_year').click( function() { $.fn.filterYear(); });
 
-    if($('#filter_subscription_status').val() != 'outdated') {
+    if($('#filter_payment_status').val() != 'unpaid') {
       $('#filter_since_year').val('');
       $('#year-filter').css({'visibility':'hidden','display':'none'});
     }
