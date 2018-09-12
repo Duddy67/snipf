@@ -157,10 +157,6 @@ class SnipfModelPersons extends JModelList
     $query->select('IFNULL(sub.id, "0") AS subscription_id, sub.resignation_date, sub.deregistration_date, sub.reinstatement_date')
 	  ->join('LEFT', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1');
 
-    //Gets the cads payment of the subscription process matching the current year.
-    $query->select('sp.item_id AS process_id, sp.cads_payment')
-	  ->join('LEFT', '#__snipf_process AS sp ON sp.item_id=sub.id AND sp.item_type="subscription" AND sp.name='.$db->Quote($currentYear));
-
     //Filter by component category.
     $categoryId = $this->getState('filter.category_id');
     if(is_numeric($categoryId)) {

@@ -27,6 +27,7 @@ class SnipfViewPersons extends JViewLegacy
     $this->filterForm = $this->get('FilterForm');
     $this->activeFilters = $this->get('ActiveFilters');
     $model = JModelLegacy::getInstance('Person', 'SnipfModel');
+    $nullDate = '0000-00-00 00:00:00';
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
@@ -37,11 +38,8 @@ class SnipfViewPersons extends JViewLegacy
     //Sets the certification and subscription statuses.
     foreach($this->items as $item) {
       $item->subscription_status = 'no_membership';
-      if($item->subscription_id && $item->cads_payment) {
+      if(($item->deregistration_date == $nullDate && $item->resignation_date == $nullDate) || $item->reinstatement_date > $nullDate) {
 	$item->subscription_status = 'membership';
-      }
-      elseif($item->subscription_id && $item->process_id && $item->cads_payment == 0) {
-	$item->subscription_status = 'unpaid';
       }
 
       $item->certification_status = $model->getCertificationStatus($item->id);

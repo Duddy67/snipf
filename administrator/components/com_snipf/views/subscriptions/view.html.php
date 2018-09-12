@@ -51,6 +51,7 @@ class SnipfViewSubscriptions extends JViewLegacy
 	}
       }
 
+      //Sets the subscription status.
       $item->subscription_status = 'membership';
       if(($item->deregistration_date > $nullDate || $item->resignation_date > $nullDate) && $item->reinstatement_date == $nullDate) {
 	$item->subscription_status = 'no_longer_membership';
