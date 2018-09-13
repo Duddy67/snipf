@@ -183,6 +183,10 @@ class SnipfModelSubscriptions extends JModelList
       elseif($personStatus == 'retired' || $personStatus == 'deceased') {
 	$query->where('p.status='.$db->Quote($personStatus));
       }
+      elseif($personStatus == 'no_deceased') {
+	//Rules out the deceased persons from the search.
+	$query->where('p.status!="deceased"');
+      }
       elseif($personStatus == 'cqp1') {
 	$query->where('p.cqp1=1');
       }
@@ -214,8 +218,6 @@ class SnipfModelSubscriptions extends JModelList
       }
       else { //no_longer_membership
        $query->where('((s.deregistration_date > '.$db->Quote($db->getNullDate()).' OR s.resignation_date > '.$db->Quote($db->getNullDate()).') AND s.reinstatement_date='.$db->Quote($db->getNullDate()).')');
-	//Rules out the deceased persons from the search.
-	$query->where('p.status!="deceased"');
       }
     }
 
