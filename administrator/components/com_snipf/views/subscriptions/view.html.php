@@ -118,6 +118,8 @@ class SnipfViewSubscriptions extends JViewLegacy
       JToolBarHelper::custom('subscriptions.generateDocument.pdf_labels', 'file-2.png', 'file-2_f2.png','COM_SNIPF_PDF_LABELS', false);
     }
 
+    JToolBarHelper::custom('subscriptions.generateDocument.csv', 'file-2.png', 'file-2_f2.png','COM_SNIPF_GENERATE_CSV', false);
+
     if($canDo->get('core.admin')) {
       JToolBarHelper::divider();
       JToolBarHelper::preferences('com_snipf', 550);

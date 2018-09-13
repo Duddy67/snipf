@@ -93,7 +93,6 @@ class SnipfViewPersons extends JViewLegacy
       JToolBarHelper::deleteList('', 'persons.delete', 'JTOOLBAR_DELETE');
     }
 
-    //JToolBarHelper::custom('persons.generateDocument.csv', 'file-2.png', 'file-2_f2.png','COM_SNIPF_GENERATE_CSV', false);
     //JToolBarHelper::custom('persons.generateDocument.pdf', 'file-2.png', 'file-2_f2.png','COM_SNIPF_GENERATE_PDF', false);
 
     if($canDo->get('core.admin')) {

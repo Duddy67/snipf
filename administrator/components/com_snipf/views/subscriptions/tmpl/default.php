@@ -43,6 +43,13 @@ Joomla.submitbutton = function(task)
     document.getElementById('task').value = '';
     form.removeAttribute('target');
   }
+  else if(task == 'subscriptions.generateDocument.csv') {
+    //Displays a csv download popup.
+    Joomla.submitform(task);
+    //Cleans out the task values previously set to prevent the searchtools to target the
+    //csv generating again.
+    document.getElementById('task').value = '';
+  }
   else {
     Joomla.submitform(task);
   }
