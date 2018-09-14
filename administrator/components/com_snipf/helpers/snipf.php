@@ -105,7 +105,8 @@ class SnipfHelper
 
   public static function generateCSV($data)
   {
-    $headers = array('firstname', 'lastname', 'created', 'user', 'category_title');
+    $headers = array('firstname', 'lastname', 'honor_member', 'street', 'additional_address',
+		     'postcode', 'city', 'country', 'phone', 'mobile', 'fax', 'sripf_name');
     $items = array();
  
     foreach($data as $row) {

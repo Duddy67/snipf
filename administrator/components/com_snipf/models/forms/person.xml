@@ -143,6 +143,11 @@
 	       <option value="0">JNO</option>
 	</field>
 
+	<field name="cqp1_speciality_id" type="specialitylist"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_SPECIALITY_LABEL"
+	       description="COM_SNIPF_FIELD_SPECIALITY_DESC" />
+
 	<field name="rgpd_sending_date" type="calendar"
 	       label="COM_SNIPF_FIELD_RGPD_SENDING_DATE_LABEL" 
 	       description="COM_SNIPF_FIELD_RGPD_SENDING_DATE_DESC"

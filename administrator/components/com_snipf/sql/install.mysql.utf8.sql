@@ -26,6 +26,7 @@ CREATE TABLE `#__snipf_person` (
   `demand_origin` VARCHAR(85) NOT NULL ,
   `active_retired` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , 
   `cqp1` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , -- Specific. Used for historical reason.
+  `cqp1_speciality_id` INT UNSIGNED NOT NULL DEFAULT 0 ,
   `rgpd_sending_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `rgpd_reception_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `published` TINYINT NOT NULL DEFAULT 0 ,
