@@ -41,7 +41,7 @@ class JFormFieldCountryList extends JFormFieldList
     //Build the select options.
     foreach($countries as $country) {
       if($this->id == 'jform_citizenship') {
-	//$country->lang_var = $country->lang_var.'_CTZ';
+	$country->lang_var = $country->lang_var.'_CTZ';
       }
 
       $options[] = JHtml::_('select.option', $country->alpha_2, (empty($country->lang_var)) ? JText::_($country->name) : JText::_($country->lang_var));
