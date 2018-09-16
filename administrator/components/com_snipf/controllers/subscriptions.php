@@ -36,6 +36,7 @@ class SnipfControllerSubscriptions extends JControllerAdmin
     $post = $this->input->post->getArray();
     //Gets a possible selection.
     $selection = $this->input->post->get('cid', array());
+    $personIds = array();
 
     foreach($data as $subscription) {
       if(!in_array($subscription->person_id, $personIds)) {
@@ -73,9 +74,6 @@ class SnipfControllerSubscriptions extends JControllerAdmin
     $documentType = $matches[1];
 
     if($documentType == 'pdf_labels') {
-      $template = 'subscription_labels';
-      $personIds = array();
-
       $template = 'subscription_labels';
       $data = array();
       $item = new JObject;
