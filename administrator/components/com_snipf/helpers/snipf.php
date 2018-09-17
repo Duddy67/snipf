@@ -180,7 +180,7 @@ class SnipfHelper
     //component (note: used in the SNIPF user plugin).
     $data['initial_registration'] = 1;
 
-    return; //To prevent sending emails during tests.
+    //return; //To prevent sending emails during tests.
 
     // Generate a new JUser Object
     // Note: It's important to set the "0" otherwise your admin user information will be loaded
