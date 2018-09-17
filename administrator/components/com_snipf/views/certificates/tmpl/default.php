@@ -99,7 +99,7 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	<th width="15%">
 	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_FIRSTNAME', 'p.firstname', $listDirn, $listOrder); ?>
 	</th>
-	<th>
+	<th width="15%">
 	  <?php echo JText::_('COM_SNIPF_HEADING_STATE'); ?>
 	</th>
 	<th>
