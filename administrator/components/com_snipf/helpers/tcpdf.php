@@ -16,7 +16,7 @@ include_once(JPATH_LIBRARIES.'/tcpdf/tcpdf.php');
 class TcpdfHelper
 {
 
-  public static function generatePDF($data, $templateName)
+  public static function generatePDF($data, $templateName, $options = array())
   {
     //Gets the html template from the option parameters.
     $htmlTemplate = JComponentHelper::getParams('com_snipf')->get($templateName);
@@ -38,26 +38,40 @@ class TcpdfHelper
     // set default monospaced font
     $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
-    // set margins
-    //$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-    $pdf->SetMargins(5, 5, 5);
-    $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+    // set margins and auto page breaks
+    if(isset($options['margins'])) {
+      $pdf->SetMargins($options['margins']['left'], $options['margins']['top'],
+		       $options['margins']['right'],$options['margins']['bottom']);
+      $pdf->SetAutoPageBreak(TRUE, $options['margins']['bottom']);
+    }
+    else {
+      $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+      $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+    }
 
     // remove default header/footer
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
 
-    // set auto page breaks
-    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+    if(isset($options['font_size'])) {
+      $pdf->SetFont('dejavusans', '', $options['font_size']);
+    }
+    else {
+      $pdf->SetFont('dejavusans', '', 10);
+    }
 
-    $pdf->SetFont('dejavusans', '', 10);
     // set image scale factor
     $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
     //Generates a pdf page for each set of data.
     foreach($htmls as $html) {
-      $pdf->AddPage();
+      if(isset($options['format'])) {
+	$pdf->AddPage($options['format']['orientation'], $options['format']['type']);
+      }
+      else {
+	$pdf->AddPage();
+      }
+
       $pdf->writeHTML($html, true, false, true, false, '');
     }
 

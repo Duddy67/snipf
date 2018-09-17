@@ -52,6 +52,10 @@ class SnipfControllerCertificates extends JControllerAdmin
     }
     else {
       if($documentType == 'pdf_new_ci' || $documentType == 'pdf_labels') {
+	//Sets the option array by default.
+	$options = array('margins' => array('left' => 5, 'top' => 5, 'right' => 5, 'bottom' => 5),
+	                 'format' => array('orientation' => 'P', 'type' => 'A4'),
+	                 'font_size' => 10);
 	$personIds = array();
 	$template = 'subscription_letter';
 
@@ -84,12 +88,16 @@ class SnipfControllerCertificates extends JControllerAdmin
 
 	if($documentType == 'pdf_labels') {
 	  $template = 'subscription_labels';
+	  //Adapts settings for label format.
+	  $options['format']['orientation'] = 'L';
+	  $options['format']['type'] = 'DYMO';
+	  $options['font_size'] = 11;
 	  $data = array();
 	  $item = new JObject;
-	  $nbPerPage = 4;
+	  $nbPerPage = 1;
 	  $index = 1;
 
-	  //For labels we need to display 4 person's data per page. So the data has to be
+	  //For labels we need to display 1 person's data per page. So the data has to be
 	  //slightly reorganized.
 	  foreach($persons as $key => $person) {
 	    //Turns object into associative array.
@@ -114,7 +122,7 @@ class SnipfControllerCertificates extends JControllerAdmin
 	  }
 	}
 
-	TcpdfHelper::generatePDF($data, $template);
+	TcpdfHelper::generatePDF($data, $template, $options);
 
 	return true;
       }

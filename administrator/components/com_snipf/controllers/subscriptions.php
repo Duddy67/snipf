@@ -74,12 +74,16 @@ class SnipfControllerSubscriptions extends JControllerAdmin
 
     if($documentType == 'pdf_labels') {
       $template = 'subscription_labels';
+      //Sets the pdf option array.
+      $options = array('margins' => array('left' => 5, 'top' => 5, 'right' => 5, 'bottom' => 5),
+		       'format' => array('orientation' => 'L', 'type' => 'DYMO'),
+		       'font_size' => 11);
       $data = array();
       $item = new JObject;
-      $nbPerPage = 4;
+      $nbPerPage = 1;
       $index = 1;
 
-      //For labels we need to display 4 person's data per page. So the data has to be
+      //For labels we need to display 1 person's data per page. So the data has to be
       //slightly reorganized.
       foreach($persons as $key => $person) {
 	//Turns object into associative array.
@@ -103,7 +107,7 @@ class SnipfControllerSubscriptions extends JControllerAdmin
 	}
       }
 
-      TcpdfHelper::generatePDF($data, $template);
+      TcpdfHelper::generatePDF($data, $template, $options);
 
       return true;
     }
