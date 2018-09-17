@@ -120,6 +120,9 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	<th width="10%">
 	  <?php echo JText::_('COM_SNIPF_HEADING_SUBSCRIPTION_STATUS'); ?>
 	</th>
+	<th width="10%">
+	  <?php echo JText::_('COM_SNIPF_HEADING_SRIPF'); ?>
+	</th>
 	<th width="8%" class="nowrap hidden-phone">
 	  <?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'p.access', $listDirn, $listOrder); ?>
 	</th>
@@ -230,6 +233,9 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	  <td class="small hidden-phone">
 	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->subscription_status)); ?>
 	  </td>
+	  <td class="hidden-phone">
+	    <?php echo $this->escape($item->sripf_name); ?>
+	  </td>
 	  <td class="small hidden-phone">
 	    <?php echo $this->escape($item->access_level); ?>
 	  </td>
@@ -255,7 +261,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="12">
+	  <td colspan="13">
 	    <div class="nb-results">
 	       <?php echo JText::sprintf('COM_SNIPF_PAGINATION_NB_RESULTS', $this->pagination->get('total')); ?>
 	    </div>

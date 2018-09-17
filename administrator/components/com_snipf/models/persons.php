@@ -30,6 +30,7 @@ class SnipfModelPersons extends JModelList
 				       'language', 'p.language',
 				       'hits', 'p.hits',
 				       'cqp1', 'p.cqp1',
+				       'sripf_id', 'a.sripf_id',
 				       'status', 'p.status',
 				       'certification_status',
 				       'subscription_status',
@@ -81,6 +82,9 @@ class SnipfModelPersons extends JModelList
     $cqp1 = $this->getUserStateFromRequest($this->context.'.filter.cqp1', 'filter_cqp1');
     $this->setState('filter.cqp1', $cqp1);
 
+    $sripfId = $this->getUserStateFromRequest($this->context.'.filter.sripf_id', 'filter_sripf_id');
+    $this->setState('filter.sripf_id', $sripfId);
+
     $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language');
     $this->setState('filter.language', $language);
 
@@ -112,6 +116,7 @@ class SnipfModelPersons extends JModelList
     $id .= ':'.$this->getState('filter.certification_status');
     $id .= ':'.$this->getState('filter.subscription_status');
     $id .= ':'.$this->getState('filter.cqp1');
+    $id .= ':'.$this->getState('filter.sripf_id');
     $id .= ':'.$this->getState('filter.language');
 
     return parent::getStoreId($id);
@@ -156,6 +161,11 @@ class SnipfModelPersons extends JModelList
     //Gets the subscription id of the person (if any).
     $query->select('IFNULL(sub.id, "0") AS subscription_id, sub.resignation_date, sub.deregistration_date, sub.reinstatement_date')
 	  ->join('LEFT', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1');
+
+    //Gets the sripf id from the current home address.
+    $query->select('a.sripf_id, sr.name AS sripf_name')
+	  ->join('LEFT', '#__snipf_address AS a ON a.person_id=p.id AND a.type="ha" AND a.history=0')
+	  ->join('LEFT', '#__snipf_sripf AS sr ON sr.id=a.sripf_id');
 
     //Filter by component category.
     $categoryId = $this->getState('filter.category_id');
@@ -243,6 +253,12 @@ class SnipfModelPersons extends JModelList
       else {
 	$query->where('p.cqp1=0');
       }
+    }
+
+    //Filter by sripf.
+    $sripfId = $this->getState('filter.sripf_id');
+    if(is_numeric($sripfId)) {
+      $query->where('a.sripf_id='.(int)$sripfId);
     }
 
     // Filter by access level on categories.

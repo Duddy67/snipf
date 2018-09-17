@@ -24,6 +24,7 @@ class SnipfModelCertificates extends JModelList
 	      'lastname', 'p.lastname',
 	      'firstname', 'p.firstname',
 	      'end_date', 'c.end_date',
+	      'sripf_id', 'a.sripf_id',
 	      'created', 'c.created',
 	      'created_by', 'c.created_by',
 	      'published', 'c.published',
@@ -67,6 +68,9 @@ class SnipfModelCertificates extends JModelList
     $toDate = $this->getUserStateFromRequest($this->context.'.filter.to_date', 'filter_to_date');
     $this->setState('filter.to_date', $toDate);
 
+    $sripfId = $this->getUserStateFromRequest($this->context.'.filter.sripf_id', 'filter_sripf_id');
+    $this->setState('filter.sripf_id', $sripfId);
+
     // List state information.
     parent::populateState('p.lastname', 'asc');
   }
@@ -81,6 +85,7 @@ class SnipfModelCertificates extends JModelList
     $id .= ':'.$this->getState('filter.certificate_state');
     $id .= ':'.$this->getState('filter.from_date');
     $id .= ':'.$this->getState('filter.to_date');
+    $id .= ':'.$this->getState('filter.sripf_id');
 
     return parent::getStoreId($id);
   }
@@ -122,6 +127,11 @@ class SnipfModelCertificates extends JModelList
     $query->select('IFNULL(sub.id, "0") AS subscription_id')
 	  ->join('LEFT', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1');
 
+    //Gets the sripf id from the current home address.
+    $query->select('a.sripf_id, sr.name AS sripf_name')
+	  ->join('LEFT', '#__snipf_address AS a ON a.person_id=p.id AND a.type="ha" AND a.history=0')
+	  ->join('LEFT', '#__snipf_sripf AS sr ON sr.id=a.sripf_id');
+
     //Filter by title search.
     $search = $this->getState('filter.search');
     if(!empty($search)) {
@@ -158,6 +168,12 @@ class SnipfModelCertificates extends JModelList
     $certificateState = $this->getState('filter.certificate_state');
     if(!empty($certificateState)) {
       $this->filterByCertificateState($query, $certificateState);
+    }
+
+    //Filter by sripf.
+    $sripfId = $this->getState('filter.sripf_id');
+    if(is_numeric($sripfId)) {
+      $query->where('a.sripf_id='.(int) $sripfId);
     }
 
     //Filter by dates.

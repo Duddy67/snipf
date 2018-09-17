@@ -33,7 +33,6 @@ class SnipfControllerSubscriptions extends JControllerAdmin
 
     $model = $this->getModel('Subscriptions');
     $data = $model->getDataFromCurrentQuery();
-    $post = $this->input->post->getArray();
     //Gets a possible selection.
     $selection = $this->input->post->get('cid', array());
     $personIds = array();

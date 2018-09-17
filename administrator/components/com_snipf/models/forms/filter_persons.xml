@@ -73,6 +73,13 @@
 		       <option value="no_membership">COM_SNIPF_OPTION_NO_MEMBERSHIP</option>
 		</field>
 
+		<field name="sripf_id"
+		       type="sripflist"
+		       label="JOPTION_SELECT_PUBLISHED"
+		       description="JOPTION_SELECT_PUBLISHED_DESC"
+		       onchange="this.form.submit();">
+		</field>
+
 		<field name="cqp1"
 		       type="list"
 		       label="JOPTION_SELECT_PUBLISHED"

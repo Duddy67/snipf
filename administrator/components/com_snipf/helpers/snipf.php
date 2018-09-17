@@ -105,14 +105,19 @@ class SnipfHelper
 
   public static function generateCSV($data)
   {
-    $headers = array('firstname', 'lastname', 'honor_member', 'street', 'additional_address',
+    $columns = array('firstname', 'lastname', 'honor_member', 'street', 'additional_address',
 		     'postcode', 'city', 'country', 'phone', 'mobile', 'fax', 'sripf_name');
-    $items = array();
+    $items = $headers = array();
  
-    foreach($data as $row) {
+    foreach($data as $key => $row) {
       $item = array();
-      foreach($headers as $fieldName) {
+      foreach($columns as $fieldName) {
 	$item[] = $row->$fieldName;
+
+	if($key == 0) {
+	  //Stores the headers during the first parent loop.
+	  $headers[] = JText::_('COM_SNIPF_CSV_'.strtoupper($fieldName));
+	}
       }
 
       $items[] = $item;

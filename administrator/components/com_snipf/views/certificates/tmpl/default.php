@@ -105,6 +105,9 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	<th>
 	  <?php echo JHtml::_('searchtools.sort', 'COM_SNIPF_HEADING_SPECIALITY', 'speciality', $listDirn, $listOrder); ?>
 	</th>
+	<th>
+	  <?php echo JText::_('COM_SNIPF_HEADING_SRIPF'); ?>
+	</th>
 	<th width="10%" class="nowrap hidden-phone">
 	  <?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_CREATED_BY', 'user', $listDirn, $listOrder); ?>
 	</th>
@@ -190,6 +193,9 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 		  }
 	      ?>
 	  </td>
+	  <td class="hidden-phone">
+	    <?php echo $this->escape($item->sripf_name); ?>
+	  </td>
 	  <td class="small hidden-phone">
 	    <?php echo $this->escape($item->user); ?>
 	  </td>
@@ -202,7 +208,7 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 
       <?php endforeach; ?>
       <tr>
-	  <td colspan="10">
+	  <td colspan="11">
 	    <div class="nb-results">
 	       <?php echo JText::sprintf('COM_SNIPF_PAGINATION_NB_RESULTS', $this->pagination->get('total')); ?>
 	    </div>

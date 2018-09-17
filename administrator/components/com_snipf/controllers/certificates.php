@@ -32,6 +32,8 @@ class SnipfControllerCertificates extends JControllerAdmin
 
     $model = $this->getModel('Certificates');
     $data = $model->getDataFromCurrentQuery();
+    //Gets a possible selection.
+    $selection = $this->input->post->get('cid', array());
 
     //Gets the task string.
     $task = $this->input->post->get('task', '', 'str');
@@ -54,7 +56,8 @@ class SnipfControllerCertificates extends JControllerAdmin
 	$template = 'subscription_letter';
 
 	foreach($data as $certificate) {
-	  if(!in_array($certificate->person_id, $personIds)) {
+
+	  if(empty($selection) || (!empty($selection) && in_array($certificate->id, $selection))) { 
 	    $personIds[] = $certificate->person_id;
 	  }
 	}
