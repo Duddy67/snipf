@@ -133,7 +133,8 @@ class SnipfControllerSubscriptions extends JControllerAdmin
     $query->select('p.*, ha.*, s.*, ws.*, p.id AS person_id, pa.street AS street_pa, pa.additional_address AS additional_address_pa,'.
 	           'pa.postcode AS postcode_pa, pa.employer_name AS employer_name_pa, pa.city AS city_pa, pa.phone AS phone_pa,'.
 		   'pa.mobile AS mobile_pa, pa.fax AS fax_pa, pa.cee AS cee_pa, sr.name AS sripf_name, hac.alpha_3 AS alpha_3_ha,'.
-		   'pac.alpha_3 AS alpha_3_pa, bc.alpha_3 AS alpha_3_bc, czc.alpha_3 AS alpha_3_cz, rg.lang_var AS region_lang_var')
+		   'pac.alpha_3 AS alpha_3_pa, bc.alpha_3 AS alpha_3_bc, czc.alpha_3 AS alpha_3_cz, rg.lang_var AS region_lang_var,'.
+		   'ws.comments AS comments_ws')
 	  ->from('#__snipf_person AS p')
 	  //Gets the personal address
 	  ->join('INNER', '#__snipf_address AS ha ON ha.person_id=p.id AND ha.type="ha" AND ha.history=0')
