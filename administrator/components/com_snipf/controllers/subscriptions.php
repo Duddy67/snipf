@@ -128,10 +128,11 @@ class SnipfControllerSubscriptions extends JControllerAdmin
   {
     $db = JFactory::getDbo();
     $query = $db->getQuery(true);
+    $nullDatetime = $db->getNullDate();
     //Gets some data from the person.
-    $query->select('p.*, ha.*, s.*, ws.*, pa.street AS street_pa, pa.additional_address AS additional_address_pa,'.
+    $query->select('p.*, ha.*, s.*, ws.*, p.id AS person_id, pa.street AS street_pa, pa.additional_address AS additional_address_pa,'.
 	           'pa.postcode AS postcode_pa, pa.employer_name AS employer_name_pa, pa.city AS city_pa, pa.phone AS phone_pa,'.
-		   'pa.mobile AS mobile_pa, pa.fax AS fax_pa, sr.name AS sripf_name, hac.alpha_3 AS alpha_3_ha,'.
+		   'pa.mobile AS mobile_pa, pa.fax AS fax_pa, pa.cee AS cee_pa, sr.name AS sripf_name, hac.alpha_3 AS alpha_3_ha,'.
 		   'pac.alpha_3 AS alpha_3_pa, bc.alpha_3 AS alpha_3_bc, czc.alpha_3 AS alpha_3_cz, rg.lang_var AS region_lang_var')
 	  ->from('#__snipf_person AS p')
 	  //Gets the personal address
@@ -172,6 +173,7 @@ class SnipfControllerSubscriptions extends JControllerAdmin
       $person->active_retired = JText::_('COM_SNIPF_YES_NO_'.$person->active_retired);
       $person->cqp1 = JText::_('COM_SNIPF_YES_NO_'.$person->cqp1);
       $person->cee = JText::_('COM_SNIPF_YES_NO_'.$person->cee);
+      $person->cee_pa = JText::_('COM_SNIPF_YES_NO_'.$person->cee_pa);
       $person->honor_member = JText::_('COM_SNIPF_YES_NO_'.$person->honor_member);
 
       //Applies offset on dates.
@@ -189,6 +191,15 @@ class SnipfControllerSubscriptions extends JControllerAdmin
 	  $person->$dateName = '';
 	}
       }
+    }
+
+    //Sets the subscription status.
+    if(($person->deregistration_date == $nullDatetime && $person->resignation_date == $nullDatetime) ||
+       $person->reinstatement_date > $nullDatetime) {
+      $person->subscription_status = JText::_('COM_SNIPF_OPTION_MEMBERSHIP');
+    }
+    else {
+      $person->subscription_status = JText::_('COM_SNIPF_OPTION_NO_MEMBERSHIP');
     }
 
     return $persons;
