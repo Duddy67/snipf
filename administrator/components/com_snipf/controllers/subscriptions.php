@@ -62,7 +62,7 @@ class SnipfControllerSubscriptions extends JControllerAdmin
 
     //Adds some extra variables.
     foreach($persons as $person) {
-      $person->title = JText::_('COM_SNIPF_OPTION_'.$person->person_title);
+      $person->person_title = JText::_('COM_SNIPF_OPTION_'.$person->person_title);
       $person->country = JText::_('COM_SNIPF_LANG_COUNTRY_'.$person->alpha_3);
     }
 
@@ -112,6 +112,7 @@ class SnipfControllerSubscriptions extends JControllerAdmin
       return true;
     }
     elseif($documentType == 'csv') {
+      $persons = $this->getAllPersonData($personIds);
       $csvFileName = SnipfHelper::generateCSV($persons);
       $uri = JUri::getInstance();
       $csvUrl = $uri->root().'administrator/components/com_snipf/csv/download.php?csv_file='.$csvFileName;
@@ -122,6 +123,76 @@ class SnipfControllerSubscriptions extends JControllerAdmin
     }
   }
 
+
+  public function getAllPersonData($personIds)
+  {
+    $db = JFactory::getDbo();
+    $query = $db->getQuery(true);
+    //Gets some data from the person.
+    $query->select('p.*, ha.*, s.*, ws.*, pa.street AS street_pa, pa.additional_address AS additional_address_pa,'.
+	           'pa.postcode AS postcode_pa, pa.employer_name AS employer_name_pa, pa.city AS city_pa, pa.phone AS phone_pa,'.
+		   'pa.mobile AS mobile_pa, pa.fax AS fax_pa, sr.name AS sripf_name, hac.alpha_3 AS alpha_3_ha,'.
+		   'pac.alpha_3 AS alpha_3_pa, bc.alpha_3 AS alpha_3_bc, czc.alpha_3 AS alpha_3_cz, rg.lang_var AS region_lang_var')
+	  ->from('#__snipf_person AS p')
+	  //Gets the personal address
+	  ->join('INNER', '#__snipf_address AS ha ON ha.person_id=p.id AND ha.type="ha" AND ha.history=0')
+	  ->join('LEFT', '#__snipf_country AS hac ON ha.country_code=hac.alpha_2')
+	  //Gets the professional address
+	  ->join('LEFT', '#__snipf_address AS pa ON pa.person_id=p.id AND pa.type="pa" AND pa.history=0')
+	  ->join('LEFT', '#__snipf_country AS pac ON pa.country_code=pac.alpha_2')
+	  //Gets birth country
+	  ->join('LEFT', '#__snipf_country AS bc ON p.country_of_birth=bc.alpha_2')
+	  //Gets citizenship country
+	  ->join('LEFT', '#__snipf_country AS czc ON p.citizenship=czc.alpha_2')
+	  //Gets birth region 
+	  ->join('LEFT', '#__snipf_region AS rg ON rg.code=p.region_of_birth')
+	  ->join('LEFT', '#__snipf_subscription AS s ON s.person_id=p.id')
+	  ->join('LEFT', '#__snipf_sripf AS sr ON sr.id=ha.sripf_id')
+	  ->join('LEFT', '#__snipf_work_situation AS ws ON ws.person_id=p.id')
+	  ->where('p.id IN('.implode(',', $personIds).')');
+    $db->setQuery($query);
+    $persons = $db->loadObjectList(); 
+
+    //Gets the timezone from the server offset.
+    $timezone = new DateTimeZone(JFactory::getConfig()->get('offset'));
+    $dates = array('adhesion_date', 'resignation_date', 'deregistration_date', 'reinstatement_date',
+		   'honor_member_date', 'retirement_date', 'birthdate', 'deceased_date');
+    //Dates which don't need offset.
+    $utcDates = array('retirement_date', 'birthdate', 'deceased_date');
+
+    foreach($persons as $person) {
+      $person->person_title = JText::_('COM_SNIPF_OPTION_'.$person->person_title);
+      $person->country_of_birth = JText::_('COM_SNIPF_LANG_COUNTRY_'.$person->alpha_3_bc);
+      $person->citizenship = JText::_('COM_SNIPF_LANG_COUNTRY_'.$person->alpha_3_cz.'_CTZ');
+      $person->country_ha = JText::_('COM_SNIPF_LANG_COUNTRY_'.$person->alpha_3_ha);
+      $person->country_pa = JText::_('COM_SNIPF_LANG_COUNTRY_'.$person->alpha_3_pa);
+      $person->region_of_birth = JText::_($person->region_lang_var);
+      $person->status = JText::_('COM_SNIPF_OPTION_'.$person->status);
+      $person->mail_address_type = JText::_('COM_SNIPF_TAB_'.$person->mail_address_type);
+      $person->active_retired = JText::_('COM_SNIPF_YES_NO_'.$person->active_retired);
+      $person->cqp1 = JText::_('COM_SNIPF_YES_NO_'.$person->cqp1);
+      $person->cee = JText::_('COM_SNIPF_YES_NO_'.$person->cee);
+      $person->honor_member = JText::_('COM_SNIPF_YES_NO_'.$person->honor_member);
+
+      //Applies offset on dates.
+      foreach($dates as $dateName) {
+	if($person->$dateName > $db->getNullDate()) {
+	  if(!in_array($dateName, $utcDates)) {
+	    $date = new JDate($person->$dateName); 
+	    $person->$dateName = JHtml::_('date', $date->setTimezone($timezone), JText::_('DATE_FORMAT_FILTER_DATE'));
+	  }
+	  else {
+	    $person->$dateName = JHtml::_('date', $person->$dateName, JText::_('DATE_FORMAT_FILTER_DATE'));
+	  }
+	}
+	else {
+	  $person->$dateName = '';
+	}
+      }
+    }
+
+    return $persons;
+  }
 }
 
 

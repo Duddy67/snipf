@@ -80,7 +80,7 @@ class SnipfControllerCertificates extends JControllerAdmin
 	//Adds some extra variables.
 	foreach($persons as $person) {
 	  $person->current_date = JHtml::_('date', new JDate(), JText::_('DATE_FORMAT_LC1'));
-	  $person->title = JText::_('COM_SNIPF_OPTION_'.$person->person_title);
+	  $person->person_title = JText::_('COM_SNIPF_OPTION_'.$person->person_title);
 	  $person->country = JText::_('COM_SNIPF_LANG_COUNTRY_'.$person->alpha_3);
 	}
 

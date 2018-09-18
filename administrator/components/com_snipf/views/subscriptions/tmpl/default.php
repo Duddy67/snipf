@@ -178,9 +178,9 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	  </td>
 	  <td class="hidden-phone center">
 	    <?php echo JText::_('COM_SNIPF_OPTION_'.strtoupper($item->payment_status)); ?>
-		  <?php if($item->payment_status == 'paid' && $item->payment_date) : ?>
+		  <?php if($item->payment_status == 'paid' && $item->payment_date > '0000-00-00 00:00:00') : ?>
 		    <span class="small">
-		      <?php echo '<br />'.JHtml::_('date', $item->payment_date, JText::_('DATE_FORMAT_LC4')); ?>
+		      <?php echo '<br />'.JHtml::_('date', $item->payment_date, JText::_('DATE_FORMAT_FILTER_DATE')); ?>
 		    </span>
 		  <?php elseif($item->payment_status == 'unpaid') : ?>
 		    <span class="small">

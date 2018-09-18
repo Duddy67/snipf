@@ -34,7 +34,7 @@ if(!preg_match('#\.csv#', $csvFile)) {
 
 if(!empty($csvFile)) {
   //Build the path to the file.
-  $download = JPATH_BASE.'/administrator/components/com_snipf/csv/'.$csvFile;
+  $download = JPATH_BASE.'/administrator/components/com_snipf/csv/files/'.$csvFile;
 
   if(file_exists($download) === false) {
     echo 'The file cannot be found.';

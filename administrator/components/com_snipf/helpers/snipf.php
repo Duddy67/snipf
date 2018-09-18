@@ -105,8 +105,12 @@ class SnipfHelper
 
   public static function generateCSV($data)
   {
-    $columns = array('firstname', 'lastname', 'honor_member', 'street', 'additional_address',
-		     'postcode', 'city', 'country', 'phone', 'mobile', 'fax', 'sripf_name');
+    $columns = array('person_title', 'firstname', 'lastname', 'status', 'birthdate', 'retirement_date', 'deceased_date',
+		     'country_of_birth', 'city_of_birth', 'region_of_birth', 'citizenship', 'email', 'mail_address_type',
+		     'demand_origin', 'active_retired', 'cqp1', 'employer_name', 'employer_activity', 'ape_code', 'position',
+		     'law_company', 'honor_member', 'street', 'additional_address', 'postcode', 'city', 'country_ha', 'phone',
+		     'mobile', 'fax', 'sripf_name', 'street_pa', 'additional_address_pa', 'postcode_pa', 'city_pa', 'country_pa',
+		     'phone_pa', 'mobile_pa', 'fax_pa');
     $items = $headers = array();
  
     foreach($data as $key => $row) {
@@ -129,7 +133,7 @@ class SnipfHelper
     $now = JFactory::getDate('now', JFactory::getConfig()->get('offset'))->toSql(true);
     $csvFileName = preg_replace('#[:| ]#', '-', $now);
 
-    $fp = fopen('components/com_snipf/csv/'.$csvFileName.'.csv', 'w');
+    $fp = fopen('components/com_snipf/csv/files/'.$csvFileName.'.csv', 'w');
 
     foreach($items as $key => $fields) {
       fputcsv($fp, $fields);
