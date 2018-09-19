@@ -142,6 +142,9 @@ var snipf = {
     <?php endif; ?>
 
     <?php if(($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
+    <div class="nb-results">
+       <?php echo JText::sprintf('COM_SNIPF_PAGINATION_NB_RESULTS', $this->pagination->get('total')); ?>
+    </div>
     <div class="pagination">
 
 	    <?php if ($this->params->def('show_pagination_results', 1)) : ?>
@@ -150,8 +153,6 @@ var snipf = {
 		    </p>
 	    <?php endif; ?>
 
-	    <?php //Load our own pagination layout. ?>
-	    <?php //echo JLayoutHelper::render('person_pagination', $this->pagination, JPATH_SITE.'/components/com_snipf/layouts/'); ?>
 	    <?php echo $this->pagination->getListFooter(); ?>
     </div>
     <?php endif; ?>
