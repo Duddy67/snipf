@@ -151,7 +151,8 @@ var snipf = {
 	    <?php endif; ?>
 
 	    <?php //Load our own pagination layout. ?>
-	    <?php echo JLayoutHelper::render('person_pagination', $this->pagination, JPATH_SITE.'/components/com_snipf/layouts/'); ?>
+	    <?php //echo JLayoutHelper::render('person_pagination', $this->pagination, JPATH_SITE.'/components/com_snipf/layouts/'); ?>
+	    <?php echo $this->pagination->getListFooter(); ?>
     </div>
     <?php endif; ?>
 

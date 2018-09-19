@@ -73,6 +73,7 @@ class SnipfViewCategory extends JViewCategory
     $this->user = JFactory::getUser();
     $this->uri = JUri::getInstance();
     $this->state = $this->get('State');
+    $this->pagination = $this->get('Pagination');
 
     $model = JModelLegacy::getInstance('Person', 'SnipfModel');
 
