@@ -271,6 +271,11 @@ class SnipfModelCertificates extends JModelList
 	  $query->where('pr.number=1 AND pr.file_receiving_date='.$db->Quote($nullDate));
 	break;
 
+      case 'commission_pending':
+	  $query->where('pr.commission_date > '.$db->Quote($nullDate))
+		->where('(pr.outcome="pending" OR pr.outcome="adjourned") AND c.closure_reason=""');
+	break;
+
       case 'initial_commission_pending':
 	  $query->where('pr.number=1 AND pr.commission_date > '.$db->Quote($nullDate))
 		->where('(pr.outcome="pending" OR pr.outcome="adjourned") AND c.closure_reason=""');

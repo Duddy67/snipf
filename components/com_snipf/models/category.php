@@ -387,7 +387,9 @@ class SnipfModelCategory extends JModelList
 		   'sp.year='.$db->Quote($currentYear).' AND sp.cads_payment=1')
 	    ->join('LEFT', '#__snipf_address AS pa ON pa.person_id=p.id AND pa.type="pa" AND pa.history=0')
 	    ->join('LEFT', '#__snipf_country AS pac ON pac.alpha_2=pa.country_code')
-	    ->where('((sub.deregistration_date='.$db->Quote($db->getNullDate()).' AND sub.resignation_date='.$db->Quote($db->getNullDate()).') OR sub.reinstatement_date > '.$db->Quote($db->getNullDate()).')');
+	    ->where('((sub.deregistration_date='.$db->Quote($db->getNullDate()).' AND sub.resignation_date='.$db->Quote($db->getNullDate()).') OR sub.reinstatement_date > '.$db->Quote($db->getNullDate()).')')
+	    //Rules out the deceased persons.
+	    ->where('p.status!="deceased"');
     }
 
     // Filter by state

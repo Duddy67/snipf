@@ -48,6 +48,7 @@
 			<option value="outdated">COM_SNIPF_FILTER_OUTDATED</option>
 			<option value="all_pending">COM_SNIPF_FILTER_ALL_PENDING</option>
 			<option value="initial_pending">COM_SNIPF_FILTER_INITIAL_PENDING</option>
+			<option value="commission_pending">COM_SNIPF_FILTER_COMMISSION_PENDING</option>
 			<option value="initial_commission_pending">COM_SNIPF_FILTER_INITIAL_COMMISSION_PENDING</option>
 			<option value="initial_rejected_file">COM_SNIPF_FILTER_INITIAL_REJECTED_FILE</option>
 			<option value="all_invalidated">COM_SNIPF_FILTER_ALL_INVALIDATED</option>
