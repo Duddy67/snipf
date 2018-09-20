@@ -448,6 +448,11 @@
 		 <option value="0">JNO</option>
 	  </field>
 
+	  <field name="email_pa" type="email"
+		 label="COM_SNIPF_FIELD_EMAIL_LABEL"
+		 description="COM_SNIPF_FIELD_PROFESSIONAL_EMAIL_DESC"
+		 validate="email" />
+
 	  <field name="phone_pa" type="tel"
 		 validate="tel"
 		  label="COM_SNIPF_FIELD_PHONE_LABEL"

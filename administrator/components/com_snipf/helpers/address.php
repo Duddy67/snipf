@@ -43,7 +43,7 @@ class AddressHelper
     $query->select('employer_name AS employer_name_pa, street AS street_pa, additional_address AS additional_address_pa,'.
 		   'city AS city_pa, postcode AS postcode_pa, phone AS phone_pa, mobile AS mobile_pa, fax AS fax_pa, cee AS cee_pa,'.
 		   'country_code AS country_code_pa, created AS created_pa, created_by AS created_by_pa,'.
-		   'modified AS modified_pa, modified_by AS modified_by_pa')
+		   'modified AS modified_pa, modified_by AS modified_by_pa, email AS email_pa')
 	  ->from('#__snipf_address')
 	  ->where('person_id='.(int)$personId)
 	  ->where('type="pa"')
@@ -79,7 +79,7 @@ class AddressHelper
 
     //Gets some extra columns according to the address type.
     if($addressType == 'pa') {
-      $query->select('employer_name AS employer_name_pa');
+      $query->select('employer_name AS employer_name_pa, email AS email_pa');
     }
     else { //ha
       $query->select('sripf_id AS sripf_id_ha');
