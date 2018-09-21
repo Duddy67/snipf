@@ -115,5 +115,11 @@
   margin-bottom: 10px;
 }
 
+#jform_employer_name_ws ,
+#jform_employer_activity_ws {
+  width: 380px !important;
+}
+
+
 
 

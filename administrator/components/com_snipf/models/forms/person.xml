@@ -284,7 +284,7 @@
 		label="COM_SNIPF_FIELD_EMPLOYER_NAME_LABEL"
 		description="COM_SNIPF_FIELD_EMPLOYER_NAME_DESC"/>
 
-	<field name="employer_activity_ws" type="text"
+	<field name="employer_activity_ws" type="text" 
 		label="COM_SNIPF_FIELD_EMPLOYER_ACTIVITY_LABEL"
 		description="COM_SNIPF_FIELD_EMPLOYER_ACTIVITY_DESC"/>
 
