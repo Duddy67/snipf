@@ -75,7 +75,7 @@ class SnipfControllerSubscriptions extends JControllerAdmin
     if($documentType == 'pdf_labels') {
       $template = 'subscription_labels';
       //Sets the pdf option array.
-      $options = array('margins' => array('left' => 5, 'top' => 5, 'right' => 5, 'bottom' => 5),
+      $options = array('margins' => array('left' => 15, 'top' => 5, 'right' => 5, 'bottom' => 5),
 		       'format' => array('orientation' => 'L', 'type' => 'DYMO'),
 		       'font_size' => 11);
       $data = array();

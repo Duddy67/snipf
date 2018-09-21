@@ -89,6 +89,7 @@ class SnipfControllerCertificates extends JControllerAdmin
 	if($documentType == 'pdf_labels') {
 	  $template = 'subscription_labels';
 	  //Adapts settings for label format.
+	  $options['margins']['left'] = 15;
 	  $options['format']['orientation'] = 'L';
 	  $options['format']['type'] = 'DYMO';
 	  $options['font_size'] = 11;
