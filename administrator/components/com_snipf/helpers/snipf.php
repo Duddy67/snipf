@@ -107,11 +107,11 @@ class SnipfHelper
   {
     $columns = array('person_id', 'old_id', 'person_title', 'firstname', 'lastname', 'maiden_name', 'status', 'birthdate',
 		     'retirement_date', 'deceased_date','country_of_birth', 'city_of_birth', 'region_of_birth', 'citizenship',
-		     'email', 'mail_address_type', 'subscription_status', 'adhesion_date', 'resignation_date','deregistration_date', 
+		     'email_ha', 'mail_address_type', 'subscription_status', 'adhesion_date', 'resignation_date','deregistration_date', 
 		     'reinstatement_date', 'demand_origin', 'active_retired', 'cqp1', 'employer_name', 'employer_activity', 
 		     'ape_code', 'position', 'comments_ws', 'law_company', 'honor_member', 'honor_member_date', 'street', 
 		     'additional_address', 'postcode', 'city', 'country', 'cee', 'phone', 'mobile', 'fax', 'sripf_name', 
-		     'street_pa', 'additional_address_pa', 'postcode_pa', 'city_pa', 'country_pa', 'cee_pa', 'phone_pa', 
+		     'email_pa', 'street_pa', 'additional_address_pa', 'postcode_pa', 'city_pa', 'country_pa', 'cee_pa', 'phone_pa', 
                      'mobile_pa', 'fax_pa');
     $items = $headers = array();
  

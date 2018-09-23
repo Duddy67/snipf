@@ -115,8 +115,13 @@
   margin-bottom: 10px;
 }
 
-#jform_employer_name_ws ,
-#jform_employer_activity_ws {
+#jform_complement_1,
+#jform_complement_2,
+#jform_comments,
+#jform_speciality_id,
+#jform_employer_name_ws,
+#jform_employer_activity_ws, 
+#jform_position_ws {
   width: 380px !important;
 }
 

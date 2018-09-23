@@ -208,7 +208,7 @@ class SnipfViewCertificate extends JViewLegacy
   {
     //Include the css file.
     $doc = JFactory::getDocument();
-    //$doc->addStyleSheet(JURI::base().'components/com_snipf/snipf.css');
+    $doc->addStyleSheet(JURI::base().'components/com_snipf/snipf.css');
   }
 }
 
