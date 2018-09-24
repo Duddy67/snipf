@@ -185,7 +185,7 @@ class SnipfModelCertificates extends JModelList
     $orderDirn = $this->state->get('list.direction'); //asc or desc
 
     $query->order($db->escape($orderCol.' '.$orderDirn));
-echo $query;
+
     return $query;
   }
 
