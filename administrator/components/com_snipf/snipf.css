@@ -120,9 +120,10 @@
 #jform_comments,
 #jform_speciality_id,
 #jform_employer_name_ws,
+#jform_employer_name_pa,
 #jform_employer_activity_ws, 
 #jform_position_ws {
-  width: 380px !important;
+  width: 760px !important;
 }
 
 
