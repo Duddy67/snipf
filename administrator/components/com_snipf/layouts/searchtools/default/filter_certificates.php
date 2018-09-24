@@ -24,7 +24,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 			<?php endif; ?>
 
 			<?php if($fieldName === 'filter_from_date') : //Wraps the date filters into a div. ?>
-			    <div class="date-filters">
+			    <div class="date-filters" id="date-filters">
 			    <h3><?php echo JText::_('COM_SNIPF_DATE_FILTERS'); ?></h3>
 			<?php endif; ?>
 

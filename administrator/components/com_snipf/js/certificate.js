@@ -7,7 +7,10 @@
     //Set as function the global variable previously declared edit.php file.
     checkFields = $.fn.checkFields;
 
-    //var processAction = $('#process-action').val();
+    //Into the first outcome the accepted value has to be labeled "Certifié".
+    $('#outcome_1 option[value="accepted"]').text(Joomla.JText._('COM_SNIPF_OPTION_CERTIFIED'));
+    $('#outcome_1').trigger('liszt:updated');
+
     var nbProcesses = $('#nb-processes').val();
     $.fn.setReadOnly();
     $.fn.setTabColors();

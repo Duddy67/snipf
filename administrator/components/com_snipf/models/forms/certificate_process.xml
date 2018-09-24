@@ -55,12 +55,8 @@
 	<field name="outcome" type="list"
 	       label="COM_SNIPF_FIELD_OUTCOME_LABEL"
 	       description="COM_SNIPF_FIELD_OUTCOME_DESC">
-	       <!--<option value="pending_file">COM_SNIPF_OPTION_PENDING_FILE</option>
-	       <option value="pending_commission">COM_SNIPF_OPTION_PENDING</option>-->
 	       <option value="pending">COM_SNIPF_OPTION_PENDING</option>
-	       <option value="accepted">COM_SNIPF_OPTION_ACCEPTED</option>
-	       <!--<option value="certified">COM_SNIPF_OPTION_CERTIFIED</option>
-	       <option value="renewed">COM_SNIPF_OPTION_RENEWED</option>-->
+	       <option value="accepted">COM_SNIPF_OPTION_RENEWED</option>
 	       <option value="rejected">COM_SNIPF_OPTION_REJECTED</option>
 	       <option value="adjourned">COM_SNIPF_OPTION_ADJOURNED</option>
 	</field>
