@@ -185,7 +185,7 @@ class SnipfModelCertificates extends JModelList
     $orderDirn = $this->state->get('list.direction'); //asc or desc
 
     $query->order($db->escape($orderCol.' '.$orderDirn));
-
+echo $query;
     return $query;
   }
 
@@ -363,9 +363,9 @@ class SnipfModelCertificates extends JModelList
     $nullDate = $db->getNullDate();
 
     if($filterDates['from_date'] == $filterDates['to_date']) {
-      //Strict mode. Fetches only certificates where the commission date of the initial
+      //Strict mode. Fetches only certificates where the commission date of the last 
       //process matches the given filter date.
-      $query->where('fpr.commission_date = '.$db->Quote($filterDates['from_date']));
+      $query->where('pr.commission_date = '.$db->Quote($filterDates['from_date']));
     }
     else {
       //Fetches the certificates which matche the date filters gap.

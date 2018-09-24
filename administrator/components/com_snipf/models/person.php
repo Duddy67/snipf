@@ -235,7 +235,7 @@ class SnipfModelPerson extends JModelAdmin
 
     $nbCertificates = count($certificates);
     $now = JFactory::getDate()->toSql();
-    $initialCertificate = 0;
+    $initialCertificate = $outdatedCertificat = 0;
 
     foreach($certificates as $certificate) {
       //As soon as a retired or deceased closure reason is found, it means that the person 
@@ -248,6 +248,10 @@ class SnipfModelPerson extends JModelAdmin
 	return 'certified';
       }
 
+      if(empty($certificate->closure_reason) && $certificate->end_date < $now) {
+	$outdatedCertificat++;
+      }
+
       //Initial certificates. There can be several of them for the same person.
       if($certificate->number == 1 && $certificate->end_date == $db->getNullDate()) {
 	$initialCertificate++;
@@ -256,6 +260,11 @@ class SnipfModelPerson extends JModelAdmin
 
     if(!$nbCertificates || $initialCertificate == $nbCertificates) {
       return 'no_certificate';
+    }
+
+    //The person owns at least one outdated certificate.
+    if($outdatedCertificat) {
+      return 'outdated';
     }
 
     //If no certification status has matched so far the person 
