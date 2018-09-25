@@ -214,10 +214,12 @@ class SnipfModelSubscriptions extends JModelList
     // Filter by subscription status.
     if(!empty($subscriptionStatus = $this->getState('filter.subscription_status'))) {
       if($subscriptionStatus == 'membership') {
-	$query->where('((s.deregistration_date='.$db->Quote($db->getNullDate()).' AND s.resignation_date='.$db->Quote($db->getNullDate()).') OR s.reinstatement_date > '.$db->Quote($db->getNullDate()).')');
+	  $query->where('((s.deregistration_date='.$db->Quote($db->getNullDate()).' OR s.deregistration_date < s.reinstatement_date) AND (s.resignation_date='.$db->Quote($db->getNullDate()).' OR s.resignation_date < s.reinstatement_date))');
+	//$query->where('((s.deregistration_date='.$db->Quote($db->getNullDate()).' AND s.resignation_date='.$db->Quote($db->getNullDate()).') OR s.reinstatement_date > '.$db->Quote($db->getNullDate()).')');
       }
       else { //no_longer_membership
-       $query->where('((s.deregistration_date > '.$db->Quote($db->getNullDate()).' OR s.resignation_date > '.$db->Quote($db->getNullDate()).') AND s.reinstatement_date='.$db->Quote($db->getNullDate()).')');
+	 $query->where('((s.deregistration_date > '.$db->Quote($db->getNullDate()).' AND s.deregistration_date > s.reinstatement_date) OR  (s.resignation_date > '.$db->Quote($db->getNullDate()).' AND s.resignation_date > s.reinstatement_date))');
+       //$query->where('((s.deregistration_date > '.$db->Quote($db->getNullDate()).' OR s.resignation_date > '.$db->Quote($db->getNullDate()).') AND s.reinstatement_date='.$db->Quote($db->getNullDate()).')');
       }
     }
 
