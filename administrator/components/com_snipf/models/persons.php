@@ -197,7 +197,13 @@ class SnipfModelPersons extends JModelList
 
     // Filter by person status.
     if(!empty($personStatus = $this->getState('filter.status'))) {
-      $query->where('p.status='.$db->Quote($personStatus));
+      if($personStatus == 'no_deceased') {
+	//Rules out the deceased persons from the search.
+	$query->where('p.status!="deceased"');
+      }
+      else {
+	$query->where('p.status='.$db->Quote($personStatus));
+      }
     }
 
     // Filter by certification status.
