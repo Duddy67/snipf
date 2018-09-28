@@ -209,6 +209,20 @@ class SnipfViewCertificate extends JViewLegacy
     //Include the css file.
     $doc = JFactory::getDocument();
     $doc->addStyleSheet(JURI::base().'components/com_snipf/snipf.css');
+
+    //Adds specific css to darken the tab line.
+    $style = '.nav-tabs > .active > a,
+	      .nav-tabs > .active > a:hover,
+	      .nav-tabs > .active > a:focus {
+		border: 1px solid #5a5a5a !important;
+		border-bottom-color: transparent !important;
+	      }
+
+	      .nav-tabs {
+		border-bottom: 1px solid #5a5a5a !important;
+	      }';
+
+    $doc->addStyleDeclaration($style);
   }
 }
 

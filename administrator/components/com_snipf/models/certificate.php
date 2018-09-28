@@ -162,8 +162,12 @@ class SnipfModelCertificate extends JModelAdmin
 	$date = new DateTime($lastProcess->commission_date);
 	//Adds 3 years from the commission date.
 	$date->add(new DateInterval('P3Y'));
-	//Sets to the last day of the month.
-	$endDate = $endProcess = $date->format('Y-m-t H:i:s');
+	//Sets to the last day of the month (ie: 'Y-m-t' and not 'Y-m-d').
+	$date = new DateTime($date->format('Y-m-t H:i:s'));
+	//As date is in UTC, because of the timezone we have to get the penultimate
+	//day of the month to actualy get the last day displayed. 
+	$date->sub(new DateInterval('P1D'));
+	$endDate = $endProcess = $date->format('Y-m-d H:i:s');
       }
     }
     //The last process is not accepted, so we rely on the penultimate process to get the
