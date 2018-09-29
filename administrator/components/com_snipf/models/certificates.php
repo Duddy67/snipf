@@ -236,6 +236,12 @@ class SnipfModelCertificates extends JModelList
 	        ->where('pr.number = 1 AND pr.outcome="accepted" AND ISNULL(sub.id)');
 	break;
 
+      case 'running_renewal':
+	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
+	        //
+	        ->where('pr.number > 1 AND pr.outcome="accepted"');
+	break;
+
       case 'all_outdated':
 	  $query->where('c.end_date < '.$db->Quote($now).' AND c.end_date > '.$db->Quote($nullDate))
 	        ->where('c.closure_date='.$db->Quote($nullDate));

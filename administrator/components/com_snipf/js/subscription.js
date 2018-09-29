@@ -91,16 +91,24 @@
       return;
     }
 
-    //Checks the cads payment.
-    var cadsPayment = $('input[name=cads_payment_'+processNb+']:checked').val();
+    for(var i = 0; i < processNb; i++) {
+      var processId = i + 1;
+      var headQuarters = $('input[name=headquarters_payment_'+processId+']:checked').val();
+      var communication = $('input[name=communication_payment_'+processId+']:checked').val();
+      var cadsPayment = $('input[name=cads_payment_'+processId+']:checked').val();
 
-    if(cadsPayment == 1) {
-      //green
-      $('[href="#process-'+processNb+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
-    }
-    else {
-      //red
-      $('[href="#process-'+processNb+'"]').css({'background-color': '#e60000', 'color': 'white'});
+      if(headQuarters == 1 && communication == 1 && cadsPayment == 1) {
+	//green
+	$('[href="#process-'+processId+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
+      }
+      else if(headQuarters == 1 || communication == 1 || cadsPayment == 1) {
+	//orange
+	$('[href="#process-'+processId+'"]').css({'background-color': '#ff9933', 'color': 'white'});
+      }
+      else {
+	//red
+	$('[href="#process-'+processId+'"]').css({'background-color': '#e60000', 'color': 'white'});
+      }
     }
   },
 
