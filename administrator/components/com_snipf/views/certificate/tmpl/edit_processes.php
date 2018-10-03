@@ -4,7 +4,7 @@
 
 	$processName = $process->name;
 	//Starts the indexing after the first process.
-	if($process->number > 1) {
+	if($process->number > 1 && $process->outcome == 'accepted') {
 	  $processName = $processName.' '.$index;
 	  $index++;
 	}
