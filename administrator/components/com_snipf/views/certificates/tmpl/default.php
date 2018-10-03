@@ -123,10 +123,17 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
       <tbody>
       <?php foreach ($this->items as $i => $item) :
 
-      $canEdit = $user->authorise('core.edit','com_snipf.certificate.'.$item->id);
-      $canEditOwn = $user->authorise('core.edit.own', 'com_snipf.certificate.'.$item->id) && $item->created_by == $userId;
-      $canCheckin = $user->authorise('core.manage','com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-      $canChange = ($user->authorise('core.edit.state','com_snipf.certificate.'.$item->id) && $canCheckin) || $canEditOwn; 
+	$canEdit = $user->authorise('core.edit','com_snipf.certificate.'.$item->id);
+	$canEditOwn = $user->authorise('core.edit.own', 'com_snipf.certificate.'.$item->id) && $item->created_by == $userId;
+	$canCheckin = $user->authorise('core.manage','com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+	$canChange = ($user->authorise('core.edit.state','com_snipf.certificate.'.$item->id) && $canCheckin) || $canEditOwn; 
+
+	//Computes the COFRAC certitficat index.
+	$index = $indexes[$item->process_nb];
+	if($item->process_nb > 1 && $item->outcome != 'accepted') {
+	  //Gets back to the previous index.
+	  $index = $indexes[$item->process_nb - 1];
+	}
       ?>
 
       <tr class="row<?php echo $i % 2; ?>">
@@ -156,9 +163,9 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	      <?php endif; ?>
 	      <?php if($canEdit || $canEditOwn) : ?>
 		<a href="<?php echo JRoute::_('index.php?option=com_snipf&task=certificate.edit&id='.$item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
-			<?php echo $this->escape($item->number).$indexes[$item->process_nb]; ?></a>
+			<?php echo $this->escape($item->number).$index; ?></a>
 	      <?php else : ?>
-		<?php echo $this->escape($item->number).$indexes[$item->process_nb]; ?>
+		<?php echo $this->escape($item->number).$index; ?>
 	      <?php endif; ?>
 	    </div>
 	  </td>
