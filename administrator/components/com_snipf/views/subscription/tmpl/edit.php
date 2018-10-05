@@ -50,8 +50,8 @@ Joomla.submitbutton = function(task)
 		  echo $this->form->getControlGroup('person_id');
 
 		  if($this->item->id) { //Existing item.
-		    $this->form->setValue('person_status', null, $this->item->person_status);
 		    echo $this->form->getControlGroup('person_status');
+		    echo $this->form->getControlGroup('cqp1');
 		    echo $this->form->getControlGroup('adhesion_date');
 		    echo $this->form->getControlGroup('resignation_date');
 		    echo $this->form->getControlGroup('deregistration_date');
