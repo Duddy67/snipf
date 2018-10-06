@@ -55,6 +55,7 @@ class SnipfViewCategory extends JViewCategory
   protected $nowDate;
   protected $user;
   protected $uri;
+  protected $person_type;
 
   public function display($tpl = null)
   {
@@ -111,6 +112,9 @@ class SnipfViewCategory extends JViewCategory
     }
     //Person: In case the layout parameter is not found within the query, the default layout
     //will be set.
+
+    //Gets the current person type.
+    $this->person_type = $app->getMenu()->getActive()->query['person_type'];
 
     // For blog layouts, preprocess the breakdown of leading, intro and linked articles.
     // This makes it much easier for the designer to just interrogate the arrays.

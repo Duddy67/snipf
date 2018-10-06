@@ -625,15 +625,28 @@ class SnipfModelCategory extends JModelList
   {
     $pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
     $results = array();
+    $personType = $this->getState('list.person_type');
 
     $db = $this->getDbo();
     $query = $db->getQuery(true);
-    $query->select('lastname AS value, id AS data')
-	  ->from('#__snipf_person')
-	  ->where('catid='.(int)$pk)
-	  ->where('published=1')
-	  ->where('lastname LIKE '.$db->Quote($search.'%'))
-	  ->order('lastname DESC');
+    $query->select('p.lastname AS value, p.id AS data')
+	  ->from('#__snipf_person AS p')
+	  ->where('p.catid='.(int)$pk)
+	  ->where('p.published=1')
+	  ->where('p.lastname LIKE '.$db->Quote($search.'%'));
+
+    if($personType == 'certified') {
+      $nowDate = $db->quote(JFactory::getDate()->toSql());
+      $query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
+		      WHERE c.person_id=p.id AND c.closure_reason="" AND c.end_date > '.$nowDate.') > 0 ');
+    }
+    else { //membership
+      $query->select('IFNULL(sub.id, "0") AS subscription_id, sub.resignation_date, sub.deregistration_date, sub.reinstatement_date')
+	    ->join('LEFT', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1')
+	    ->where('((sub.deregistration_date='.$db->Quote($db->getNullDate()).' OR sub.deregistration_date < sub.reinstatement_date) AND (sub.resignation_date='.$db->Quote($db->getNullDate()).' OR sub.resignation_date < sub.reinstatement_date))');
+    }
+
+    $query->order('p.lastname DESC');
     $db->setQuery($query);
     //Requested to get the JQuery autocomplete working properly.
     $results['suggestions'] = $db->loadAssocList();

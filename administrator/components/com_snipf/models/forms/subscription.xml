@@ -90,6 +90,12 @@
 	       <option value="0">JNO</option>
 	</field>
 
+	<field name="cqp1_speciality_id" type="specialitylist"
+	       readonly="true" class="readonly"
+	       filter="unset" 
+	       label="COM_SNIPF_FIELD_SPECIALITY_LABEL"
+	       description="COM_SNIPF_FIELD_SPECIALITY_DESC" />
+
 	<!-- layout: publishingdata -->
 	<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" 
 	       description="JGLOBAL_FIELD_ID_DESC"
