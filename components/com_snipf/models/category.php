@@ -436,8 +436,16 @@ class SnipfModelCategory extends JModelList
     //Get the field to search by.
     $field = $this->getState('params')->get('filter_field');
     if(!empty($search)) {
-      $search = $db->quote('%'.$db->escape($search, true).'%');
-      $query->where('(p.'.$field.' LIKE '.$search.')');
+
+      if(is_numeric($search)) {
+	$query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
+			WHERE c.person_id=p.id AND c.published=1 AND c.closure_reason="" 
+			AND c.end_date > '.$nowDate.' AND c.bit_number_1988='.$db->Quote($search).') > 0 ');
+      }
+      else {
+	$search = $db->quote('%'.$db->escape($search, true).'%');
+	$query->where('(p.'.$field.' LIKE '.$search.')');
+      }
     }
 
     //Get the persons ordering by default set in the menu options. (Person: sec stands for secondary). 
