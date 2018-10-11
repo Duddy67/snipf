@@ -173,7 +173,7 @@
 	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ac00e6', 'color': 'white'});
 	    }
 	    else {
-	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ac00e6', 'color': 'white'});
+	      $('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#ac00e6', 'color': 'white'});
 	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
 	    }
 	  break;
