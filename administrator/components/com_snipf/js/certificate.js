@@ -147,20 +147,35 @@
     //Gets needed variables.
     var certificateState = $('#certificate-state').val();
     var nbProcesses = $('#nb-processes').val();
+    var lastProcessOutcome = $('#last-process-outcome').val();
 
     if(nbProcesses == 0) {
       return;
     }
 
+    penultimateProcessNb = nbProcesses - 1;
+
     if(certificateState == 'done') {
       //Sets the color according to the closure reason.
       switch($('#jform_closure_reason').val()) {
 	case 'retired': //blue
-	  $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#4da6ff', 'color': 'white'});
+	    if(lastProcessOutcome == 'accepted') {
+	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#4da6ff', 'color': 'white'});
+	    }
+	    else {
+	      $('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#4da6ff', 'color': 'white'});
+	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
+	    }
 	  break;
 
 	case 'deceased': //purple
-	  $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ac00e6', 'color': 'white'});
+	    if(lastProcessOutcome == 'accepted') {
+	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ac00e6', 'color': 'white'});
+	    }
+	    else {
+	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ac00e6', 'color': 'white'});
+	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
+	    }
 	  break;
 
 	default: //black - removal, rejected_file, abandon, other.
@@ -169,8 +184,6 @@
 
       return;
     }
-
-    penultimateProcessNb = nbProcesses - 1;
 
     switch(certificateState) {
       case 'commission_pending': //green and orange

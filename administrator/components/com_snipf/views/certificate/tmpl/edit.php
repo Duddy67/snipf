@@ -111,6 +111,7 @@ Joomla.submitbutton = function(task)
   <input type="hidden" name="certificate_state" id="certificate-state" value="<?php echo $this->certificateState; ?>" />
   <input type="hidden" name="person_status" id="person-status" value="<?php echo $this->item->person_status; ?>" />
   <input type="hidden" name="is_root" id="is-root" value="<?php echo (int)$user->get('isRoot'); ?>" />
+  <input type="hidden" name="last_process_outcome" id="last-process-outcome" value="<?php echo $this->item->last_process_outcome; ?>" />
 
   <?php //Sets the last action name (if any) regarding processes (ie: create or delete). 
 	if($action = JFactory::getApplication()->input->get('process', '', 'string')) : ?>

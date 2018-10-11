@@ -158,7 +158,12 @@ class SnipfViewCertificates extends JViewLegacy
 	  }
 	}
 	else { //The certificate is closed.
-	  $item->process_states = array($item->closure_reason);
+	  if(($item->closure_reason == 'retired' || $item->closure_reason == 'deceased') && $item->outcome != 'accepted') {
+	    $item->process_states = array($item->closure_reason, 'obsolete');
+	  }
+	  else {
+	    $item->process_states = array($item->closure_reason);
+	  }
 	}
 
 	//Sets the names of the processes of each certificate.
