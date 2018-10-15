@@ -71,7 +71,8 @@ Joomla.submitbutton = function(task)
 		  echo $this->form->getControlGroup('cqp1');
 
 		  if($this->item->cqp1) {
-		    echo $this->form->getControlGroup('cqp1_speciality_id');
+		    $this->form->setValue('cqp1_extra_data', null, $this->item->extra_data_text);
+		    echo $this->form->getControlGroup('cqp1_extra_data');
 		  }
 	    ?>
 	</div>

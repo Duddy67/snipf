@@ -52,7 +52,12 @@ Joomla.submitbutton = function(task)
 		  if($this->item->id) { //Existing item.
 		    echo $this->form->getControlGroup('person_status');
 		    echo $this->form->getControlGroup('cqp1');
-		    echo $this->form->getControlGroup('cqp1_speciality_id');
+
+		    if($this->item->cqp1) {
+		      $this->form->setValue('cqp1_extra_data', null, $this->item->extra_data_text);
+		      echo $this->form->getControlGroup('cqp1_extra_data');
+		    }
+
 		    echo $this->form->getControlGroup('adhesion_date');
 		    echo $this->form->getControlGroup('resignation_date');
 		    echo $this->form->getControlGroup('deregistration_date');

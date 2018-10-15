@@ -104,6 +104,7 @@ class SnipfModelPerson extends JModelAdmin
       }
 
       $item->certification_status = $this->getCertificationStatus($item->id);
+      $item->extra_data_text = SnipfHelper::getCqp1ExtraDataText($item->cqp1_extra_data);
     }
 
     return $item;

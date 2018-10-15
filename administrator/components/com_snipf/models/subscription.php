@@ -74,7 +74,7 @@ class SnipfModelSubscription extends JModelAdmin
     if($item->id) { //Existing item.
       $db = $this->getDbo();
       $query = $db->getQuery(true);
-      $query->select('id, status, cqp1, cqp1_speciality_id')
+      $query->select('id, status, cqp1, cqp1_extra_data')
 	    ->from('#__snipf_person')
 	    ->where('id='.(int)$item->person_id);
       $db->setQuery($query);
@@ -89,7 +89,7 @@ class SnipfModelSubscription extends JModelAdmin
       }
 
       $item->cqp1 = $person->cqp1;
-      $item->cqp1_speciality_id = $person->cqp1_speciality_id;
+      $item->extra_data_text = SnipfHelper::getCqp1ExtraDataText($person->cqp1_extra_data);
     }
 
     return $item;

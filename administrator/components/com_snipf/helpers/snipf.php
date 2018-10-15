@@ -428,6 +428,40 @@ class SnipfHelper
     // Returns the UTC raw date. 
     return JFactory::getDate($value, 'UTC')->toSql();
   }
+
+
+  /**
+   * Specific function which turns data stored in a Json array into a plain text. 
+   *
+   * @param string  $extraData		The extra data stored in a JSOn array.
+   *
+   * @return string			The CQP1 extradata as plain text.
+   */
+  public static function getCqp1ExtraDataText($extraData)
+  {
+    if(empty($extraData)) {
+      return $extraData;
+    }
+
+    $skippedFields = array('speciality_id', 'end_date');
+    $data = json_decode($extraData);
+    $text = '';
+
+    foreach($data as $key => $value) {
+      if(!in_array($key, $skippedFields)) {
+	if(is_null($value)) {
+	  $value = JText::_('COM_SNIPF_NOT_FILLED');
+	}
+	elseif($key == 'commission_date') {
+	  $value = JHtml::_('date', $value, JText::_('DATE_FORMAT_FILTER_DATE'));
+	}
+
+	$text .= JText::_('COM_SNIPF_FIELD_'.strtoupper($key).'_LABEL').': '.$value."\r";
+      }
+    }
+
+    return $text;
+  }
 }
 
 
