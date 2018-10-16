@@ -66,13 +66,16 @@ class SnipfModelCertificate extends JModelAdmin
     //Adds the processes to the certificate object;
     $item->processes = ProcessHelper::getProcesses($item->id, 'certificate');
     $item->nb_processes = 0;
+    $item->last_process_outcome = '';
 
     if(count($item->processes)) {
       $item->nb_processes = count($item->processes);
     }
 
-    //Needed for the retired and deceased cases. 
-    $item->last_process_outcome = $item->processes[$item->nb_processes - 1]->outcome;
+    if($item->nb_processes) {
+      //Needed for the retired and deceased cases. 
+      $item->last_process_outcome = $item->processes[$item->nb_processes - 1]->outcome;
+    }
 
     //Gets and adds the status of the person the certificate is linked to.
     $db = $this->getDbo();
