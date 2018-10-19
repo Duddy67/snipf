@@ -383,11 +383,11 @@ class SnipfModelCategory extends JModelList
 	             'pa.postcode AS postcode_pa, pa.phone AS phone_pa, pa.mobile AS mobile_pa,'.
 		     'pa.fax AS fax_pa, pac.lang_var AS country_lang_var_pa')
 	    ->join('INNER', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1')
-	    ->join('INNER', '#__snipf_process AS sp ON sp.item_id=sub.id AND sp.item_type="subscription" AND '.
+	    ->join('LEFT', '#__snipf_process AS sp ON sp.item_id=sub.id AND sp.item_type="subscription" AND '.
 		   'sp.year='.$db->Quote($currentYear).' AND sp.cads_payment=1')
 	    ->join('LEFT', '#__snipf_address AS pa ON pa.person_id=p.id AND pa.type="pa" AND pa.history=0')
 	    ->join('LEFT', '#__snipf_country AS pac ON pac.alpha_2=pa.country_code')
-	    ->where('((sub.deregistration_date='.$db->Quote($db->getNullDate()).' AND sub.resignation_date='.$db->Quote($db->getNullDate()).') OR sub.reinstatement_date > '.$db->Quote($db->getNullDate()).')')
+	    ->where('((sub.deregistration_date='.$db->Quote($db->getNullDate()).' OR sub.deregistration_date < sub.reinstatement_date) AND (sub.resignation_date='.$db->Quote($db->getNullDate()).' OR sub.resignation_date < sub.reinstatement_date))')
 	    //Rules out the deceased persons.
 	    ->where('p.status!="deceased"');
     }
