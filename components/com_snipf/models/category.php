@@ -165,11 +165,19 @@ class SnipfModelCategory extends JModelList
     $this->setState('list.start', $limitstart);
 
     // Optional filter text
-    $this->setState('list.filter', $app->input->getString('filter-search'));
+    $search = $this->getUserStateFromRequest($this->context.'.list.filter_search', 'filter-search');
+    $this->setState('list.filter_search', $search);
+    //$this->setState('list.filter_search', $app->input->getString('filter-search'));
     //Get the value of the select list and load it in the session.
-    $this->setState('list.filter_ordering', $app->input->getString('filter-ordering'));
-    $this->setState('list.filter_sripf', $app->input->getString('sripf_id'));
-    $this->setState('list.filter_speciality', $app->input->getString('speciality_id'));
+    $filterOrdering = $this->getUserStateFromRequest($this->context.'.list.filter_ordering', 'filter-ordering');
+    $this->setState('list.filter_ordering', $filterOrdering);
+    //$this->setState('list.filter_ordering', $app->input->getString('filter-ordering'));
+    $sripfId = $this->getUserStateFromRequest($this->context.'.list.filter_sripf_id', 'filter_sripf_id');
+    $this->setState('list.filter_sripf_id', $sripfId);
+    //$this->setState('list.filter_sripf', $app->input->getString('sripf_id'));
+    $specialityId = $this->getUserStateFromRequest($this->context.'.list.filter_speciality_id', 'filter_speciality_id');
+    $this->setState('list.filter_speciality_id', $specialityId);
+    //$this->setState('list.filter_speciality', $app->input->getString('speciality_id'));
 
     $user = JFactory::getUser();
     $asset = 'com_snipf';
@@ -415,12 +423,12 @@ class SnipfModelCategory extends JModelList
     }
 
     // Filter by sripf
-    if($sripfId = $this->getState('list.filter_sripf')) {
+    if($sripfId = $this->getState('list.filter_sripf_id')) {
       $query->where('ha.sripf_id='.(int)$sripfId);
     }
 
     // Filter by speciality
-    if($specialityId = $this->getState('list.filter_speciality')) {
+    if($specialityId = $this->getState('list.filter_speciality_id')) {
       $query->where('(SELECT COUNT(*) FROM #__snipf_certificate AS c
 		      WHERE c.person_id=p.id AND c.published=1 AND c.closure_reason="" 
 		      AND c.end_date > '.$nowDate.' AND c.speciality_id='.(int)$specialityId.') > 0 ');
@@ -432,7 +440,7 @@ class SnipfModelCategory extends JModelList
     }
 
     // Filter by search in title
-    $search = $this->getState('list.filter');
+    $search = $this->getState('list.filter_search');
     //Get the field to search by.
     $field = $this->getState('params')->get('filter_field');
     if(!empty($search)) {
