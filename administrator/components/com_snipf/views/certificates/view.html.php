@@ -158,7 +158,6 @@ class SnipfViewCertificates extends JViewLegacy
 	  }
 	}
 	else { //The certificate is closed.
-	  //if(($item->closure_reason == 'retired' || $item->closure_reason == 'deceased') && $item->outcome != 'accepted') {
 	  if($item->outcome != 'accepted') {
 	    $item->process_states = array($item->closure_reason, 'obsolete');
 	  }

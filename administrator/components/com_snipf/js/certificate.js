@@ -180,37 +180,6 @@
 	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
       }
 
-      /*switch($('#jform_closure_reason').val()) {
-	case 'retired': //blue
-	    if(lastProcessOutcome == 'accepted') {
-	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#4da6ff', 'color': 'white'});
-	    }
-	    else {
-	      $('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#4da6ff', 'color': 'white'});
-	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
-	    }
-	  break;
-
-	case 'deceased': //purple
-	    if(lastProcessOutcome == 'accepted') {
-	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#ac00e6', 'color': 'white'});
-	    }
-	    else {
-	      $('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#ac00e6', 'color': 'white'});
-	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
-	    }
-	  break;
-
-	default: //black - removal, rejected_file, abandon, other.
-	    if(lastProcessOutcome == 'accepted') {
-	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#404040', 'color': 'white'});
-	    }
-	    else {
-	      $('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#404040', 'color': 'white'});
-	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
-	    }
-      }*/
-
       return;
     }
 
