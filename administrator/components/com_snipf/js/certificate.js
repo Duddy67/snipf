@@ -148,6 +148,7 @@
     var certificateState = $('#certificate-state').val();
     var nbProcesses = $('#nb-processes').val();
     var lastProcessOutcome = $('#last-process-outcome').val();
+    var closureReason = $('#jform_closure_reason').val();
 
     if(nbProcesses == 0) {
       return;
@@ -157,7 +158,29 @@
 
     if(certificateState == 'done') {
       //Sets the color according to the closure reason.
-      switch($('#jform_closure_reason').val()) {
+
+      //Treats the retired case by default.
+      var color = '#4da6ff'; //blue
+
+      if($('#jform_closure_reason').val() == 'deceased') {
+	color = '#ac00e6'; //purple
+      }
+      //removal, rejected_file, abandon, other.
+      else if($('#jform_closure_reason').val() != 'retired') {
+	color = '#404040'; //black
+      }
+
+      //Colors the last tab.
+      if(lastProcessOutcome == 'accepted' || (nbProcesses == 1 && (closureReason == 'abandon' || closureReason == 'rejected_file'))) {
+	$('[href="#process-'+nbProcesses+'"]').css({'background-color': color, 'color': 'white'});
+      }
+      //Colors the penultimate tab. The last tab is colored in grey.
+      else {
+	$('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': color, 'color': 'white'});
+	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
+      }
+
+      /*switch($('#jform_closure_reason').val()) {
 	case 'retired': //blue
 	    if(lastProcessOutcome == 'accepted') {
 	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#4da6ff', 'color': 'white'});
@@ -179,8 +202,14 @@
 	  break;
 
 	default: //black - removal, rejected_file, abandon, other.
-	  $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#404040', 'color': 'white'});
-      }
+	    if(lastProcessOutcome == 'accepted') {
+	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#404040', 'color': 'white'});
+	    }
+	    else {
+	      $('[href="#process-'+penultimateProcessNb+'"]').css({'background-color': '#404040', 'color': 'white'});
+	      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
+	    }
+      }*/
 
       return;
     }
