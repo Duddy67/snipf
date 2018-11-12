@@ -115,6 +115,15 @@
   margin-bottom: 10px;
 }
 
+.snipf-position-container {
+  overflow: hidden;
+}
+
+.disabled-container {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
 #jform_complement_1,
 #jform_complement_2,
 #jform_comments,

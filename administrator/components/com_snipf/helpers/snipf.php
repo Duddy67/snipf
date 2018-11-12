@@ -462,6 +462,68 @@ class SnipfHelper
 
     return $text;
   }
+
+
+  /**
+   * Checks whether the current user is in readonly mode.
+   *
+   * @return boolean	True if the current user is in readonly mode, false otherwise.
+   */
+  public static function isReadOnly()
+  {
+    //Gets the groups the user belongs to.
+    $user = JFactory::getUser();
+    $groups = implode(',', $user->getAuthorisedViewLevels());
+
+    //Gets the groups allowed to read and write the component items.
+    //Those groups have to be set in the component's configuration. However the super user
+    //group is considered as read and write by default.
+    $component = JComponentHelper::getComponent('com_snipf');
+    $readWriteGoups = $component->getParams()->get('readwrite_groups');
+
+    if($user->get('isRoot') || in_array($groups, $readWriteGoups)) {
+      return false;
+    }
+
+    return true;
+  }
+
+
+  /**
+   * Collects the sripf ids linked to the current user. 
+   *
+   * @return array	An array filled with the user's sripf ids or an empty array otherwise. 
+   */
+  public static function getUserSripfs()
+  {
+    $user = JFactory::getUser();
+
+    //First gets the corresponding person id.
+    $db = JFactory::getDbo();
+    $query = $db->getQuery(true);
+    $query->select('id')
+	  ->from('#__snipf_person')
+	  ->where('user_id='.(int)$user->get('id'));
+    $db->setQuery($query);
+    $personId = $db->loadResult();
+
+    if($personId === null) {
+      return array();
+    }
+
+    $now = JFactory::getDate()->toSql();
+
+    //Collects the sripf ids from the valid positions.
+    $query->clear();
+    $query->select('DISTINCT pp.sripf_id')
+	  ->from('#__snipf_person_position_map AS pp')
+	  ->join('LEFT', '#__snipf_position AS p ON p.id=pp.position_id')
+	  ->where('pp.person_id='.(int)$personId.' AND p.readonly=1')
+	  ->where('(pp.end_date='.$db->Quote($db->getNullDate()).' OR pp.end_date > '.$db->Quote($now).')');
+    $db->setQuery($query);
+
+    return $db->loadColumn();
+  }
 }
 
 

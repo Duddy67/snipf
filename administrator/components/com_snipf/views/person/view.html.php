@@ -19,6 +19,7 @@ class SnipfViewPerson extends JViewLegacy
   protected $item;
   protected $form;
   protected $state;
+  protected $readonly;
 
   //Display the view.
   public function display($tpl = null)
@@ -36,6 +37,7 @@ class SnipfViewPerson extends JViewLegacy
     $jsFunctionNames = array('region', 'dateformat', 'position', 'sripf');
     JavascriptHelper::loadJavascriptFunctions($jsFunctionNames);
     JavascriptHelper::loadJavascriptTexts();
+    $this->readonly = SnipfHelper::isReadOnly();
 
     //Display the toolbar.
     $this->addToolBar();

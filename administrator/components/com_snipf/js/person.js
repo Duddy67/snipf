@@ -54,6 +54,7 @@
     $('[id^="btn-delete-beneficiary-"]').children().click( function() { $.fn.deleteItem($(this)); });
     $.fn.setMandatoryFields();
     $.fn.hideFields();
+    $.fn.readOnlyMode();
   });
 
 
@@ -358,6 +359,19 @@
       $('#jform_language').parent().parent().css({'visibility':'hidden','display':'none'});
       $('#jform_tags').parent().parent().css({'visibility':'hidden','display':'none'});
     }
+  };
+
+
+  $.fn.readOnlyMode = function() {
+    //Enables or disables the position container according to the readonly mode. 
+    if($('#is-readonly').val() == 0) {
+      $('#btn-add-0').css({'visibility':'visible','display':'block'});
+      $("#position-container").removeClass('disabled-container');
+      return;
+    }
+
+    $('#btn-add-0').css({'visibility':'hidden','display':'none'});
+    $("#position-container").addClass('disabled-container');
   };
 })(jQuery);
 

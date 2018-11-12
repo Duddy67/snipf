@@ -80,6 +80,10 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	<div class="alert alert-no-items">
 		<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 	</div>
+  <?php elseif(SnipfHelper::isReadOnly()) : //If a user is in readonly mode he cannot see the item list. ?>
+	<div class="alert alert-no-items">
+		<?php echo JText::_('JERROR_ALERTNOAUTHOR'); ?>
+	</div>
   <?php else : ?>
     <table class="table table-striped" id="certificateList">
       <thead>

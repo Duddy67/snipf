@@ -17,6 +17,7 @@ class SnipfViewPersons extends JViewLegacy
   protected $items;
   protected $state;
   protected $pagination;
+  protected $readonly;
 
   //Display the view.
   public function display($tpl = null)
@@ -28,6 +29,8 @@ class SnipfViewPersons extends JViewLegacy
     $this->activeFilters = $this->get('ActiveFilters');
     $model = JModelLegacy::getInstance('Person', 'SnipfModel');
     $nullDate = '0000-00-00 00:00:00';
+    //Checks if the user is in readonly mode.
+    $this->readonly = SnipfHelper::isReadOnly();
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {

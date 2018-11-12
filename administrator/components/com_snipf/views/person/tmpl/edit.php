@@ -156,6 +156,7 @@ Joomla.submitbutton = function(task)
   <?php //Required for the checkCertificateClosure function. ?>
   <input type="hidden" name="old_status" value="<?php echo $this->item->status; ?>" />
   <input type="hidden" name="is_root" id="is-root" value="<?php echo (int)$user->get('isRoot'); ?>" />
+  <input type="hidden" name="is_readonly" id="is-readonly" value="<?php echo (int)$this->readonly; ?>" />
   <?php echo JHtml::_('form.token', array('id' => 'token')); ?>
 </form>
 

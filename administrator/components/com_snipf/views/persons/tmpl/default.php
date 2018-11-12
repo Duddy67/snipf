@@ -92,6 +92,10 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	<div class="alert alert-no-items">
 		<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 	</div>
+  <?php elseif($this->readonly && empty(SnipfHelper::getUserSripfs())) : //If a user in readonly mode has no sripf, he cannot see the item list. ?>
+	<div class="alert alert-no-items">
+		<?php echo JText::_('JERROR_ALERTNOAUTHOR'); ?>
+	</div>
   <?php else : ?>
     <table class="table table-striped" id="personList">
       <thead>
@@ -201,7 +205,7 @@ echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this))
 	      <?php if ($item->checked_out) : ?>
 		  <?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'persons.', $canCheckin); ?>
 	      <?php endif; ?>
-	      <?php if($canEdit || $canEditOwn) : ?>
+	      <?php if($canEdit || $canEditOwn || $this->readonly) : //Users in readonly mode must also have access to the edit form. ?>
 		<a href="<?php echo JRoute::_('index.php?option=com_snipf&task=person.edit&id='.$item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>"><?php echo $this->escape($item->lastname); ?></a>
 	      <?php else : ?>
 		<?php echo $this->escape($item->lastname); ?>

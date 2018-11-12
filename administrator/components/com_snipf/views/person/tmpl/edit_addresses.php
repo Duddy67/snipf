@@ -28,13 +28,13 @@
 	    echo $field->getControlGroup();
 	  }
 
-	  if($this->item->addresses[$addressType]) { //Adds a "New address" button if the address type exists. ?>
+	  if($this->item->addresses[$addressType] && !$this->readonly) { //Adds a "New address" button if the address type exists. ?>
 	  <div class="address-btn" id="btn-new-address-<?php echo $addressType; ?>">
 	    <a class="btn btn-warning" href="#"><?php echo JText::_('COM_SNIPF_NEW_ADDRESS_BUTTON'); ?></a>
 	  </div>
 
 	  <?php //Adds a delete button if the professional address is optional.
-		if($addressType == 'pa' && $this->item->mail_address_type != 'pa') {  ?>
+		if($addressType == 'pa' && $this->item->mail_address_type != 'pa' && !$this->readonly) {  ?>
 	    <div class="address-btn" id="btn-delete-address-<?php echo $addressType; ?>">
 	      <a class="btn btn-danger" href="#"><?php echo JText::_('COM_SNIPF_BUTTON_REMOVE_LABEL'); ?></a>
 	    </div>
@@ -44,7 +44,7 @@
 	  echo '<hr><div class="tab-description alert alert-warning"><h4>'.JText::_('COM_SNIPF_HISTORY_TITLE').'</h2></div>'.
 	       '<div id="address-history-'.$addressType.'">';
 	       
-	  echo AddressHelper::renderAddressHistory($this->item->id, $addressType);
+	  echo AddressHelper::renderAddressHistory($this->item->id, $addressType, $this->readonly);
 	  echo '</div>';
 
 	  echo JHtml::_('bootstrap.endTab'); 

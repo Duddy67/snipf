@@ -9,6 +9,7 @@
 defined('_JEXEC') or die; //No direct access to this file.
 
 jimport('joomla.application.component.modellist');
+require_once JPATH_ADMINISTRATOR.'/components/com_snipf/helpers/snipf.php';
 
 
 
@@ -267,6 +268,11 @@ class SnipfModelPersons extends JModelList
     $sripfId = $this->getState('filter.sripf_id');
     if(is_numeric($sripfId)) {
       $query->where('a.sripf_id='.(int)$sripfId);
+    }
+    //In case the current user is in the readonly mode, he cannot have access to the
+    //persons from a different sripf than those he's linked to.
+    elseif(SnipfHelper::isReadOnly() && !empty($sripfs = SnipfHelper::getUserSripfs())) {
+      $query->where('a.sripf_id IN('.implode(',', $sripfs).')');
     }
 
     // Filter by access level on categories.

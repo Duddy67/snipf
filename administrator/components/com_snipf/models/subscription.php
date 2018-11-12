@@ -10,6 +10,7 @@ defined('_JEXEC') or die; //No direct access to this file.
 
 jimport('joomla.application.component.modeladmin');
 require_once JPATH_COMPONENT.'/helpers/process.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_snipf/helpers/snipf.php';
 
 
 class SnipfModelSubscription extends JModelAdmin
@@ -27,7 +28,13 @@ class SnipfModelSubscription extends JModelAdmin
 
   public function getForm($data = array(), $loadData = true) 
   {
-    $form = $this->loadForm('com_snipf.subscription', 'subscription', array('control' => 'jform', 'load_data' => $loadData));
+    //Loads the corresponding form according to the user's privileges.
+    $formName = 'subscription';
+    if(SnipfHelper::isReadOnly()) {
+      $formName = 'subscription_ro';
+    }
+
+    $form = $this->loadForm('com_snipf.subscription', $formName, array('control' => 'jform', 'load_data' => $loadData));
 
     if(empty($form)) {
       return false;

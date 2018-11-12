@@ -160,6 +160,7 @@ DROP TABLE IF EXISTS `#__snipf_position`;
 CREATE TABLE `#__snipf_position` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(180) NOT NULL ,
+  `readonly` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , 
   `description` TEXT NULL ,
   `published` TINYINT NOT NULL DEFAULT 0 , 
   `checked_out` INT UNSIGNED NOT NULL DEFAULT 0 , 

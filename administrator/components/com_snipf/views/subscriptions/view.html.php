@@ -17,6 +17,7 @@ class SnipfViewSubscriptions extends JViewLegacy
   protected $items;
   protected $state;
   protected $pagination;
+  protected $readonly;
 
   //Display the view.
   public function display($tpl = null)
@@ -28,6 +29,8 @@ class SnipfViewSubscriptions extends JViewLegacy
     $this->activeFilters = $this->get('ActiveFilters');
     $model = JModelLegacy::getInstance('Person', 'SnipfModel');
     $nullDate = '0000-00-00 00:00:00';
+    //Checks if the user is in readonly mode.
+    $this->readonly = SnipfHelper::isReadOnly();
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
@@ -114,11 +117,13 @@ class SnipfViewSubscriptions extends JViewLegacy
       JToolBarHelper::deleteList('', 'subscriptions.delete', 'JTOOLBAR_DELETE');
     }
 
-    if($this->state->get('filter.sripf_id') != '') {
-      JToolBarHelper::custom('subscriptions.generateDocument.pdf_labels', 'file-2.png', 'file-2_f2.png','COM_SNIPF_PDF_LABELS', false);
-    }
+    if(!$this->readonly || ($this->readonly && !empty(SnipfHelper::getUserSripfs()))) {
+      if($this->state->get('filter.sripf_id') != '') {
+	JToolBarHelper::custom('subscriptions.generateDocument.pdf_labels', 'file-2.png', 'file-2_f2.png','COM_SNIPF_PDF_LABELS', false);
+      }
 
-    JToolBarHelper::custom('subscriptions.generateDocument.csv', 'file-2.png', 'file-2_f2.png','COM_SNIPF_GENERATE_CSV', false);
+      JToolBarHelper::custom('subscriptions.generateDocument.csv', 'file-2.png', 'file-2_f2.png','COM_SNIPF_GENERATE_CSV', false);
+    }
 
     if($canDo->get('core.admin')) {
       JToolBarHelper::divider();

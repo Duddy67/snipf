@@ -77,6 +77,10 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	<div class="alert alert-no-items">
 		<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 	</div>
+  <?php elseif($this->readonly && empty(SnipfHelper::getUserSripfs())) : //If a user in readonly mode has no sripf, he cannot see the item list. ?>
+	<div class="alert alert-no-items">
+		<?php echo JText::_('JERROR_ALERTNOAUTHOR'); ?>
+	</div>
   <?php else : ?>
     <table class="table table-striped" id="subscriptionList">
       <thead>
@@ -134,15 +138,17 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	    <div class="btn-group">
 	      <?php echo JHtml::_('jgrid.published', $item->published, $i, 'subscriptions.', $canChange, 'cb'); ?>
 	      <?php
-	      // Create dropdown items
-	      $action = $archived ? 'unarchive' : 'archive';
-	      JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'subscriptions');
+	      if($canChange) {
+		// Create dropdown items
+		$action = $archived ? 'unarchive' : 'archive';
+		JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'subscriptions');
 
-	      $action = $trashed ? 'untrash' : 'trash';
-	      JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'subscriptions');
+		$action = $trashed ? 'untrash' : 'trash';
+		JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'subscriptions');
 
-	      // Render dropdown list
-	      echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+		// Render dropdown list
+		echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+	      }
 	      ?>
 	    </div>
 	  </td>
@@ -151,7 +157,7 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	      <?php if ($item->checked_out) : ?>
 		  <?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'subscriptions.', $canCheckin); ?>
 	      <?php endif; ?>
-	      <?php if($canEdit || $canEditOwn) : ?>
+	      <?php if($canEdit || $canEditOwn || $this->readonly) : //Users in readonly mode must also have access to the edit form.?>
 		<a href="<?php echo JRoute::_('index.php?option=com_snipf&task=subscription.edit&id='.$item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 			<?php echo $this->escape($item->lastname); ?></a>
 	      <?php else : ?>

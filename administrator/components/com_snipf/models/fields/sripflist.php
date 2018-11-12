@@ -30,8 +30,15 @@ class JFormFieldSripfList extends JFormFieldList
     $query = $db->getQuery(true);
     $query->select('id,name')
 	  ->from('#__snipf_sripf')
-	  ->where('published=1')
-	  ->order('name');
+	  ->where('published=1');
+
+    //In case the current user is in the readonly mode, he cannot have access to the
+    //persons from a different sripf than those he's linked to.
+    if(SnipfHelper::isReadOnly() && !empty($sripfs = SnipfHelper::getUserSripfs())) {
+      $query->where('id IN('.implode(',', $sripfs).')');
+    }
+
+      $query->order('name');
     $db->setQuery($query);
     $sripfs = $db->loadObjectList();
 

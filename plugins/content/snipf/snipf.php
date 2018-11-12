@@ -203,6 +203,21 @@ class plgContentSnipf extends JPlugin
 
   public function onContentBeforeDelete($context, $data)
   {
+    if($context == 'com_snipf.position') { 
+
+      $db = JFactory::getDbo();
+      $query = $db->getQuery(true);
+      $query->select('COUNT(*)')
+	    ->from('#__snipf_person_position_map')
+	    ->where('position_id='.(int)$data->id);
+      $db->setQuery($query);
+
+      if($db->loadResult()) {
+	JFactory::getApplication()->enqueueMessage(JText::_('COM_SNIPF_WARNING_ITEM_CURRENTLY_USED'), 'Warning');
+	return false;
+      }
+    }
+
     return true;
   }
 

@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+  <form addrulepath="/administrator/components/com_snipf/models/rules">
+  <fieldset name="details" addfieldpath="/administrator/components/com_categories/models/fields">
+
+	<field name="persontext" type="editor"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_DESCRIPTION_LABEL"
+	       description="COM_SNIPF_FIELD_DESCRIPTION_DESC"
+	       filter="JComponentHelper::filterText" buttons="true" />
+
+	<field name="firstname" type="text"
+	       label="COM_SNIPF_FIELD_FIRSTNAME_LABEL"
+	       description="COM_SNIPF_FIELD_FIRSTNAME_DESC"
+	       readonly="true" class="readonly"
+	       required="true" />
+
+	<field name="maiden_name" type="text"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_MAIDEN_NAME_LABEL"
+	       description="COM_SNIPF_FIELD_MAIDEN_NAME_DESC" />
+
+	<field name="person_title" type="list"
+	       label="COM_SNIPF_FIELD_PERSON_TITLE_LABEL"
+	       description="COM_SNIPF_FIELD_PERSON_TITLE_DESC"
+	       readonly="true" class="readonly"
+	       required="true">
+	       <option value="">COM_SNIPF_OPTION_SELECT</option>
+	       <option value="mr">COM_SNIPF_OPTION_MR</option>
+	       <option value="mrs">COM_SNIPF_OPTION_MRS</option>
+	</field>
+
+	<field name="status" type="list"
+	       label="COM_SNIPF_FIELD_STATUS_LABEL"
+	       description="COM_SNIPF_FIELD_STATUS_DESC"
+	       readonly="true" class="readonly"
+	       required="true">
+	       <option value="">COM_SNIPF_OPTION_SELECT</option>
+	       <option value="active">COM_SNIPF_OPTION_ACTIVE</option>
+	       <option value="retired">COM_SNIPF_OPTION_RETIRED</option>
+	       <option value="deceased">COM_SNIPF_OPTION_DECEASED</option>
+	</field>
+
+	<field name="country_of_birth" type="countrylist"
+	       label="COM_SNIPF_FIELD_COUNTRY_OF_BIRTH_LABEL"
+	       readonly="true" class="readonly"
+	       description="COM_SNIPF_FIELD_COUNTRY_OF_BIRTH_DESC" />
+
+	<field name="region_of_birth" type="list"
+	       label="COM_SNIPF_FIELD_REGION_OF_BIRTH_LABEL"
+	       readonly="true" class="readonly"
+	       description="COM_SNIPF_FIELD_REGION_OF_BIRTH_DESC">
+	</field>
+
+	<field name="city_of_birth" type="text"
+	       label="COM_SNIPF_FIELD_CITY_OF_BIRTH_LABEL"
+	       readonly="true" class="readonly"
+	       description="COM_SNIPF_FIELD_CITY_OF_BIRTH_DESC" />
+
+	<field name="citizenship" type="countrylist"
+	       label="COM_SNIPF_FIELD_CITIZENSHIP_LABEL"
+	       readonly="true" class="readonly"
+	       description="COM_SNIPF_FIELD_CITIZENSHIP_DESC" />
+
+	<field name="publishing_auth" type="list"
+	       label="COM_SNIPF_FIELD_PUBLISHING_AUTH_LABEL"
+	       description="COM_SNIPF_FIELD_PUBLISHING_AUTH_DESC"
+	       readonly="true" class="readonly"
+	       required="true">
+	       <option value="">COM_SNIPF_OPTION_SELECT</option>
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
+	<field name="birthdate"
+	       type="calendar"
+	       label="COM_SNIPF_FIELD_BIRTHDATE_LABEL"
+	       description="COM_SNIPF_FIELD_BIRTHDATE_DESC"
+	       translateformat="true"
+	       filter="raw"
+	       readonly="true" class="readonly"
+	       showtime="false" />
+
+	<field name="retirement_date"
+	       type="calendar"
+	       label="COM_SNIPF_FIELD_RETIREMENT_DATE_LABEL"
+	       description="COM_SNIPF_FIELD_RETIREMENT_DATE_DESC"
+	       translateformat="true"
+	       filter="raw"
+	       readonly="true" class="readonly"
+	       showtime="false" />
+
+	<field name="deceased_date"
+	       type="calendar"
+	       label="COM_SNIPF_FIELD_DECEASED_DATE_LABEL"
+	       description="COM_SNIPF_FIELD_DECEASED_DATE_DESC"
+	       translateformat="true"
+	       filter="raw"
+	       readonly="true" class="readonly"
+	       showtime="false" />
+
+	<field name="email" type="email"
+	       label="COM_SNIPF_FIELD_EMAIL_LABEL"
+	       description="COM_SNIPF_FIELD_EMAIL_DESC"
+	       validate="email"
+	       readonly="true" class="readonly"
+	       required="true" />
+
+	<field name="mail_address_type" type="list"
+	       label="COM_SNIPF_FIELD_MAIL_ADDRESS_TYPE_LABEL"
+	       description="COM_SNIPF_FIELD_MAIL_ADDRESS_TYPE_DESC"
+	       readonly="true" class="readonly"
+	       required="true">
+	       <option value="">COM_SNIPF_OPTION_SELECT</option>
+	       <option value="ha">COM_SNIPF_OPTION_HOME</option>
+	       <option value="pa">COM_SNIPF_OPTION_PROFESSIONAL</option>
+	</field>
+
+	<field name="demand_origin" type="text"
+	       label="COM_SNIPF_FIELD_DEMAND_ORIGIN_LABEL"
+	       readonly="true" class="readonly"
+	       description="COM_SNIPF_FIELD_DEMAND_ORIGIN_DESC" />
+
+	<field name="certification_status" type="text"
+	       label="COM_SNIPF_FIELD_CERTIFICATION_STATUS_LABEL"
+	       description="COM_SNIPF_FIELD_CERTIFICATION_STATUS_DESC"
+	       readonly="true" class="readonly" filter="unset" />
+
+	<field name="nextmedia_id" type="text"
+	       label="COM_SNIPF_FIELD_NEXTMEDIA_ID_LABEL"
+	       description="COM_SNIPF_FIELD_NEXTMEDIA_ID_DESC"
+	       readonly="true" class="readonly" filter="unset" />
+
+	<field name="subscription_status" type="text"
+	       label="COM_SNIPF_FIELD_SUBSCRIPTION_STATUS_LABEL"
+	       description="COM_SNIPF_FIELD_SUBSCRIPTION_STATUS_DESC"
+	       readonly="true" class="readonly" filter="unset" />
+
+	<field name="active_retired"
+	       type="radio"
+	       default="0"
+	       readonly="true" 
+	       class="btn-group btn-group-yesno readonly"
+	       label="COM_SNIPF_FIELD_ACTIVE_RETIRED_LABEL"
+	       description="COM_SNIPF_FIELD_ACTIVE_RETIRED_DESC">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
+	<field name="cqp1"
+	       type="radio"
+	       default="0"
+	       readonly="true" 
+	       class="btn-group btn-group-yesno readonly"
+	       label="COM_SNIPF_FIELD_CQP1_LABEL"
+	       description="COM_SNIPF_FIELD_CQP1_DESC">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
+	<field name="cqp1_extra_data" type="textarea"
+	       readonly="true" class="readonly" filter="unset"
+	       label="COM_SNIPF_FIELD_CQP1_EXTRA_DATA_LABEL"
+	       description="COM_SNIPF_FIELD_CQP1_EXTRA_DATA_DESC"
+	       rows="5" cols="10"></field>
+
+	<field name="rgpd_sending_date" type="calendar"
+	       label="COM_SNIPF_FIELD_RGPD_SENDING_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_RGPD_SENDING_DATE_DESC"
+	       translateformat="true"
+	       readonly="true" class="readonly"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="rgpd_reception_date" type="calendar"
+	       label="COM_SNIPF_FIELD_RGPD_RECEPTION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_RGPD_RECEPTION_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       readonly="true" class="readonly"
+	       size="22"
+	       filter="user_utc" />
+
+	<!-- layout: title_alias -->
+	<field name="lastname" type="text"
+	       label="COM_SNIPF_FIELD_LASTNAME_LABEL"
+	       description="COM_SNIPF_FIELD_LASTNAME_DESC"
+	       class="input-xxlarge input-large-text readonly"
+	       readonly="true" 
+	       required="true" />
+
+	<field name="alias" type="text" 
+	       label="JFIELD_ALIAS_LABEL"
+	       description="JFIELD_ALIAS_DESC"
+	       hint="JFIELD_ALIAS_PLACEHOLDER"
+	       readonly="true"
+	       class="readonly inputbox" />
+
+	<!-- layout: global -->
+	<field name="catid" type="categoryedit"
+	       label="JCATEGORY" 
+	       description="JFIELD_CATEGORY_DESC"
+	       readonly="true" class="readonly"
+	       required="true">
+	</field>
+
+	<field name="language" type="contentlanguage" 
+	       readonly="true" 
+	       label="JFIELD_LANGUAGE_LABEL"
+	       description="COM_SNIPF_FIELD_LANGUAGE_DESC" class="inputbox">
+	       <option value="*">JALL</option>
+	</field>
+
+	<field name="access" type="accesslevel" 
+	       readonly="true"
+	       label="JFIELD_ACCESS_LABEL"
+	       description="JFIELD_ACCESS_DESC" class="inputbox readonly" />
+
+	<field name="tags" type="tag" label="JTAG" 
+	       readonly="true" 
+	       description="JTAG_DESC"
+	       class="inputbox span12 readonly" multiple="true">
+	</field>
+
+	<!-- layout: publishingdata -->
+	<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" 
+	       description="JGLOBAL_FIELD_ID_DESC"
+	       readonly="true" class="readonly" />
+
+	<field name="published" type="list"
+	       label="JSTATUS"
+	       description="JFIELD_PUBLISHED_DESC"
+	       class="chzn-color-state readonly"
+	       readonly="true" 
+	       default="1">
+		<option value="1">JPUBLISHED</option>
+		<option value="0">JUNPUBLISHED</option>
+		<option value="2">JARCHIVED</option>
+		<option value="-2">JTRASHED</option>
+	</field>
+
+	<field name="publish_up" type="calendar"
+	       label="COM_SNIPF_FIELD_PUBLISH_UP_LABEL" 
+	       description="COM_SNIPF_FIELD_PUBLISH_UP_DESC"
+	       translateformat="true"
+	       showtime="true"
+	       size="22"
+	       readonly="true" class="readonly"
+	       filter="user_utc" />
+
+	<field name="publish_down" type="calendar"
+	       label="COM_SNIPF_FIELD_PUBLISH_DOWN_LABEL" 
+	       description="COM_SNIPF_FIELD_PUBLISH_DOWN_DESC"
+	       translateformat="true"
+	       showtime="true"
+	       readonly="true" class="readonly"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="created" type="calendar"
+	       label="COM_SNIPF_FIELD_CREATED_DATE_LABEL"
+	       description="COM_SNIPF_FIELD_CREATED_DATE_DESC"
+	       translateformat="true"
+	       showtime="true"
+	       class="readonly" readonly="true"
+	       filter="user_utc" />
+
+	<field name="created_by" type="user"
+	       label="COM_SNIPF_FIELD_CREATED_BY_LABEL" 
+	       readonly="true" class="readonly"
+	       description="COM_SNIPF_FIELD_CREATED_BY_DESC" />
+
+	<field name="modified" type="calendar" class="readonly"
+	       label="JGLOBAL_FIELD_MODIFIED_LABEL"
+	       description="COM_SNIPF_FIELD_MODIFIED_DESC"
+	       translateformat="true"
+	       showtime="true"
+	       readonly="true"
+	       filter="user_utc" />
+
+	<field name="modified_by" type="user"
+	       label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+	       class="readonly" readonly="true" filter="unset" />
+
+	<field name="ordering" type="text" label="JFIELD_ORDERING_LABEL"
+	       description="JFIELD_ORDERING_DESC" class="inputbox readonly" 
+	       readonly="true" 
+	       default="0" />
+
+	<field name="hits" type="text" class="readonly"
+	       label="JGLOBAL_HITS"
+	       description="COM_SNIPF_FIELD_HITS_DESC"
+	       readonly="true" filter="unset" />
+
+	<field name="metakey" type="textarea"
+	       label="JFIELD_META_KEYWORDS_LABEL" 
+	       description="JFIELD_META_KEYWORDS_DESC"
+	       rows="3" cols="30" />
+
+	<field name="metadesc" type="textarea"
+	       label="JFIELD_META_DESCRIPTION_LABEL" 
+	       description="JFIELD_META_DESCRIPTION_DESC"
+	       rows="3" cols="30" />
+
+	<field name="checked_out" type="hidden" filter="unset" />
+	<field name="checked_out_time" type="hidden" filter="unset" />
+    </fieldset>
+
+    <fieldset name="work_situation">
+	<field name="employer_name_ws" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_EMPLOYER_NAME_LABEL"
+		description="COM_SNIPF_FIELD_EMPLOYER_NAME_DESC"/>
+
+	<field name="employer_activity_ws" type="text" 
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_EMPLOYER_ACTIVITY_LABEL"
+		description="COM_SNIPF_FIELD_EMPLOYER_ACTIVITY_DESC"/>
+
+	<field name="ape_code_ws" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_APE_CODE_LABEL"
+		description="COM_SNIPF_FIELD_APE_CODE_DESC"/>
+
+	<field name="position_ws" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_POSITION_LABEL"
+		description="COM_SNIPF_FIELD_POSITION_DESC"/>
+
+	<field name="comments_ws" type="textarea"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_COMMENTS_LABEL"
+	       description="COM_SNIPF_FIELD_COMMENTS_DESC"
+	       rows="3" cols="30" />
+
+	<field name="law_company_ws" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_LAW_COMPANY_LABEL"
+		description="COM_SNIPF_FIELD_LAW_COMPANY_DESC"/>
+    </fieldset>
+
+    <fieldset name="ha">
+	  <field name="street_ha" type="text"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_STREET_LABEL"
+		  description="COM_SNIPF_FIELD_STREET_DESC"
+		  required="true"/>
+
+	  <field name="additional_address_ha" type="text"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_ADDITIONAL_ADDRESS_LABEL"
+		  description="COM_SNIPF_FIELD_ADDITIONAL_ADDRESS_DESC"/>
+
+	  <field name="city_ha" type="text"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_CITY_LABEL"
+		  description="COM_SNIPF_FIELD_CITY_DESC"
+		  required="true"/>
+
+	  <field name="postcode_ha" type="text"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_POSTCODE_LABEL"
+		  description="COM_SNIPF_FIELD_POSTCODE_DESC"
+		  required="true"/>
+
+	  <field name="country_code_ha" type="countrylist"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_COUNTRY_LABEL"
+		  description="COM_SNIPF_FIELD_COUNTRY_DESC"
+		  required="true"/>
+
+	  <field name="sripf_id_ha" type="sripflist"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_SRIPF_LABEL"
+		  description="COM_SNIPF_FIELD_SRIPF_DESC"
+		  required="true"/>
+
+	  <field name="cee_ha"
+		 readonly="true" 
+		 type="radio"
+		 default="1"
+		 class="btn-group btn-group-yesno readonly"
+		 label="COM_SNIPF_FIELD_CEE_LABEL"
+		 description="COM_SNIPF_FIELD_CEE_DESC">
+		 <option value="1">JYES</option>
+		 <option value="0">JNO</option>
+	  </field>
+
+	  <field name="phone_ha" type="tel"
+		 readonly="true" class="readonly"
+		 validate="tel"
+		  label="COM_SNIPF_FIELD_PHONE_LABEL"
+		  description="COM_SNIPF_FIELD_PHONE_DESC"/>
+
+	  <field name="mobile_ha" type="tel"
+		 readonly="true" class="readonly"
+		 validate="tel"
+		  label="COM_SNIPF_FIELD_MOBILE_LABEL"
+		  description="COM_SNIPF_FIELD_MOBILE_DESC"/>
+
+	  <field name="fax_ha" type="tel"
+		 readonly="true" class="readonly"
+		 validate="tel"
+		  label="COM_SNIPF_FIELD_FAX_LABEL"
+		  description="COM_SNIPF_FIELD_FAX_DESC"/>
+
+	  <field name="created_ha" type="calendar"
+		 label="COM_SNIPF_FIELD_CREATED_DATE_LABEL" description="COM_SNIPF_FIELD_CREATED_DATE_DESC"
+		 class="readonly" readonly="true"
+		 translateformat="true"
+		 showtime="true"
+		 size="22" 
+		 filter="user_utc" />
+
+	  <field name="created_by_ha" type="user"
+		  label="COM_SNIPF_FIELD_CREATED_BY_LABEL"
+		  description="COM_SNIPF_FIELD_CREATED_BY_DESC"
+		  class="readonly" readonly="true" />
+
+	  <field name="modified_ha" type="calendar" class="readonly"
+		 label="JGLOBAL_FIELD_MODIFIED_LABEL"
+		 description="COM_SNIPF_FIELD_MODIFIED_DESC"
+		 translateformat="true"
+		 showtime="true"
+		 readonly="true"
+		 filter="user_utc" />
+
+	  <field name="modified_by_ha" type="user"
+		 label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		 class="readonly" readonly="true" filter="unset" />
+
+	  <field name="operation_ha" type="hidden" filter="unset" />
+    </fieldset>
+
+    <fieldset name="pa">
+	  <field name="employer_name_pa" type="text"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_EMPLOYER_NAME_LABEL"
+		  description="COM_SNIPF_FIELD_EMPLOYER_NAME_DESC"/>
+
+	  <field name="street_pa" type="text"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_STREET_LABEL"
+		  description="COM_SNIPF_FIELD_STREET_DESC"/>
+
+	  <field name="additional_address_pa" type="text"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_ADDITIONAL_ADDRESS_LABEL"
+		  description="COM_SNIPF_FIELD_ADDITIONAL_ADDRESS_DESC"/>
+
+	  <field name="city_pa" type="text"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_CITY_LABEL"
+		  description="COM_SNIPF_FIELD_CITY_DESC"/>
+
+	  <field name="postcode_pa" type="text"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_POSTCODE_LABEL"
+		  description="COM_SNIPF_FIELD_POSTCODE_DESC"/>
+
+	  <field name="country_code_pa" type="countrylist"
+		 readonly="true" class="readonly"
+		  label="COM_SNIPF_FIELD_COUNTRY_LABEL"
+		  description="COM_SNIPF_FIELD_COUNTRY_DESC"/>
+
+	  <field name="cee_pa"
+		 readonly="true" 
+		 type="radio"
+		 default="1"
+		 class="btn-group btn-group-yesno readonly"
+		 label="COM_SNIPF_FIELD_CEE_LABEL"
+		 description="COM_SNIPF_FIELD_CEE_DESC">
+		 <option value="1">JYES</option>
+		 <option value="0">JNO</option>
+	  </field>
+
+	  <field name="email_pa" type="email"
+		 readonly="true" class="readonly"
+		 label="COM_SNIPF_FIELD_EMAIL_LABEL"
+		 description="COM_SNIPF_FIELD_PROFESSIONAL_EMAIL_DESC"
+		 validate="email" />
+
+	  <field name="phone_pa" type="tel"
+		 readonly="true" class="readonly"
+		 validate="tel"
+		  label="COM_SNIPF_FIELD_PHONE_LABEL"
+		  description="COM_SNIPF_FIELD_PHONE_DESC"/>
+
+	  <field name="mobile_pa" type="tel"
+		 readonly="true" class="readonly"
+		 validate="tel"
+		  label="COM_SNIPF_FIELD_MOBILE_LABEL"
+		  description="COM_SNIPF_FIELD_MOBILE_DESC"/>
+
+	  <field name="fax_pa" type="tel"
+		 readonly="true" class="readonly"
+		 validate="tel"
+		  label="COM_SNIPF_FIELD_FAX_LABEL"
+		  description="COM_SNIPF_FIELD_FAX_DESC"/>
+
+	  <field name="created_pa" type="calendar"
+		 label="COM_SNIPF_FIELD_CREATED_DATE_LABEL" description="COM_SNIPF_FIELD_CREATED_DATE_DESC"
+		 class="readonly" readonly="true"
+		 translateformat="true"
+		 showtime="true"
+		 size="22" 
+		 filter="user_utc" />
+
+	  <field name="created_by_pa" type="user"
+		  label="COM_SNIPF_FIELD_CREATED_BY_LABEL"
+		  description="COM_SNIPF_FIELD_CREATED_BY_DESC"
+		  class="readonly" readonly="true" />
+
+	  <field name="modified_pa" type="calendar" class="readonly"
+		 label="JGLOBAL_FIELD_MODIFIED_LABEL"
+		 description="COM_SNIPF_FIELD_MODIFIED_DESC"
+		 translateformat="true"
+		 showtime="true"
+		 readonly="true"
+		 filter="user_utc" />
+
+	  <field name="modified_by_pa" type="user"
+		 label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		 class="readonly" readonly="true" filter="unset" />
+
+	  <field name="operation_pa" type="hidden" filter="unset" />
+    </fieldset>
+
+    <!-- Used to filter the position dynamic item date fields. -->
+    <fieldset name="snipf_positions">
+
+	  <field name="start_date" type="calendar"
+		 readonly="true" class="readonly"
+		 label="COM_SNIPF_FIELD_START_DATE_LABEL"
+		 description="COM_SNIPF_FIELD_START_DATE_DESC"
+		 translateformat="true"
+		 showtime="true"
+		 filter="user_utc" />
+
+	  <field name="end_date" type="calendar" 
+		 readonly="true" class="readonly"
+		 label="COM_SNIPF_FIELD_END_DATE_LABEL"
+		 description="COM_SNIPF_FIELD_END_DATE_LABEL"
+		 translateformat="true"
+		 showtime="true"
+		 filter="user_utc" />
+    </fieldset>
+
+    <fieldset name="bfc">
+
+	<field name="lastname_bfc" type="text"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_LASTNAME_LABEL"
+	       description="COM_SNIPF_FIELD_LASTNAME_DESC" />
+
+	<field name="firstname_bfc" type="text"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_FIRSTNAME_LABEL"
+	       description="COM_SNIPF_FIELD_FIRSTNAME_DESC" />
+
+	<field name="street_bfc" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_STREET_LABEL"
+		description="COM_SNIPF_FIELD_STREET_DESC"/>
+
+	<field name="additional_address_bfc" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_ADDITIONAL_ADDRESS_LABEL"
+		description="COM_SNIPF_FIELD_ADDITIONAL_ADDRESS_DESC"/>
+
+	<field name="postcode_bfc" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_POSTCODE_LABEL"
+		description="COM_SNIPF_FIELD_POSTCODE_DESC"/>
+
+	<field name="city_bfc" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_CITY_LABEL"
+		description="COM_SNIPF_FIELD_CITY_DESC"/>
+
+	<field name="country_code_bfc" type="countrylist"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_COUNTRY_LABEL"
+		description="COM_SNIPF_FIELD_COUNTRY_DESC"/>
+
+	<field name="created_bfc" type="calendar"
+	       label="COM_SNIPF_FIELD_CREATED_DATE_LABEL" description="COM_SNIPF_FIELD_CREATED_DATE_DESC"
+	       translateformat="true"
+	       showtime="true"
+	       class="readonly" readonly="true" size="22" filter="user_utc" />
+
+	<field name="created_by_bfc" type="user"
+		label="COM_SNIPF_FIELD_CREATED_BY_LABEL"
+		description="COM_SNIPF_FIELD_CREATED_BY_DESC"
+		class="readonly" readonly="true" />
+
+	<field name="operation_bfc" type="hidden" filter="unset" />
+
+    </fieldset>
+
+    <fieldset name="dbfc">
+
+	<field name="lastname_dbfc" type="text"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_LASTNAME_LABEL"
+	       description="COM_SNIPF_FIELD_LASTNAME_DESC" />
+
+	<field name="firstname_dbfc" type="text"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_FIRSTNAME_LABEL"
+	       description="COM_SNIPF_FIELD_FIRSTNAME_DESC" />
+
+	<field name="street_dbfc" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_STREET_LABEL"
+		description="COM_SNIPF_FIELD_STREET_DESC"/>
+
+	<field name="additional_address_dbfc" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_ADDITIONAL_ADDRESS_LABEL"
+		description="COM_SNIPF_FIELD_ADDITIONAL_ADDRESS_DESC"/>
+
+	<field name="postcode_dbfc" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_POSTCODE_LABEL"
+		description="COM_SNIPF_FIELD_POSTCODE_DESC"/>
+
+	<field name="city_dbfc" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_CITY_LABEL"
+		description="COM_SNIPF_FIELD_CITY_DESC"/>
+
+	<field name="country_code_dbfc" type="countrylist"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_COUNTRY_LABEL"
+		description="COM_SNIPF_FIELD_COUNTRY_DESC"/>
+
+	<field name="created_dbfc" type="calendar"
+	       label="COM_SNIPF_FIELD_CREATED_DATE_LABEL" description="COM_SNIPF_FIELD_CREATED_DATE_DESC"
+	       translateformat="true"
+	       showtime="true"
+	       class="readonly" readonly="true" size="22" filter="user_utc" />
+
+	<field name="created_by_dbfc" type="user"
+		label="COM_SNIPF_FIELD_CREATED_BY_LABEL"
+		description="COM_SNIPF_FIELD_CREATED_BY_DESC"
+		class="readonly" readonly="true" />
+
+	<field name="operation_dbfc" type="hidden" filter="unset" />
+
+    </fieldset>
+
+    <fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+      <fieldset name="basic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+
+	<field name="show_lastname"
+	       type="list"
+	       class="chzn-color"
+	       label="COM_SNIPF_SHOW_LASTNAME_LABEL"
+	       description="COM_SNIPF_SHOW_LASTNAME_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="link_lastname"
+	       type="list"
+	       class="chzn-color"
+	       label="COM_SNIPF_LINKED_LASTNAME_LABEL"
+	       description="COM_SNIPF_LINKED_LASTNAME_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
+	<field name="show_tags"
+	       type="list"
+	       label="COM_SNIPF_FIELD_SHOW_TAGS_LABEL"
+	       description="COM_SNIPF_FIELD_SHOW_TAGS_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="show_intro"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_SHOW_INTRO_LABEL"
+	       description="COM_SNIPF_SHOW_INTRO_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="show_category"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_SHOW_CATEGORY_LABEL"
+	       description="COM_SNIPF_SHOW_CATEGORY_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="link_category"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_LINK_CATEGORY_LABEL"
+	       description="COM_SNIPF_LINK_CATEGORY_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
+	<field name="show_parent_category"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
+	       description="COM_SNIPF_SHOW_PARENT_CATEGORY_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="link_parent_category"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
+	       description="COM_SNIPF_LINK_PARENT_CATEGORY_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+
+	<field name="show_author"
+	       type="list"
+	       class="chzn-color"
+	       label="COM_SNIPF_SHOW_AUTHOR_LABEL"
+	       description="COM_SNIPF_SHOW_AUTHOR_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="show_create_date"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
+	       description="COM_SNIPF_SHOW_CREATE_DATE_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="show_modify_date"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
+	       description="COM_SNIPF_SHOW_MODIFY_DATE_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="show_publish_date"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
+	       description="COM_SNIPF_SHOW_PUBLISH_DATE_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="show_item_navigation"
+	       type="list"
+	       class="chzn-color"
+	       label="COM_SNIPF_SHOW_NAVIGATION_LABEL"
+	       description="COM_SNIPF_SHOW_NAVIGATION_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="show_hits"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_SHOW_HITS_LABEL"
+	       description="COM_SNIPF_SHOW_HITS_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="show_readmore"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_SHOW_READMORE_LABEL"
+	       description="COM_SNIPF_SHOW_READMORE_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JSHOW</option>
+	       <option value="0">JHIDE</option>
+	</field>
+
+	<field name="show_noauth"
+	       type="list"
+	       class="chzn-color"
+	       label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
+	       description="COM_SNIPF_SHOW_UNAUTH_LINKS_DESC">
+	       <option value="">JGLOBAL_USE_GLOBAL</option>
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+      </fieldset>
+    </fields>
+
+    <fieldset name="permissions" label="JFIELD_RULES_LABEL">
+
+	<field name="asset_id" type="hidden" filter="unset" />
+
+	<field name="rules" type="rules"
+	       label="JFIELD_RULES_LABEL"
+	       translate_label="false"
+	       filter="rules"
+	       component="com_snipf"
+	       section="person"
+	       validate="rules" />
+    </fieldset>
+
+    <fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+      <fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+	  <field name="robots"
+		  type="list"
+		  label="JFIELD_METADATA_ROBOTS_LABEL"
+		  description="JFIELD_METADATA_ROBOTS_DESC">
+		  <option value="">JGLOBAL_USE_GLOBAL</option>
+		  <option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+		  <option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+		  <option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+		  <option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+	  </field>
+
+	  <field name="rights" type="text"
+		  label="JFIELD_META_RIGHTS_LABEL" description="JFIELD_META_RIGHTS_DESC"
+		  required="false" filter="string" cols="30" rows="2" />
+      </fieldset>
+    </fields>
+
+</form>
+
+
+

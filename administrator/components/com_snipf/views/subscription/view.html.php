@@ -18,6 +18,7 @@ class SnipfViewSubscription extends JViewLegacy
   protected $item;
   protected $form;
   protected $state;
+  protected $readonly;
 
   //Display the view.
   public function display($tpl = null)
@@ -25,6 +26,8 @@ class SnipfViewSubscription extends JViewLegacy
     $this->item = $this->get('Item');
     $this->form = $this->get('Form');
     $this->state = $this->get('State');
+    //Checks if the user is in readonly mode.
+    $this->readonly = SnipfHelper::isReadOnly();
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
@@ -34,7 +37,13 @@ class SnipfViewSubscription extends JViewLegacy
 
     // Creates a new JForm object
     $this->processForm = new JForm('ProcessForm');
-    $this->processForm->loadFile('components/com_snipf/models/forms/subscription_process.xml');
+    $fileName = 'subscription_process';
+
+    if($this->readonly) {
+      $fileName = 'subscription_process_ro';
+    }
+
+    $this->processForm->loadFile('components/com_snipf/models/forms/'.$fileName.'.xml');
 
     JText::script('COM_SNIPF_WARNING_DELETE_PROCESS'); 
     JText::script('COM_SNIPF_WARNING_INVALID_YEAR'); 
@@ -92,7 +101,7 @@ class SnipfViewSubscription extends JViewLegacy
 
     JToolBarHelper::divider();
     //
-    if($this->item->id && JFactory::getApplication()->input->get('process', '', 'string') == '') {
+    if($this->item->id && JFactory::getApplication()->input->get('process', '', 'string') == '' && !$this->readonly) {
       JToolbarHelper::custom('subscription.process.create', 'cogs', '', 'COM_SNIPF_NEW_SUBSCRIPTION', false);
     }
 

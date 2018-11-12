@@ -389,7 +389,7 @@ class AddressHelper
    * @return  string				The html address history. 
    *
    */
-  public static function renderAddressHistory($personId, $addressType) 
+  public static function renderAddressHistory($personId, $addressType, $readonly = false) 
   {
     $history = self::getAddressHistory($personId, $addressType);
 
@@ -421,9 +421,13 @@ class AddressHelper
 	  }
 	} 
 
-	$html .= '<div class="address-btn" id="btn-delete-address-history-'.$addressType.'-'.$key.'">
-		 <a class="btn btn-danger" href="#">'.JText::_('COM_SNIPF_BUTTON_REMOVE_LABEL').'</a>
-		 </div><hr class="history-spacer"></div>';
+	if(!$readonly) {
+	  $html .= '<div class="address-btn" id="btn-delete-address-history-'.$addressType.'-'.$key.'">
+		   <a class="btn btn-danger" href="#">'.JText::_('COM_SNIPF_BUTTON_REMOVE_LABEL').'</a>
+		   </div>';
+	}
+
+	$html .= '<hr class="history-spacer"></div>';
       }
     }
 

@@ -8,6 +8,7 @@
 
 defined('_JEXEC') or die; //No direct access to this file.
 jimport('joomla.application.component.modeladmin');
+require_once JPATH_ADMINISTRATOR.'/components/com_snipf/helpers/snipf.php';
 require_once JPATH_ADMINISTRATOR.'/components/com_snipf/helpers/address.php';
 require_once JPATH_ADMINISTRATOR.'/components/com_snipf/helpers/beneficiary.php';
 use Joomla\CMS\HTML\HTMLHelper;
@@ -28,7 +29,13 @@ class SnipfModelPerson extends JModelAdmin
 
   public function getForm($data = array(), $loadData = true) 
   {
-    $form = $this->loadForm('com_snipf.person', 'person', array('control' => 'jform', 'load_data' => $loadData));
+    //Loads the corresponding form according to the user's privileges.
+    $formName = 'person';
+    if(SnipfHelper::isReadOnly()) {
+      $formName = 'person_ro';
+    }
+
+    $form = $this->loadForm('com_snipf.person', $formName, array('control' => 'jform', 'load_data' => $loadData));
 
     if(empty($form)) {
       return false;
