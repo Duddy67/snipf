@@ -173,7 +173,7 @@ class SnipfModelPerson extends JModelItem
       //If the last process is pending, the penultimate commission date becomes the
       //current commission date.
       if($certificate->last_outcome != 'accepted') {
-	$certificate->current_commission_date = $certificate->pup_commission_date;
+	$certificate->current_commission_date = $certificate->pu_commission_date;
       }
     }
 
