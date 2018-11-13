@@ -152,17 +152,32 @@ class SnipfModelPerson extends JModelItem
     $query = $db->getQuery(true);
 
     $query->select($this->getState('list.select', 'c.number, c.end_date, ip.commission_date AS initial_commission_date,'.
-	                                          'lp.commission_date AS current_commission_date, s.name AS speciality,'.
+	                                          'lp.outcome AS last_outcome, lp.commission_date AS last_commission_date,'.
+						  'pup.commission_date AS pu_commission_date, s.name AS speciality,'.
 						  'c.complement_1, c.complement_2'))
 	  ->from('#__snipf_certificate AS c')
 	  ->join('INNER', '#__snipf_process AS lp ON lp.item_id=c.id AND lp.item_type="certificate" AND lp.is_last=1')
 	  ->join('INNER', '#__snipf_process AS ip ON ip.item_id=c.id AND ip.item_type="certificate" AND ip.number=1')
+	  //Gets the penultimate process in case the last process is pending for a renewal.
+	  ->join('LEFT', '#__snipf_process AS pup ON pup.item_id=c.id AND pup.item_type="certificate" AND pup.number=lp.number - 1')
 	  ->join('LEFT', '#__snipf_speciality AS s ON s.id=c.speciality_id')
 	  ->where('c.person_id='.$pk)
 	  ->where('c.published=1 AND c.closure_reason="" AND c.end_date > '.$db->Quote($now));
     $db->setQuery($query);
+    $certificates = $db->loadObjectList();
 
-    return $db->loadObjectList();
+    //Sets the current commission date (ie: the starting date of the certificate).
+    foreach($certificates as $certificate) {
+      //Assumes that the last commission date is the current one.
+      $certificate->current_commission_date = $certificate->last_commission_date;
+      //If the last process is pending, the penultimate commission date becomes the
+      //current commission date.
+      if($certificate->last_outcome != 'accepted') {
+	$certificate->current_commission_date = $certificate->pup_commission_date;
+      }
+    }
+
+    return $certificates;
   }
 
 
