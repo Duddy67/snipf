@@ -62,8 +62,6 @@ Joomla.submitbutton = function(task)
 		    echo $this->form->getControlGroup('resignation_date');
 		    echo $this->form->getControlGroup('deregistration_date');
 		    echo $this->form->getControlGroup('reinstatement_date');
-		    echo $this->form->getControlGroup('honor_member');
-		    echo $this->form->getControlGroup('honor_member_date');
 		  }
 
 		  echo $this->form->getControlGroup('description');

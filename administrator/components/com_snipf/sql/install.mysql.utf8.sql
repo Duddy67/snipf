@@ -27,6 +27,8 @@ CREATE TABLE `#__snipf_person` (
   `active_retired` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , 
   `cqp1` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , -- Specific. Used for historical reason.
   `cqp1_extra_data` TEXT NOT NULL ,
+  `honor_member` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , 
+  `honor_member_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `rgpd_sending_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `rgpd_reception_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `published` TINYINT NOT NULL DEFAULT 0 ,
@@ -101,8 +103,6 @@ CREATE TABLE `#__snipf_subscription` (
   `resignation_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `deregistration_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
   `reinstatement_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
-  `honor_member_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
-  `honor_member` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 , 
   `description` TEXT NULL ,
   `published` TINYINT NOT NULL DEFAULT 0 , 
   `checked_out` INT UNSIGNED NOT NULL DEFAULT 0 , 

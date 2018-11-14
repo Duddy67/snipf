@@ -473,7 +473,7 @@ class SnipfHelper
   {
     //Gets the groups the user belongs to.
     $user = JFactory::getUser();
-    $groups = implode(',', $user->getAuthorisedViewLevels());
+    $groups = $user->getAuthorisedGroups();
 
     //Gets the groups allowed to read and write the component items.
     //Those groups have to be set in the component's configuration. However the super user
@@ -481,7 +481,7 @@ class SnipfHelper
     $component = JComponentHelper::getComponent('com_snipf');
     $readWriteGoups = $component->getParams()->get('readwrite_groups');
 
-    if($user->get('isRoot') || ($readWriteGoups !== null && in_array($groups, $readWriteGoups))) {
+    if($user->get('isRoot') || ($readWriteGoups !== null && !empty(array_intersect($readWriteGoups, $groups)))) {
       return false;
     }
 

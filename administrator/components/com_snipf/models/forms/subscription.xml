@@ -54,24 +54,6 @@
 	       size="22"
 	       filter="user_utc" />
 
-	<field name="honor_member_date" type="calendar"
-	       label="COM_SNIPF_FIELD_HONOR_MEMBER_DATE_LABEL" 
-	       description="COM_SNIPF_FIELD_HONOR_MEMBER_DATE_DESC"
-	       translateformat="true"
-	       showtime="false"
-	       size="22"
-	       filter="user_utc" />
-
-	<field name="honor_member"
-	       type="radio"
-	       default="0"
-	       class="btn-group btn-group-yesno"
-	       label="COM_SNIPF_FIELD_HONOR_MEMBER_LABEL"
-	       description="COM_SNIPF_FIELD_HONOR_MEMBER_DESC">
-	       <option value="1">JYES</option>
-	       <option value="0">JNO</option>
-	</field>
-
 	<field name="person_status" type="text"
 	       readonly="true"
 	       filter="unset" 
