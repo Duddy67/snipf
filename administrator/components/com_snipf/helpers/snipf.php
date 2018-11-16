@@ -26,7 +26,7 @@ class SnipfHelper
     JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_SUBSCRIPTIONS'),
 				      'index.php?option=com_snipf&view=subscriptions', $viewName == 'subscriptions');
 
-    if($user->get('isRoot')) {
+    if($user->get('isRoot') || !self::isReadOnly()) {
       JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_POSITIONS'),
 					'index.php?option=com_snipf&view=positions', $viewName == 'positions');
 
@@ -35,7 +35,9 @@ class SnipfHelper
 
       JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_SPECIALITIES'),
 					'index.php?option=com_snipf&view=specialities', $viewName == 'specialities');
+    }
 
+    if($user->get('isRoot')) {
       JHtmlSidebar::addEntry(JText::_('COM_SNIPF_SUBMENU_COUNTRIES'),
 					'index.php?option=com_snipf&view=countries', $viewName == 'countries');
 
