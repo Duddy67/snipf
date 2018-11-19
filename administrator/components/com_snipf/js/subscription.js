@@ -109,7 +109,7 @@
 	//red
 	//$('[href="#process-'+processId+'"]').css({'background-color': '#e60000', 'color': 'white'});
 	//grey
-	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
+	$('[href="#process-'+processId+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
       }
     }
   },
