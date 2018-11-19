@@ -191,7 +191,8 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 		  <?php elseif($item->payment_status == 'unpaid') : ?>
 		    <span class="small">
 		      <br />
-		      <?php echo JText::sprintf('COM_SNIPF_SINCE_YEAR_LABEL', $item->last_registered_year); ?>
+		      <?php //echo JText::sprintf('COM_SNIPF_SINCE_YEAR_LABEL', $item->last_registered_year); ?>
+		      <?php echo JText::_('COM_SNIPF_OWE_CURRENT_YEAR_LABEL'); ?>
 		    </span>
 		  <?php endif; ?>
 	  </td>

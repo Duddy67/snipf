@@ -66,8 +66,8 @@
     //The last year registered is lower than the current year.
     if($('#year_'+nbProcesses).val() < currentYear) {
       //grey
-      $('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
-      return;
+      //$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
+      //return;
     }
 
     var processNb = 0;
@@ -101,13 +101,15 @@
 	//green
 	$('[href="#process-'+processId+'"]').css({'background-color': '#6cd26b', 'color': 'white'});
       }
-      else if(headQuarters == 1 || communication == 1 || cadsPayment == 1) {
+      //else if(headQuarters == 0 || communication == 0 || cadsPayment == 1) {
 	//orange
-	$('[href="#process-'+processId+'"]').css({'background-color': '#ff9933', 'color': 'white'});
-      }
+	//$('[href="#process-'+processId+'"]').css({'background-color': '#ff9933', 'color': 'white'});
+      //}
       else {
 	//red
-	$('[href="#process-'+processId+'"]').css({'background-color': '#e60000', 'color': 'white'});
+	//$('[href="#process-'+processId+'"]').css({'background-color': '#e60000', 'color': 'white'});
+	//grey
+	$('[href="#process-'+nbProcesses+'"]').css({'background-color': '#bfbfbf', 'color': 'white'});
       }
     }
   },
