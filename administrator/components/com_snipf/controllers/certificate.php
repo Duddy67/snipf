@@ -10,6 +10,7 @@ defined('_JEXEC') or die; //No direct access to this file.
  
 jimport('joomla.application.component.controllerform');
 require_once JPATH_ROOT.'/administrator/components/com_snipf/helpers/process.php';
+require_once JPATH_COMPONENT.'/helpers/snipf.php';
  
 
 
@@ -48,7 +49,8 @@ class SnipfControllerCertificate extends JControllerForm
     $canEditOwn = $user->authorise('core.edit.own', 'com_snipf') && $createdBy == $user->id;
 
     //Allow edition. 
-    if($canEdit || $canEditOwn) {
+    //Note: Users in readonly mode must also have access to the edit form.
+    if($canEdit || $canEditOwn || SnipfHelper::isReadOnly()) {
       return 1;
     }
 

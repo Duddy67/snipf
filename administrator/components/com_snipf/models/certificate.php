@@ -27,7 +27,13 @@ class SnipfModelCertificate extends JModelAdmin
 
   public function getForm($data = array(), $loadData = true) 
   {
-    $form = $this->loadForm('com_snipf.certificate', 'certificate', array('control' => 'jform', 'load_data' => $loadData));
+    //Loads the corresponding form according to the user's privileges.
+    $formName = 'certificate';
+    if(SnipfHelper::isReadOnly()) {
+      $formName = 'certificate_ro';
+    }
+
+    $form = $this->loadForm('com_snipf.certificate', $formName, array('control' => 'jform', 'load_data' => $loadData));
 
     if(empty($form)) {
       return false;

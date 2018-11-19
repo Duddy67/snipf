@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<form addrulepath="/administrator/components/com_snipf/models/rules">
+
+  <fieldset name="details">
+
+	<field name="person_id" type="modal_person"
+		label="COM_SNIPF_FIELD_PERSON_LABEL"
+		description="COM_SNIPF_FIELD_PERSON_DESC" 
+		readonly="true" class="readonly"
+		required="true" />
+
+	<field name="comments" type="textarea"
+		readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_COMMENTS_LABEL"
+		description="COM_SNIPF_FIELD_COMMENTS_DESC"
+		rows="5" cols="10"
+		default=""></field>
+
+	<field name="speciality_id" type="specialitylist"
+		readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_SPECIALITY_LABEL"
+		description="COM_SNIPF_FIELD_SPECIALITY_DESC" />
+
+	<field name="closure_date" type="calendar"
+	       label="COM_SNIPF_FIELD_CLOSURE_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_CLOSURE_DATE_DESC"
+	       translateformat="true"
+	       readonly="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="closure_reason" type="list"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_CLOSURE_REASON_LABEL"
+	       description="COM_SNIPF_FIELD_CLOSURE_REASON_DESC">
+	       <option value="">COM_SNIPF_OPTION_SELECT</option>
+	       <option value="removal">COM_SNIPF_OPTION_REMOVAL</option>
+	       <option value="rejected_file">COM_SNIPF_OPTION_REJECTED_FILE</option>
+	       <option value="abandon">COM_SNIPF_OPTION_ABANDON</option>
+	       <option value="retired">COM_SNIPF_OPTION_RETIRED</option>
+	       <option value="deceased">COM_SNIPF_OPTION_DECEASED</option>
+	       <option value="obsolete">COM_SNIPF_OPTION_OBSOLETE</option>
+	       <option value="other">COM_SNIPF_OPTION_OTHER</option>
+	</field>
+
+	<field name="file_destruction_date" type="calendar"
+	       label="COM_SNIPF_FIELD_FILE_DESTRUCTION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_FILE_DESTRUCTION_DATE_DESC"
+	       translateformat="true"
+	       readonly="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="abandon_code" type="text"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_ABANDON_CODE_LABEL"
+	       description="COM_SNIPF_FIELD_ABANDON_CODE_DESC" />
+
+	<field name="complement_1" type="text"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_COMPLEMENT_1_LABEL"
+	       description="COM_SNIPF_FIELD_COMPLEMENT_1_DESC" />
+
+	<field name="complement_2" type="text"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_COMPLEMENT_2_LABEL"
+	       description="COM_SNIPF_FIELD_COMPLEMENT_2_DESC" />
+
+	<field name="bit_number_1988" type="text"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_BIT_NUMBER_1988_LABEL"
+	       description="COM_SNIPF_FIELD_BIT_NUMBER_1988_DESC" />
+
+	<field name="bit_number_2008" type="text"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_BIT_NUMBER_2008_LABEL"
+	       description="COM_SNIPF_FIELD_BIT_NUMBER_2008_DESC" />
+
+	<!-- layout: title_alias -->
+	<field name="number" type="text"
+	       readonly="true"
+		label="COM_SNIPF_FIELD_NUMBER_LABEL"
+		description="COM_SNIPF_FIELD_NUMBER_DESC"
+		class="input-xxlarge input-large-text readonly"
+		size="25" required="true" />
+
+	<!-- layout: publishingdata -->
+	<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" 
+	       description="JGLOBAL_FIELD_ID_DESC"
+	       readonly="true" class="readonly" />
+
+	<field name="published" type="list"
+	       label="JSTATUS"
+	       description="JFIELD_PUBLISHED_DESC"
+	       readonly="true"
+	       class="inputbox readonly" default="1">
+		<option value="1">JPUBLISHED</option>
+		<option value="0">JUNPUBLISHED</option>
+		<option value="2">JARCHIVED</option>
+		<option value="-2">JTRASHED</option>
+	</field>
+
+
+	<field name="created_by" type="user"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_CREATED_BY_LABEL" description="COM_SNIPF_FIELD_CREATED_BY_DESC" />
+
+	<field name="created" type="calendar"
+	       label="COM_SNIPF_FIELD_CREATED_DATE_LABEL" description="COM_SNIPF_FIELD_CREATED_DATE_DESC"
+	       translateformat="true"
+	       showtime="true"
+	       class="readonly" readonly="true" size="22" filter="user_utc" />
+
+	<field name="modified" type="calendar" class="readonly"
+	       label="JGLOBAL_FIELD_MODIFIED_LABEL" description="COM_SNIPF_FIELD_MODIFIED_DESC"
+	       translateformat="true"
+	       showtime="true"
+	       size="22" readonly="true" filter="user_utc" />
+
+	<field name="modified_by" type="user"
+	       label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+	       class="readonly" readonly="true" filter="unset" />
+
+	<field name="item_type" type="hidden" default="certificate" filter="unset" />
+  </fieldset>
+</form>
+
+
+

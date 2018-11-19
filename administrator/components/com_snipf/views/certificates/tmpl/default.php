@@ -80,7 +80,7 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	<div class="alert alert-no-items">
 		<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 	</div>
-  <?php elseif(SnipfHelper::isReadOnly()) : //If a user is in readonly mode he cannot see the item list. ?>
+  <?php elseif($this->readonly && empty(SnipfHelper::getUserSripfs())) : //If a user in readonly mode has no sripf, he cannot see the item list. ?>
 	<div class="alert alert-no-items">
 		<?php echo JText::_('JERROR_ALERTNOAUTHOR'); ?>
 	</div>
@@ -165,7 +165,7 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	      <?php if ($item->checked_out) : ?>
 		  <?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'certificates.', $canCheckin); ?>
 	      <?php endif; ?>
-	      <?php if($canEdit || $canEditOwn) : ?>
+	      <?php if($canEdit || $canEditOwn || $this->readonly) : //Users in readonly mode must also have access to the edit form.?>
 		<a href="<?php echo JRoute::_('index.php?option=com_snipf&task=certificate.edit&id='.$item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 			<?php echo $this->escape($item->number).$index; ?></a>
 	      <?php else : ?>

@@ -22,6 +22,7 @@ class SnipfViewCertificate extends JViewLegacy
   protected $state;
   public $nullDate;
   public $certificateState;
+  protected $readonly;
 
   //Display the view.
   public function display($tpl = null)
@@ -31,6 +32,8 @@ class SnipfViewCertificate extends JViewLegacy
     $this->state = $this->get('State');
     $this->nullDate = JFactory::getDbo()->getNullDate();
     $this->certificateState = $this->getCertificateState();
+    //Checks if the user is in readonly mode.
+    $this->readonly = SnipfHelper::isReadOnly();
 
     //Check for errors.
     if(count($errors = $this->get('Errors'))) {
@@ -40,7 +43,13 @@ class SnipfViewCertificate extends JViewLegacy
 
     // Creates a new JForm object
     $this->processForm = new JForm('ProcessForm');
-    $this->processForm->loadFile('components/com_snipf/models/forms/certificate_process.xml');
+    $fileName = 'certificate_process';
+
+    if($this->readonly) {
+      $fileName = 'certificate_process_ro';
+    }
+
+    $this->processForm->loadFile('components/com_snipf/models/forms/'.$fileName.'.xml');
 
     JText::script('COM_SNIPF_WARNING_DELETE_PROCESS'); 
     JavascriptHelper::loadJavascriptTexts();
@@ -98,7 +107,7 @@ class SnipfViewCertificate extends JViewLegacy
 
     JToolBarHelper::divider();
     //
-    if($this->canAddProcess()) {
+    if($this->canAddProcess() && !$this->readonly) {
       JToolbarHelper::custom('certificate.process.create', 'cogs', '', 'COM_SNIPF_CI_OR_RENEWAL', false);
     }
 

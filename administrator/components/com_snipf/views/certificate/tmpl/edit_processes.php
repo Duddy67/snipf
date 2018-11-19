@@ -65,7 +65,7 @@
 	  }
 	}
 
-        if($this->item->nb_processes == $process->number && $this->certificateState != 'done') : //Only the last process can be deleted. ?>
+        if($this->item->nb_processes == $process->number && $this->certificateState != 'done' && !$this->readonly) : //Only the last process can be deleted. ?>
 	  <div>
 	    <a class="btn btn-warning" id="btn-delete-certificate-<?php echo $process->number; ?>" href="#">
 	    <?php echo JText::_('COM_SNIPF_DELETE_BUTTON'); ?></a>

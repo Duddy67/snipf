@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<form addrulepath="/administrator/components/com_snipf/models/rules">
+
+  <fieldset name="process">
+
+	<field name="starting_file_number" type="text"
+		readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_STARTING_FILE_NUMBER_LABEL"
+		description="COM_SNIPF_FIELD_STARTING_FILE_NUMBER_DESC"
+		required="true" />
+
+	<field name="start_process" type="calendar"
+	       label="COM_SNIPF_FIELD_STARTING_FILE_SENDING_LABEL" 
+	       description="COM_SNIPF_FIELD_STARTING_FILE_SENDING_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       readonly="true"
+	       size="22"
+	       required="true" 
+	       filter="user_utc" />
+
+	<field name="return_file_number" type="text"
+		readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_RETURN_FILE_NUMBER_LABEL"
+		description="COM_SNIPF_FIELD_RETURN_FILE_NUMBER_DESC" />
+
+	<field name="file_receiving_date" type="calendar"
+	       label="COM_SNIPF_FIELD_FILE_RECEIVING_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_FILE_RECEIVING_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       readonly="true"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="reminder_date" type="calendar"
+	       label="COM_SNIPF_FIELD_REMINDER_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_REMINDER_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       readonly="true"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="amount" type="text"
+	       readonly="true" class="readonly"
+	       validate="numeric"
+		label="COM_SNIPF_FIELD_AMOUNT_LABEL"
+		description="COM_SNIPF_FIELD_AMOUNT_DESC" />
+
+	<field name="commission_date" type="calendar"
+	       label="COM_SNIPF_FIELD_COMMISSION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_COMMISSION_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       readonly="true"
+	       size="22"
+	       required="true" 
+	       filter="user_utc" />
+
+	<field name="outcome" type="list"
+	       readonly="true" class="readonly"
+	       label="COM_SNIPF_FIELD_OUTCOME_LABEL"
+	       description="COM_SNIPF_FIELD_OUTCOME_DESC">
+	       <option value="pending">COM_SNIPF_OPTION_PENDING</option>
+	       <option value="accepted">COM_SNIPF_OPTION_RENEWED</option>
+	       <option value="rejected">COM_SNIPF_OPTION_REJECTED</option>
+	       <option value="adjourned">COM_SNIPF_OPTION_ADJOURNED</option>
+	</field>
+
+	<field name="commission_derogation" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_COMMISSION_DEROGATION_LABEL"
+		description="COM_SNIPF_FIELD_COMMISSION_DEROGATION_DESC" />
+
+	<field name="appeal_date" type="calendar"
+	       label="COM_SNIPF_FIELD_APPEAL_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_APPEAL_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       readonly="true"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="appeal_result" type="text"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_APPEAL_RESULT_LABEL"
+		description="COM_SNIPF_FIELD_APPEAL_RESULT_DESC" />
+
+	<field name="end_process" type="calendar"
+	       label="COM_SNIPF_FIELD_CERTIFICATE_END_PROCESS_LABEL" 
+	       description="COM_SNIPF_FIELD_CERTIFICATE_END_PROCESS_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       readonly="true"
+	       required="true" 
+	       size="22"
+	       filter="user_utc" />
+
+	<!--<field name="suspension_date" type="calendar"
+	       label="COM_SNIPF_FIELD_SUSPENSION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_SUSPENSION_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />-->
+
+	<field name="comments" type="textarea"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_COMMENTS_LABEL"
+		description="COM_SNIPF_FIELD_COMMENTS_DESC"
+		rows="5" cols="10"
+		default=""></field>
+
+	<field name="created_by" type="user"
+	       readonly="true" class="readonly"
+		label="COM_SNIPF_FIELD_CREATED_BY_LABEL" description="COM_SNIPF_FIELD_CREATED_BY_DESC" />
+
+	<field name="created" type="calendar"
+	       label="COM_SNIPF_FIELD_CREATED_DATE_LABEL" description="COM_SNIPF_FIELD_CREATED_DATE_DESC"
+	       translateformat="true"
+	       showtime="true"
+	       readonly="true"
+	       size="22" 
+	       filter="user_utc" />
+
+	<field name="modified" type="calendar" class="readonly"
+	       label="JGLOBAL_FIELD_MODIFIED_LABEL"
+	       description="COM_SNIPF_FIELD_MODIFIED_DESC"
+	       translateformat="true"
+	       showtime="true"
+	       readonly="true"
+	       filter="user_utc" />
+
+	<field name="modified_by" type="user"
+	       label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+	       class="readonly" readonly="true" filter="unset" />
+  </fieldset>
+</form>
+
+
+
