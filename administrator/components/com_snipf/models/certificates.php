@@ -232,6 +232,11 @@ class SnipfModelCertificates extends JModelList
 
       case 'initial_running':
 	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
+	        ->where('pr.number = 1 AND pr.outcome="accepted"');
+	break;
+
+      case 'initial_running_no_membership':
+	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
 	        //Gets only persons who have no subscription yet.
 	        ->where('pr.number = 1 AND pr.outcome="accepted" AND ISNULL(sub.id)');
 	break;

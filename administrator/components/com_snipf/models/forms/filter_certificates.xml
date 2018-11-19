@@ -41,6 +41,7 @@
 			<option value="running_rejected_file">COM_SNIPF_FILTER_RUNNING_REJECTED_FILE</option>
 			<option value="running">COM_SNIPF_FILTER_RUNNING</option>
 			<option value="initial_running">COM_SNIPF_FILTER_INITIAL_RUNNING</option>
+			<option value="initial_running_no_membership">COM_SNIPF_FILTER_INITIAL_RUNNING_NO_MEMBERSHIP</option>
 			<option value="running_renewal">COM_SNIPF_FILTER_RUNNING_RENEWAL</option>
 			<option value="all_outdated">COM_SNIPF_FILTER_ALL_OUTDATED</option>
 			<option value="outdated_commission_pending">COM_SNIPF_FILTER_OUTDATED_COMMISSION_PENDING</option>
