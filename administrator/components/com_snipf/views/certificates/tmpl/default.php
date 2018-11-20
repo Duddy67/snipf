@@ -148,15 +148,17 @@ echo JLayoutHelper::render('searchtools.default', array('view' => $this, 'view_n
 	    <div class="btn-group">
 	      <?php echo JHtml::_('jgrid.published', $item->published, $i, 'certificates.', $canChange, 'cb'); ?>
 	      <?php
-	      // Create dropdown items
-	      $action = $archived ? 'unarchive' : 'archive';
-	      JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'certificates');
+	      if($canChange) {
+		// Create dropdown items
+		$action = $archived ? 'unarchive' : 'archive';
+		JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'certificates');
 
-	      $action = $trashed ? 'untrash' : 'trash';
-	      JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'certificates');
+		$action = $trashed ? 'untrash' : 'trash';
+		JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'certificates');
 
-	      // Render dropdown list
-	      echo JHtml::_('actionsdropdown.render', $this->escape($item->number));
+		// Render dropdown list
+		echo JHtml::_('actionsdropdown.render', $this->escape($item->number));
+	      }
 	      ?>
 	    </div>
 	  </td>
