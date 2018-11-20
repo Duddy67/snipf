@@ -104,6 +104,9 @@ Joomla.submitbutton = function(task)
 		  echo $this->form->getControlGroup('subscription_status');
 		  echo $this->form->getControlGroup('rgpd_sending_date');
 		  echo $this->form->getControlGroup('rgpd_reception_date');
+		  echo $this->form->getControlGroup('rfi_subscription_date');
+		  echo $this->form->getControlGroup('rfi_speciality');
+		  echo $this->form->getControlGroup('rfi_category');
 	       ?>
 	</div>
 	<div class="span12 form-vertical" style="margin:0;">

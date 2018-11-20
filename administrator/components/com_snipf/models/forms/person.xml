@@ -183,6 +183,22 @@
 	       size="22"
 	       filter="user_utc" />
 
+	<field name="rfi_subscription_date" type="calendar"
+	       label="COM_SNIPF_FIELD_RFI_SUBSCRIPTION_DATE_LABEL" 
+	       description="COM_SNIPF_FIELD_RFI_SUBSCRIPTION_DATE_DESC"
+	       translateformat="true"
+	       showtime="false"
+	       size="22"
+	       filter="user_utc" />
+
+	<field name="rfi_speciality" type="text"
+	       label="COM_SNIPF_FIELD_RFI_SPECIALITY_LABEL"
+	       description="COM_SNIPF_FIELD_RFI_SPECIALITY_DESC" />
+
+	<field name="rfi_category" type="text"
+	       label="COM_SNIPF_FIELD_RFI_CATEGORY_LABEL"
+	       description="COM_SNIPF_FIELD_RFI_CATEGORY_DESC" />
+
 	<!-- layout: title_alias -->
 	<field name="lastname" type="text"
 	       label="COM_SNIPF_FIELD_LASTNAME_LABEL"
