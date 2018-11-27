@@ -120,6 +120,7 @@ class SnipfViewSubscription extends JViewLegacy
 	      .nav-tabs > .active > a:hover,
 	      .nav-tabs > .active > a:focus {
 		border: 1px solid #5a5a5a !important;
+		color: #262626 !important;
 		border-bottom-color: transparent !important;
 	      }
 
