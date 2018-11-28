@@ -11,6 +11,9 @@
 
     //Binds the deleting process link to a function.
     $('a[id^="btn-delete-"').click( function() { $.fn.warningMessage($(this)); });
+    //For whatever weird reason, Joomla add classes to all labels which id ends with "_10-lbl"
+    //Rather spending hours to figure out the problem, these classes are simply removed.
+    $('[id$="_10-lbl"]').removeClass('active btn-success');
   });
 
 
