@@ -124,6 +124,12 @@
   opacity: 0.4;
 }
 
+.end-validity {
+  margin: 0;
+  font-size: 8px;
+  text-align: center;
+}
+
 #jform_complement_1,
 #jform_complement_2,
 #jform_comments,

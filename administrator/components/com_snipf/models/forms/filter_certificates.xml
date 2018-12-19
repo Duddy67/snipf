@@ -78,6 +78,14 @@
 		       showtime="false"
 		       size="22"
 		       filter="user_utc" />
+
+		<field name="end_validity" type="radio" default="0"
+		       class="btn-group btn-group-yesno"
+		       label="COM_SNIPF_FIELD_END_VALIDITY_LABEL"
+		       description="COM_SNIPF_FIELD_END_VALIDITY_DESC">
+			 <option value="1">JYES</option>
+			 <option value="0">JNO</option>
+		</field>
 	</fields>
 
 	<fields name="list">

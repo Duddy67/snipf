@@ -72,6 +72,9 @@ class SnipfModelCertificates extends JModelList
     $sripfId = $this->getUserStateFromRequest($this->context.'.filter.sripf_id', 'filter_sripf_id');
     $this->setState('filter.sripf_id', $sripfId);
 
+    $endValidity = $this->getUserStateFromRequest($this->context.'.filter.end_validity', 'filter_end_validity');
+    $this->setState('filter.end_validity', $endValidity);
+
     // List state information.
     parent::populateState('p.lastname', 'asc');
   }
@@ -87,6 +90,7 @@ class SnipfModelCertificates extends JModelList
     $id .= ':'.$this->getState('filter.from_date');
     $id .= ':'.$this->getState('filter.to_date');
     $id .= ':'.$this->getState('filter.sripf_id');
+    $id .= ':'.$this->getState('filter.end_validity');
 
     return parent::getStoreId($id);
   }
@@ -123,6 +127,10 @@ class SnipfModelCertificates extends JModelList
     //Gets the first process (if any) linked to the certificate (used for date filters).
     $query->select('IFNULL(fpr.commission_date, "'.$db->getNullDate().'") AS first_commission_date');
     $query->join('LEFT', '#__snipf_process AS fpr ON fpr.item_id=c.id AND fpr.item_type="certificate" AND fpr.number=1');
+
+    //Gets the end date from the process containing the current certificat renewal.
+    $query->select('IFNULL(last_end_process, "'.$db->getNullDate().'") AS last_end_process')
+	  ->join('LEFT', '(SELECT MAX(end_process) AS last_end_process, item_id FROM #__snipf_process WHERE item_type="certificate" AND outcome="accepted" GROUP BY item_id) AS ccpr ON ccpr.item_id=c.id');
 
     //Gets the subscription id of the person (if any).
     $query->select('IFNULL(sub.id, "0") AS subscription_id')
@@ -378,11 +386,15 @@ class SnipfModelCertificates extends JModelList
 
     $db = $this->getDbo();
     $nullDate = $db->getNullDate();
+    $endValidity = $this->getState('filter.end_validity');
 
     if($filterDates['from_date'] == $filterDates['to_date']) {
       //Strict mode. Fetches only certificates where the commission date of the last 
       //process matches the given filter date.
       $query->where('pr.commission_date = '.$db->Quote($filterDates['from_date']));
+    }
+    elseif($endValidity) {
+      $query->where('(last_end_process >= '.$db->Quote($filterDates['from_date']).' AND last_end_process <= '.$db->Quote($filterDates['to_date']).')');
     }
     else {
       //Fetches the certificates which matche the date filters gap.

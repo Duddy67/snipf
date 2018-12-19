@@ -10,6 +10,7 @@ defined( '_JEXEC' ) or die; // No direct access
  
 jimport( 'joomla.application.component.view');
 require_once JPATH_COMPONENT.'/helpers/snipf.php';
+require_once JPATH_COMPONENT.'/helpers/javascript.php';
  
 
 class SnipfViewCertificates extends JViewLegacy
@@ -41,6 +42,8 @@ class SnipfViewCertificates extends JViewLegacy
     }
 
     $this->getCertificateState();
+
+    JavascriptHelper::loadJavascriptTexts();
 
     //Display the tool bar.
     $this->addToolBar();
