@@ -246,19 +246,24 @@ class SnipfModelCertificates extends JModelList
 
       case 'initial_running':
 	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
-	        ->where('pr.number = 1 AND pr.outcome="accepted"');
+		//Checks the first process.
+	        ->where('fpr.outcome="accepted"') 
+		//There may be an empty renewal process (ie: with no commission date etc...). 
+	        ->where('(pr.number = 1 OR (pr.number = 2 AND pr.commission_date='.$db->Quote($nullDate).' AND pr.end_process='.$db->Quote($nullDate).'))');
 	break;
 
       case 'initial_running_no_membership':
 	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
 	        //Gets only persons who have no subscription yet.
-	        ->where('pr.number = 1 AND pr.outcome="accepted" AND ISNULL(sub.id)');
+	        ->where('fpr.outcome="accepted" AND ISNULL(sub.id)')
+		//There may be an empty renewal process (ie: with no commission date etc...). 
+	        ->where('(pr.number = 1 OR (pr.number = 2 AND pr.commission_date='.$db->Quote($nullDate).' AND pr.end_process='.$db->Quote($nullDate).'))');
 	break;
 
       case 'running_renewal':
 	  $query->where('c.end_date > '.$db->Quote($now).' AND c.closure_date='.$db->Quote($nullDate))
-	        //
-	        ->where('pr.number > 1 AND pr.outcome="accepted"');
+		//There may be an empty renewal process (ie: with no commission date etc...). 
+	        ->where('((pr.number > 1 AND pr.outcome="accepted") OR (pr.number > 2 AND pr.commission_date='.$db->Quote($nullDate).' AND pr.end_process='.$db->Quote($nullDate).'))');
 	break;
 
       case 'all_outdated':
