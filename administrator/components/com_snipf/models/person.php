@@ -93,7 +93,7 @@ class SnipfModelPerson extends JModelAdmin
 
       $currentYear = date("Y");
       $query->clear();
-      $query->select('sub.id, sp.item_id AS process_id, sp.cads_payment')
+      $query->select('sub.id, IFNULL(sp.item_id, 0) AS process_id, IFNULL(sp.cads_payment, 0) AS cads_payment')
 	    ->from('#__snipf_subscription AS sub')
 	    ->join('LEFT', '#__snipf_process AS sp ON sp.item_id=sub.id AND sp.item_type="subscription" AND sp.name='.$db->Quote($currentYear))
 	    ->where('sub.person_id='.(int)$item->id);
@@ -105,7 +105,8 @@ class SnipfModelPerson extends JModelAdmin
 	if($subscription->cads_payment) {
 	  $item->subscription_status = 'membership';
 	}
-	elseif($subscription->process_id && $subscription->cads_payment == 0) {
+	//No process for the current year or no cads payment.
+	elseif($subscription->process_id == 0 || $subscription->cads_payment == 0) {
 	  $item->subscription_status = 'unpaid';
 	}
       }
