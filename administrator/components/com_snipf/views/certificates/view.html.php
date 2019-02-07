@@ -20,6 +20,8 @@ class SnipfViewCertificates extends JViewLegacy
   protected $pagination;
   public $nullDate;
   public $now;
+  public $endValidityStates;
+  public $certificateState;
   protected $readonly;
 
   //Display the view.
@@ -32,6 +34,8 @@ class SnipfViewCertificates extends JViewLegacy
     $this->activeFilters = $this->get('ActiveFilters');
     $this->nullDate = JFactory::getDbo()->getNullDate();
     $this->now = JFactory::getDate()->toSql();
+    $this->endValidityStates = $this->getModel()->endValidityStates;
+    $this->certificateState = $this->state->get('filter.certificate_state');
     //Checks if the user is in readonly mode.
     $this->readonly = SnipfHelper::isReadOnly();
 

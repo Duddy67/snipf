@@ -8,8 +8,10 @@
 
 defined('JPATH_BASE') or die;
 
+//Sets some shortcuts.
 $data = $displayData;
-
+$certificateState = $data['view']->certificateState;
+$endValidityStates = $data['view']->endValidityStates;
 // Load the form filters
 $filters = $data['view']->filterForm->getGroup('filter');
 ?>
@@ -29,7 +31,15 @@ $filters = $data['view']->filterForm->getGroup('filter');
 			<?php endif; ?>
 
 			<div class="js-stools-field-filter"<?php echo $dataShowOn; ?>>
-				<?php echo $field->input; ?>
+				<?php
+                                      if($fieldName !== 'filter_end_validity') {
+					echo $field->input; 
+				      }
+                                      //Displays the end_validity switch according to the certificate state.
+				      elseif(in_array($certificateState, $endValidityStates)) {
+					echo $field->input; 
+				      }
+                                 ?>
 			</div>
 			<?php if($fieldName === 'filter_end_validity') : //Adds the needed buttons to manage the date filters. ?>
 			   <button type="button" id="filter_dates" class="btn hasTooltip" title=""

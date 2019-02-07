@@ -15,6 +15,12 @@ require_once JPATH_ADMINISTRATOR.'/components/com_snipf/helpers/snipf.php';
 
 class SnipfModelCertificates extends JModelList
 {
+  public $endValidityStates = array('all_running', 'running_commission_pending',
+				    'running_file_pending', 'running_rejected_file', 
+				    'running', 'initial_running', 'initial_running_no_membership', 
+				    'running_renewal');
+
+
   public function __construct($config = array())
   {
     if(empty($config['filter_fields'])) {
@@ -391,7 +397,12 @@ class SnipfModelCertificates extends JModelList
 
     $db = $this->getDbo();
     $nullDate = $db->getNullDate();
-    $endValidity = $this->getState('filter.end_validity');
+
+    //Uses the end_validity option according to the certificate state.
+    $endValidity = null;
+    if(in_array($this->getState('filter.certificate_state'), $this->endValidityStates)) {
+      $endValidity = $this->getState('filter.end_validity');
+    }
 
     if($filterDates['from_date'] == $filterDates['to_date']) {
       //Strict mode. Fetches only certificates where the commission date of the last 
