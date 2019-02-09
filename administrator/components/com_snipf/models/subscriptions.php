@@ -29,7 +29,7 @@ class SnipfModelSubscriptions extends JModelList
 	      'created_by', 's.created_by',
 	      'published', 's.published',
 	      'person_status', 'subscription_status', 'payment_status',
-	      'user', 'user_id', 'person_id', 'since_year'
+	      'user', 'user_id', 'person_id', 'by_year'
       );
     }
 
@@ -64,8 +64,8 @@ class SnipfModelSubscriptions extends JModelList
     $sripfId = $this->getUserStateFromRequest($this->context.'.filter.sripf_id', 'filter_sripf_id');
     $this->setState('filter.sripf_id', $sripfId);
 
-    $sinceYear = $this->getUserStateFromRequest($this->context.'.filter.since_year', 'filter_since_year');
-    $this->setState('filter.since_year', $sinceYear);
+    $byYear = $this->getUserStateFromRequest($this->context.'.filter.by_year', 'filter_by_year');
+    $this->setState('filter.by_year', $byYear);
 
     $paymentStatus = $this->getUserStateFromRequest($this->context.'.filter.payment_status', 'filter_payment_status');
     $this->setState('filter.payment_status', $paymentStatus);
@@ -88,7 +88,7 @@ class SnipfModelSubscriptions extends JModelList
     $id .= ':'.$this->getState('filter.sripf_id');
     $id .= ':'.$this->getState('filter.payment_status');
     $id .= ':'.$this->getState('filter.subscription_status');
-    $id .= ':'.$this->getState('filter.since_year');
+    $id .= ':'.$this->getState('filter.by_year');
 
     return parent::getStoreId($id);
   }
@@ -199,16 +199,31 @@ class SnipfModelSubscriptions extends JModelList
       }
     }
 
+    $byYear = '';
+    $prefix = 'pr';
+    //Sanitizes the year value and ensures it is not greater than the current year.
+    if(!empty($this->getState('filter.by_year'))  && preg_match('#^[0-9]{4}$#', $this->getState('filter.by_year'))
+       && $this->getState('filter.by_year') < $currentYear) {
+      $byYear = $this->getState('filter.by_year');
+      $prefix = 'sp';
+
+      //Searches the process matching the given year value.
+      $query->join('LEFT', '#__snipf_process AS sp ON sp.item_id=s.id AND sp.item_type="subscription" AND sp.year='.$db->Quote($byYear));
+    }
+
     // Filter by payment status.
     if(!empty($paymentStatus = $this->getState('filter.payment_status'))) {
       if($paymentStatus == 'paid') {
-	$query->where('pr.number > 0 AND pr.cads_payment=1');
-      }
-      elseif($paymentStatus == 'partially_paid') {
-	$query->where('pr.number > 0 AND pr.cads_payment=0');
+	$query->where($prefix.'.number > 0 AND '.$prefix.'.cads_payment=1');
       }
       else { //unpaid
-	$query->where('ISNULL(pr.number) AND lp.year!=""');
+	if(!empty($byYear)) {
+	  $query->where($prefix.'.number > 0 AND '.$prefix.'.cads_payment=0');
+	}
+	else { //Current year
+	  //As no process has been created yet for the unpaid subscriptions, we check on null. 
+	  $query->where($prefix.'.number IS NULL');
+	}
       }
     }
 
@@ -233,11 +248,6 @@ class SnipfModelSubscriptions extends JModelList
     //persons from a different sripf than those he's linked to.
     elseif(SnipfHelper::isReadOnly() && !empty($sripfs = SnipfHelper::getUserSripfs())) {
       $query->where('a.sripf_id IN('.implode(',', $sripfs).')');
-    }
-
-    //Filter by year (only for outdated subscriptions).
-    if(!empty($sinceYear = $this->getState('filter.since_year'))) {
-      $query->where('lp.year='.$db->Quote($sinceYear));
     }
 
     //Add the list to the sort.

@@ -6,17 +6,17 @@
     $('#clear_year').click( function() { $.fn.clearYear(); });
     $('#filter_year').click( function() { $.fn.filterYear(); });
 
-    if($('#filter_payment_status').val() != 'unpaid') {
-      $('#filter_since_year').val('');
+    if($('#filter_payment_status').val() != 'paid' && $('#filter_payment_status').val() != 'unpaid') {
+      $('#filter_by_year').val('');
       $('#year-filter').css({'visibility':'hidden','display':'none'});
     }
   });
 
   $.fn.filterYear = function() {
-    var sinceYear = $('#filter_since_year').val();
+    var sinceYear = $('#filter_by_year').val();
 
     if(sinceYear == '') {
-      $('#filter_since_year').addClass('required invalid');
+      $('#filter_by_year').addClass('required invalid');
       return false;
     }
 
@@ -24,7 +24,7 @@
   },
 
   $.fn.clearYear = function() {
-    $('#filter_since_year').val('');
+    $('#filter_by_year').val('');
     $('#adminForm').submit();
   };
 })(jQuery);

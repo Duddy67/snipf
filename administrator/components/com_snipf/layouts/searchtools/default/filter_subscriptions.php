@@ -23,7 +23,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<?php $dataShowOn = " data-showon='" . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . "'"; ?>
 			<?php endif; ?>
 
-			<?php if($fieldName === 'filter_since_year') : //Wraps the date filters into a div. ?>
+			<?php if($fieldName === 'filter_by_year') : //Wraps the date filters into a div. ?>
 			    <div class="year-filter" id="year-filter">
 			    <h3><?php echo JText::_('COM_SNIPF_YEAR_FILTER'); ?></h3>
 			<?php endif; ?>
@@ -32,7 +32,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<?php echo $field->input; ?>
 			</div>
 
-			<?php if($fieldName === 'filter_since_year') : //Adds the needed buttons to manage the date filters. ?>
+			<?php if($fieldName === 'filter_by_year') : //Adds the needed buttons to manage the date filters. ?>
 			   <button type="button" id="filter_year" class="btn hasTooltip" title=""
 				   data-original-title=""><?php echo JText::_('COM_SNIPF_FILTER_BUTTON'); ?></button>
 			   <button type="button" id="clear_year" class="btn hasTooltip" title=""
