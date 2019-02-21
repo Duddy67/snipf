@@ -104,7 +104,7 @@ class SnipfModelSubscriptions extends JModelList
 
     // Select the required fields from the table.
     $query->select($this->getState('list.select', 's.id, s.name, s.created, s.published, s.deregistration_date, s.resignation_date,'.
-				   's.reinstatement_date, s.created_by, s.checked_out, s.checked_out_time'));
+				   's.adhesion_date, s.reinstatement_date, s.created_by, s.checked_out, s.checked_out_time'));
 
     $query->from('#__snipf_subscription AS s');
 
@@ -218,7 +218,9 @@ class SnipfModelSubscriptions extends JModelList
       }
       else { //unpaid
 	if(!empty($byYear)) {
-	  $query->where($prefix.'.number > 0 AND '.$prefix.'.cads_payment=0');
+	  //May be no process had been created for the unpaid subscriptions, so we check on null and ensure that the adhesion date is
+	  //lower than the submited year. 
+	  $query->where('(('.$prefix.'.number > 0 AND '.$prefix.'.cads_payment=0) OR ('.$prefix.'.number IS NULL AND s.adhesion_date < "'.$byYear.'-12-31 23:00:00"))');
 	}
 	else { //Current year
 	  //As no process has been created yet for the unpaid subscriptions, we check on null. 
