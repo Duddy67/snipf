@@ -412,6 +412,10 @@ class SnipfModelCertificates extends JModelList
     elseif($endValidity) {
       $query->where('(last_end_process >= '.$db->Quote($filterDates['from_date']).' AND last_end_process <= '.$db->Quote($filterDates['to_date']).')');
     }
+    elseif($this->getState('filter.certificate_state') == 'initial_pending') {
+      //Searches the start_process field as there is not yet any commission_date field.
+      $query->where('(pr.start_process >= '.$db->Quote($filterDates['from_date']).' AND pr.start_process <= '.$db->Quote($filterDates['to_date']).')');
+    }
     else {
       //Fetches the certificates which matche the date filters gap.
       $query->where('c.end_date > '.$db->Quote($nullDate))
