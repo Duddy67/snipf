@@ -142,8 +142,20 @@ class SnipfModelSubscription extends JModelAdmin
     $process = $db->loadObject();
 
     if($process && $process->cads_payment == 1) {
+      //First gets all the groups the user currently belongs to.
+      $groups = JUserHelper::getUserGroups($ids->user_id);
+
+      //Checks in case the groups to add are already part of the current groups.
+      if(!in_array($ids->group_id, $groups)) {
+        $groups[] = $ids->group_id;
+      }   
+
       //Note: 2 = Registered.
-      JUserHelper::setUserGroups($ids->user_id, array(2, $ids->group_id));
+      if(!in_array(2, $groups)) {
+        $groups[] = 2;
+      }   
+
+      JUserHelper::setUserGroups($ids->user_id, $groups);
     }
     else {
       JUserHelper::removeUserFromGroup($ids->user_id, $ids->group_id);
