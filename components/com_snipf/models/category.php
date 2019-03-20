@@ -376,7 +376,7 @@ class SnipfModelCategory extends JModelList
 
     // Join over the address and the sripf.
     $query->select('ha.sripf_id, sr.name AS sripf_name, ha.street AS street_ha, ha.additional_address AS additional_address_ha,'.
-                   'ha.postcode AS postcode_ha, ha.phone AS phone_ha, ha.mobile AS mobile_ha, ha.fax AS fax_ha,'.
+                   'ha.city AS city_ha, ha.postcode AS postcode_ha, ha.phone AS phone_ha, ha.mobile AS mobile_ha, ha.fax AS fax_ha,'.
 		   'hac.lang_var AS country_lang_var_ha');
     $query->join('LEFT', '#__snipf_address AS ha ON ha.person_id=p.id AND ha.type="ha" AND ha.history=0')
 	  ->join('LEFT', '#__snipf_sripf AS sr ON sr.id=ha.sripf_id')
@@ -388,7 +388,7 @@ class SnipfModelCategory extends JModelList
     }
     elseif($this->getState('list.person_type') == 'membership') {
       $query->select('pa.street AS street_pa, pa.additional_address AS additional_address_pa,'.
-	             'pa.postcode AS postcode_pa, pa.phone AS phone_pa, pa.mobile AS mobile_pa,'.
+	             'pa.city AS city_pa, pa.postcode AS postcode_pa, pa.phone AS phone_pa, pa.mobile AS mobile_pa,'.
 		     'pa.fax AS fax_pa, pac.lang_var AS country_lang_var_pa')
 	    ->join('INNER', '#__snipf_subscription AS sub ON sub.person_id=p.id AND sub.published=1')
 	    ->join('LEFT', '#__snipf_process AS sp ON sp.item_id=sub.id AND sp.item_type="subscription" AND '.
