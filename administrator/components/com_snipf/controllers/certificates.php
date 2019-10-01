@@ -69,7 +69,8 @@ class SnipfControllerCertificates extends JControllerAdmin
 	$db = JFactory::getDbo();
 	$query = $db->getQuery(true);
 	//Gets some data from the person.
-	$query->select('p.lastname, p.firstname, person_title, a.street, a.additional_address, a.postcode, a.city, c.alpha_3')
+	$query->select('p.lastname, p.firstname, person_title, a.street, a.additional_address,'.
+	               'a.postcode, a.city, c.alpha_3, p.mail_address_type, a.employer_name')
 	      ->from('#__snipf_person AS p')
 	      ->join('INNER', '#__snipf_address AS a ON a.person_id=p.id AND a.type=p.mail_address_type AND history=0')
 	      ->join('LEFT', '#__snipf_country AS c ON a.country_code=c.alpha_2')
@@ -82,6 +83,15 @@ class SnipfControllerCertificates extends JControllerAdmin
 	  $person->current_date = JHtml::_('date', new JDate(), JText::_('DATE_FORMAT_LC1'));
 	  $person->person_title = JText::_('COM_SNIPF_OPTION_'.$person->person_title);
 	  $person->country = JText::_('COM_SNIPF_LANG_COUNTRY_'.$person->alpha_3);
+
+	  // Label with professional address.
+	  if($documentType == 'pdf_labels' && $person->mail_address_type == 'pa') {
+	    // Shifts the variables in order to display the employer name on the label.
+	    // N.B: The employer name replaces the additional address. 
+	    $street = $person->street;
+	    $person->street = $person->employer_name;
+	    $person->additional_address = $street;
+	  }
 	}
 
 	$data = $persons;
