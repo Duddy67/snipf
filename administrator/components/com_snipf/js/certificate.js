@@ -117,7 +117,7 @@
     if(certificateState == 'done') {
       //certificate fields that have to be disabled.
       fields = ['jform_number', 'jform_closure_date', 'jform_closure_reason', 'jform_abandon_code', 
-		'jform_file_destruction_date', 'jform_bit_number_1988', 'jform_bit_number_2008',
+		'jform_bit_number_1988', 'jform_bit_number_2008',
 		'jform_speciality_id', 'jform_complement_1', 'jform_complement_2', 'jform_comments'];
 
       for(var i = 0; i < fields.length; i++) {

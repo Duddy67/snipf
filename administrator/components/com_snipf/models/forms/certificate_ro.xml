@@ -49,7 +49,6 @@
 	       label="COM_SNIPF_FIELD_FILE_DESTRUCTION_DATE_LABEL" 
 	       description="COM_SNIPF_FIELD_FILE_DESTRUCTION_DATE_DESC"
 	       translateformat="true"
-	       readonly="true"
 	       showtime="false"
 	       size="22"
 	       filter="user_utc" />
